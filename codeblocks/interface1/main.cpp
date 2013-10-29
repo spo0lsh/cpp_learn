@@ -2,38 +2,28 @@
 
 using namespace std;
 
-
-class IAccessToData
-{
-    public:
-       virtual void readStream() = 0;
-       virtual void writeStream() = 0;
-       virtual void openStream() = 0;
-       virtual void closeStream() = 0;
-};
-
-class CFileInputOutput : public IAccessToData
+class CFileInputOutput
 {
 public:
-    void readStream()
+    virtual void readStream()
     {
         std::cout << "FilereadStream" << std::endl;
     }
-    void writeStream()
+    virtual void writeStream()
     {
         std::cout << "FilewriteStream" << std::endl;
     }
-    void openStream()
+    virtual void openStream()
     {
         std::cout << "FileopenStream" << std::endl;
     }
-    void closeStream()
+    virtual void closeStream()
     {
         std::cout << "FilecloseStream" << std::endl;
     }
 };
 
-class CSocketInputOutput : public IAccessToData
+class CSocketInputOutput
 {
 public:
     void readStream()
@@ -54,8 +44,42 @@ public:
     }
 };
 
+
+class IAccessToData : public CFileInputOutput, public CSocketInputOutput
+{
+    public:
+        void readStream(int TYPE)
+        {
+            if (TYPE == 1)
+            {
+                CFileInputOutput::openStream();
+            }
+            else if (TYPE == 2)
+            {
+                CSocketInputOutput::openStream();
+            }
+            else
+            {
+                std::cout << "error" << endl;
+            }
+        }
+};
+
+class CExecuteCommand
+{
+public:
+    void getFileFromServer()
+    {
+        IAccessToData test;
+        test.readStream(1);
+        test.readStream(2);
+        test.readStream(3);
+    }
+};
+
 int main()
 {
-    cout << "Hello world!" << endl;
+    CExecuteCommand *wsk = new CExecuteCommand;
+    wsk->getFileFromServer();
     return 0;
 }
