@@ -5,19 +5,19 @@ using namespace std;
 class CFileInputOutput
 {
 public:
-    virtual void readStream()
+    virtual void readFile()
     {
         std::cout << "FilereadStream" << std::endl;
     }
-    virtual void writeStream()
+    virtual void writeFile()
     {
         std::cout << "FilewriteStream" << std::endl;
     }
-    virtual void openStream()
+    virtual void openFile()
     {
         std::cout << "FileopenStream" << std::endl;
     }
-    virtual void closeStream()
+    virtual void closeFile()
     {
         std::cout << "FilecloseStream" << std::endl;
     }
@@ -26,19 +26,19 @@ public:
 class CSocketInputOutput
 {
 public:
-    void readStream()
+    void readSocket()
     {
         std::cout << "SocketreadStream" << std::endl;
     }
-    void writeStream()
+    void writeSocket()
     {
         std::cout << "SocketwriteStream" << std::endl;
     }
-    void openStream()
+    void openSocket()
     {
         std::cout << "SocketopenStream" << std::endl;
     }
-    void closeStream()
+    void closeSocket()
     {
         std::cout << "SocketcloseStream" << std::endl;
     }
@@ -48,21 +48,11 @@ public:
 class IAccessToData : public CFileInputOutput, public CSocketInputOutput
 {
     public:
-        void readStream(int TYPE)
-        {
-            if (TYPE == 1)
-            {
-                CFileInputOutput::openStream();
-            }
-            else if (TYPE == 2)
-            {
-                CSocketInputOutput::openStream();
-            }
-            else
-            {
-                std::cout << "error" << endl;
-            }
-        }
+        virtual void readStream() = 0;
+        virtual void writeStream() = 0;
+        virtual void openStream() = 0;
+        virtual void closeStream() = 0;
+
 };
 
 class CExecuteCommand
@@ -70,16 +60,16 @@ class CExecuteCommand
 public:
     void getFileFromServer()
     {
-        IAccessToData test;
-        test.readStream(1);
-        test.readStream(2);
-        test.readStream(3);
+        //IAccessToData *wsk = new IAccessToData;
+        //wsk->readStream();
+        //delete wsk;
     }
 };
 
 int main()
 {
     CExecuteCommand *wsk = new CExecuteCommand;
-    wsk->getFileFromServer();
+    //wsk->getFileFromServer();
+    delete wsk;
     return 0;
 }
