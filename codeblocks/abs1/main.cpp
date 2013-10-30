@@ -2,13 +2,6 @@
 
 using namespace std;
 
-/*
-class CClientFTP;
-class CExecuteCommand;
-class IAccessToData;
-class CFileInputOutput;
-class CSocketInputOutput;
-*/
 
 class IAccessToData
 {
@@ -68,11 +61,15 @@ public:
     void getFileFromServer()
     {
         std::cout << "CExecuteCommand::getFileFromServer" << endl;
-        CFileInputOutput *wsk1 = new CFileInputOutput;
+        CSocketInputOutput *wsk1 = new CSocketInputOutput;
         wsk1->openStream();
+        wsk1->readStream();
+        wsk1->closeStream();
         delete wsk1;
-        CSocketInputOutput *wsk2 = new CSocketInputOutput;
+        CFileInputOutput *wsk2 = new CFileInputOutput;
         wsk2->openStream();
+        wsk2->writeStream();
+        wsk2->closeStream();
         delete wsk2;
     }
     void putFileFromServer()

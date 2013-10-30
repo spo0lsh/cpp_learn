@@ -13,15 +13,27 @@ public:
 class AA : virtual public Abstrakcja
 {
 public:
-	void Wypisz();
-	void Wypelnij();
+	void Wypisz()
+	{
+    std::cout << "AA::Wypisz()" << std::endl;
+    }
+	void Wypelnij()
+	{
+    std::cout << "AA::Wypelnij()" << std::endl;
+    }
 };
 
 class BB : virtual public Abstrakcja
 {
 public:
-	void Wypisz();
-	void Wypelnij();
+	void Wypisz()
+	{
+    std::cout << "BB::Wypisz()" << std::endl;
+    }
+	void Wypelnij()
+	{
+	    std::cout << "BB::Wypelnij()" << std::endl;
+	}
 };
 
 int main()
@@ -31,25 +43,4 @@ int main()
     BB B;
     B.Wypisz();
     return 0;
-}
-
-
-void AA::Wypisz()
-{
-    std::cout << "AA::Wypisz()" << std::endl;
-}
-
-void AA::Wypelnij()
-{
-    std::cout << "AA::Wypelnij()" << std::endl;
-}
-
-void BB::Wypisz()
-{
-    std::cout << "BB::Wypisz()" << std::endl;
-}
-
-void BB::Wypelnij()
-{
-    std::cout << "BB::Wypelnij()" << std::endl;
 }

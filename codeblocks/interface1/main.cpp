@@ -66,18 +66,19 @@ public:
     {
         IAccessToData::writeStream();
     }
+    */
     void getFileFromServer()
     {
         std::cout << "CExecuteCommand::getFileFromServer" << std::endl;
-        readStream();
+        //readStream();
     }
-    */
+
 };
 
 int main()
 {
-    //CExecuteCommand *wsk = new CExecuteCommand;
-    //wsk->getFileFromServer();
-    //delete wsk;
+    CExecuteCommand *wsk = new CExecuteCommand;
+    wsk->getFileFromServer();
+    delete wsk;
     return 0;
 }
