@@ -2,75 +2,62 @@
 
 using namespace std;
 
-class CFileInputOutput
+class IAccessToData
+{
+    public:
+        virtual void readStream() = 0;
+        virtual void writeStream() = 0;
+        virtual void openStream() = 0;
+        virtual void closeStream() = 0;
+
+};
+
+class CFileInputOutput : public IAccessToData
 {
 public:
-    virtual void readFile()
+    virtual void readStream()
     {
         std::cout << "FilereadStream" << std::endl;
     }
-    virtual void writeFile()
+    virtual void writeStream()
     {
         std::cout << "FilewriteStream" << std::endl;
     }
-    virtual void openFile()
+    virtual void openStream()
     {
         std::cout << "FileopenStream" << std::endl;
     }
-    virtual void closeFile()
+    virtual void closeStream()
     {
         std::cout << "FilecloseStream" << std::endl;
     }
 };
 
-class CSocketInputOutput
+class CSocketInputOutput : public IAccessToData
 {
 public:
-    void readSocket()
+    void readStream()
     {
         std::cout << "SocketreadStream" << std::endl;
     }
-    void writeSocket()
+    void writeStream()
     {
         std::cout << "SocketwriteStream" << std::endl;
     }
-    void openSocket()
+    void openStream()
     {
         std::cout << "SocketopenStream" << std::endl;
     }
-    void closeSocket()
+    void closeStream()
     {
         std::cout << "SocketcloseStream" << std::endl;
     }
 };
 
-
-class IAccessToData : public CFileInputOutput, public CSocketInputOutput
-{
-    public:
-        virtual void readStream() = 0;
-        virtual void writeStream() = 0;
-        //virtual void openStream() = 0;
-        //virtual void closeStream() = 0;
-
-};
-
-void IAccessToData::readStream()
-{
-    std::cout << "IAccsesToData::readStream()" << std::endl;
-    openSocket();
-    openFile();
-}
-
-void IAccessToData::writeStream()
-{
-    std::cout << "IAccsesToData::writeStream()" << std::endl;
-}
-
-
-class CExecuteCommand : public IAccessToData
+class CExecuteCommand
 {
 public:
+    /*
     void readStream()
     {
         IAccessToData::readStream();
@@ -84,12 +71,13 @@ public:
         std::cout << "CExecuteCommand::getFileFromServer" << std::endl;
         readStream();
     }
+    */
 };
 
 int main()
 {
-    CExecuteCommand *wsk = new CExecuteCommand;
-    wsk->getFileFromServer();
-    delete wsk;
+    //CExecuteCommand *wsk = new CExecuteCommand;
+    //wsk->getFileFromServer();
+    //delete wsk;
     return 0;
 }
