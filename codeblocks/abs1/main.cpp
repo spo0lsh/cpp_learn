@@ -9,12 +9,6 @@ class IAccessToData;
 class CFileInputOutput;
 class CSocketInputOutput;
 */
-class CClientFTP
-{
-public:
-    void getOptionsFromCommandLine();
-    void parseCommand();
-};
 
 class IAccessToData
 {
@@ -95,11 +89,28 @@ public:
     }
 };
 
+class CClientFTP
+{
+public:
+    void getOptionsFromCommandLine()
+    {
+        std::cout << "CClientFTP::getOptionsFromCommandLine" << endl;
+    }
+    void parseCommand()
+    {
+        std::cout << "CClientFTP::parseCommand" << endl;
+        CExecuteCommand *wsk = new CExecuteCommand;
+        wsk->getFileFromServer();
+        delete wsk;
+    }
+};
 
 int main()
 {
-    CExecuteCommand *wsk = new CExecuteCommand;
-    wsk->getFileFromServer();
+    CClientFTP *wsk = new CClientFTP;
+    wsk->getOptionsFromCommandLine();
+    wsk->parseCommand();
     delete wsk;
+
     return 0;
 }
