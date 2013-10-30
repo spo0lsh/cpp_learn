@@ -50,26 +50,46 @@ class IAccessToData : public CFileInputOutput, public CSocketInputOutput
     public:
         virtual void readStream() = 0;
         virtual void writeStream() = 0;
-        virtual void openStream() = 0;
-        virtual void closeStream() = 0;
+        //virtual void openStream() = 0;
+        //virtual void closeStream() = 0;
 
 };
 
-class CExecuteCommand
+void IAccessToData::readStream()
+{
+    std::cout << "IAccsesToData::readStream()" << std::endl;
+    openSocket();
+    openFile();
+}
+
+void IAccessToData::writeStream()
+{
+    std::cout << "IAccsesToData::writeStream()" << std::endl;
+}
+
+
+class CExecuteCommand : public IAccessToData
 {
 public:
+    void readStream()
+    {
+        IAccessToData::readStream();
+    }
+    void writeStream()
+    {
+        IAccessToData::writeStream();
+    }
     void getFileFromServer()
     {
-        //IAccessToData *wsk = new IAccessToData;
-        //wsk->readStream();
-        //delete wsk;
+        std::cout << "CExecuteCommand::getFileFromServer" << std::endl;
+        readStream();
     }
 };
 
 int main()
 {
     CExecuteCommand *wsk = new CExecuteCommand;
-    //wsk->getFileFromServer();
+    wsk->getFileFromServer();
     delete wsk;
     return 0;
 }
