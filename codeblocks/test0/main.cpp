@@ -12,15 +12,18 @@ class CFtpClient;
 
 enum ECommand
 {
-    quit,
-    put,
-    get,
-    del,
-    dir,
-    help,
-    connect,
-    disconnect,
-    unknow
+    QUIT,
+    PUT,
+    GET,
+    DEL,
+    DIR,
+    HELP,
+    CONNECT,
+    DISCONNECT,
+    OK,
+    NOK,
+    LOGIN,
+    UNKNOW
 };
 
 class IAccessToData
@@ -34,7 +37,7 @@ public:
 
 class CFileInputOutput : public IAccessToData
 {
-public:
+private:
     void readStream()
     {
         std::cout << "CFileInputOutput::readStream" << endl;
@@ -55,7 +58,7 @@ public:
 
 class CSocketInputOutput : public IAccessToData
 {
-public:
+private:
     void readStream()
     {
         std::cout << "CSocketInputOutput::readStream" << endl;
@@ -71,6 +74,56 @@ public:
     void closeStream()
     {
         std::cout << "CSocketInputOutput::closeStream" << endl;
+    }
+};
+
+class CExecuteCommand
+{
+public:
+    void getFileFromServer(string sLogin, string sPassword, string sHost, int iPort)
+    {
+        std::cout << "CExecuteCommand::getFileFromServer" << endl;
+        IAccessToData *pSocket = new CSocketInputOutput;
+        pSocket->openStream();
+        pSocket->readStream();
+        pSocket->closeStream();
+        delete pSocket;
+        IAccessToData *pFile = new CFileInputOutput;
+        pFile->openStream();
+        pFile->writeStream();
+        pFile->closeStream();
+        delete pFile;
+    }
+    void putFileFromServer()
+    {
+        std::cout << "CExecuteCommand::putFileFromServer" << endl;
+    }
+    void showFilesOnServer()
+    {
+        std::cout << "CExecuteCommand::showFilesOnServer" << endl;
+    }
+    void deleteFileOnServer()
+    {
+        std::cout << "CExecuteCommand::deleteFileOnServer" << endl;
+    }
+    int connectToServer()
+    {
+        IAccessToData *wsk1 = new CSocketInputOutput;
+        wsk1->openStream();
+        wsk1->readStream();
+        wsk1->closeStream();
+        delete wsk1;
+        std::cout << "CExecuteCommand::connectToServer" << endl;
+        return 0; // true
+    }
+    void disconnectFromServer()
+    {
+        IAccessToData *wsk1 = new CSocketInputOutput;
+        wsk1->openStream();
+        wsk1->readStream();
+        wsk1->closeStream();
+        delete wsk1;
+        std::cout << "CExecuteCommand::disconnectFromServer" << endl;
     }
 };
 
@@ -99,22 +152,22 @@ public:
         if (sCMD == "help")
         {
             std::cout << "showMenu::help" << std::endl;
-            ECMD = help;
+            ECMD = HELP;
         }
         else if (sCMD == "connect")
         {
             std::cout << "showMenu::connect" << std::endl;
-            ECMD = connect;
+            ECMD = CONNECT;
         }
         else if (sCMD == "quit")
         {
             std::cout << "showMenu::quit" << std::endl;
-            ECMD = quit;
+            ECMD = QUIT;
         }
         else
         {
             std::cout << "showMenu::WTF?" << std::endl;
-            ECMD = unknow;
+            ECMD = UNKNOW;
         }
         return ECMD;
     }
@@ -122,7 +175,7 @@ public:
     {
         std::cout << "executeCommand::iCMD " << iCMD << std::endl;
         std::cout << "executeCommand::ECMD " << ECMD << std::endl;
-        if ( ECMD == help)
+        if ( ECMD == HELP)
         {
             std::cout << "executeCommand::help " << std::endl;
             std::cout << "help - show this help" << std::endl;
@@ -133,7 +186,7 @@ public:
             std::cout << "dir" << std::endl;
             std::cout << "del" << std::endl;
         }
-        else if (ECMD == connect)
+        else if (ECMD == CONNECT)
         {
             std::cout << "executeCommand::connect " << std::endl;
 
@@ -146,7 +199,17 @@ public:
             std::cout << "Enter port: ";
             std::cin >> sPort;
             // if connect success full
-            iLogged=1;
+            CExecuteCommand *wsk = new CExecuteCommand;
+            //std::cout << "status of command: " << wsk->connectToServer() << endl;
+            if(wsk->connectToServer() != 1)
+            {
+                iLogged=1;
+            }
+            else
+            {
+                iLogged=0;
+            }
+            delete wsk;
         }
         else
         {
