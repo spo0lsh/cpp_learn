@@ -5,10 +5,10 @@ using namespace std;
 class CgetCommandFromArgv
 {
 public:
-    int checkCommand(int argc, char *argv[]);
+    int checkRequireCommand(int argc, char *argv[]);
 };
 
-int CgetCommandFromArgv::checkCommand(int argc, char *argv[])
+int CgetCommandFromArgv::checkRequireCommand(int argc, char *argv[])
 {
     int exit_status=0;
     int i=0;
@@ -21,17 +21,14 @@ int CgetCommandFromArgv::checkCommand(int argc, char *argv[])
         arg = argv[i];
         if (arg == "login")
         {
-            //cout << endl;
             needed=needed+4;
         }
         else if (arg == "pass")
         {
-            //cout << endl;
             needed=needed+2;
         }
         else if (arg == "host")
         {
-            //cout << endl;
             needed=needed+1;
         }
         else
@@ -55,7 +52,7 @@ int main(int argc, char *argv[])
 {
     int exit_status=0;
     CgetCommandFromArgv *pCgetCommandFromArgv = new CgetCommandFromArgv;
-    if(pCgetCommandFromArgv->checkCommand(argc, argv) != 0)
+    if(pCgetCommandFromArgv->checkRequireCommand(argc, argv) != 0)
     {
         exit_status=1;
     }
