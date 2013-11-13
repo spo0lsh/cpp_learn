@@ -14,7 +14,7 @@ public:
 
 class CFileInputOutput : public IAccessToData
 {
-public:
+private:
     void readStream()
     {
         std::cout << "CFileInputOutput::readStream" << endl;
@@ -35,7 +35,7 @@ public:
 
 class CSocketInputOutput : public IAccessToData
 {
-public:
+private:
     void readStream()
     {
         std::cout << "CSocketInputOutput::readStream" << endl;
@@ -61,12 +61,12 @@ public:
     void getFileFromServer()
     {
         std::cout << "CExecuteCommand::getFileFromServer" << endl;
-        CSocketInputOutput *wsk1 = new CSocketInputOutput;
+        IAccessToData *wsk1 = new CSocketInputOutput;
         wsk1->openStream();
         wsk1->readStream();
         wsk1->closeStream();
         delete wsk1;
-        CFileInputOutput *wsk2 = new CFileInputOutput;
+        IAccessToData *wsk2 = new CFileInputOutput;
         wsk2->openStream();
         wsk2->writeStream();
         wsk2->closeStream();
