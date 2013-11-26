@@ -54,7 +54,8 @@
 #include <cstdlib>
 #include <fstream>
 #include <vector>
-#include "DatabaseOperations.h"
+
+#include "ThreadPool.h"
 
 class CFtpServer
 {
@@ -62,16 +63,13 @@ public:
     CFtpServer();
     ~CFtpServer();
 
-    CDatabaseOperations *m_pDatabaseOperations = new CDatabaseOperations;
+    CThreadPool *m_pCThreadPool = new CThreadPool;
 
-    //int getOptionsFromCommandLine(int , char **);
     void acceptConnection();
     void bindAndListen();
-    //int checkRootDirectory();
     int startServer(int argc, char *argv[]);
     void stopServer();
     void debugVariable();
-    std::vector <std::vector<std::string> > *mpr_DB;
 
 private:
     int m_status;

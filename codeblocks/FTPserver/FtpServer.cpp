@@ -28,12 +28,9 @@ int CFtpServer::startServer(int argc, char *argv[])
     exit_status=0;
     this->getOptionsFromCommandLine(argc, argv);
 
-    // database
-    this->mpr_DB=m_pDatabaseOperations->createDatabaseStructure();
-    // debug
-    m_pDatabaseOperations->debugPrint(this->mpr_DB);
-
     // thread pool
+    m_pCThreadPool->initThreadPool(10);
+
     // check root directory
     if(this->checkRootDirectory() != 0)
     {
