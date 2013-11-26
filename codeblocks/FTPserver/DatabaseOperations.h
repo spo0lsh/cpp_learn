@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <cstring>
 #include <cstdlib>
 #include <fstream>
 #include <vector>
@@ -10,11 +11,14 @@
 class CDatabaseOperations
 {
 public:
-    void createDatabaseStructure();
+    std::vector <std::vector<std::string> > * createDatabaseStructure();
     int compareLoginAndPassword(std::string, std::string );
     int addUserToDatabase(std::string, std::string );
-    std::string readUsersFromFile(std::string );
+    int readUsersFromFile(char * );
     void parseData(std::string );
+    void debugPrint(std::vector <std::vector<std::string> > *DB);
+
+    std::vector <std::vector<std::string> > *mpr_DB;
 };
 
 #endif // DATABASEOPERATIONS_H_INCLUDED
