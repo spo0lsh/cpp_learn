@@ -49,7 +49,11 @@
 #ifndef FTPSERVER_H_INCLUDED
 #define FTPSERVER_H_INCLUDED
 
+#include <iostream>
 #include <string>
+#include <cstdlib>
+#include <fstream>
+#include "DatabaseOperations.h"
 
 class CFtpServer
 {
@@ -57,19 +61,24 @@ public:
     CFtpServer();
     ~CFtpServer();
 
-    int getOptionsFromCommandLine(int , char **);
+    CDatabaseOperations *m_pDatabaseOperations = new CDatabaseOperations;
+
+    //int getOptionsFromCommandLine(int , char **);
     void acceptConnection();
     void bindAndListen();
-    int checkRootDirectory();
+    //int checkRootDirectory();
     int startServer(int argc, char *argv[]);
     void stopServer();
     void debugVariable();
 
 private:
-    int status;
-    std::string host;
-    std::string directory;
-    int port;
+    int m_status;
+    std::string m_host;
+    std::string m_directory;
+    int m_port;
+
+    int checkRootDirectory();
+    int getOptionsFromCommandLine(int , char **);
 };
 
 #endif // FTPSERVER_H_INCLUDED

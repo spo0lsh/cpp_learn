@@ -12,6 +12,8 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
+    int exit_status;
+    exit_status=0;
     // Create my object
     CFtpServer *m_pFtpServer = new CFtpServer;
 
@@ -19,6 +21,7 @@ int main(int argc, char *argv[])
     if(m_pFtpServer->startServer(argc, argv) != 0)
     {
         std::cout << "startServer fail!" << std::endl;
+        exit_status=1;
     }
 
     //
@@ -26,5 +29,5 @@ int main(int argc, char *argv[])
 
     // Destroy object
     delete m_pFtpServer;
-    return 0;
+    return exit_status;
 }

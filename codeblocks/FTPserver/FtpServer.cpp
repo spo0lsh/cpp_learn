@@ -1,8 +1,5 @@
 #include "FtpServer.h"
-#include <iostream>
-#include <string>
-#include <cstdlib>
-#include <fstream>
+
 
 using namespace std;
 
@@ -13,9 +10,9 @@ using namespace std;
  */
 CFtpServer::CFtpServer()
 {
-    host = "0.0.0.0";
-    port = 8080;
-    directory = "./";
+    m_host = "0.0.0.0";
+    m_port = 8080;
+    m_directory = "./";
     std::cout << "Default constructor of CFtpServer" << std::endl;
 }
 
@@ -29,10 +26,18 @@ int CFtpServer::startServer(int argc, char *argv[])
     int exit_status;
     exit_status=0;
     this->getOptionsFromCommandLine(argc, argv);
+
+    // database
+    m_pDatabaseOperations->createDatabaseStructure();
+
+    // thread pool
+    // check root directory
     if(this->checkRootDirectory() != 0)
     {
         exit_status=1;
     }
+
+    // socket
 
     return exit_status;
 }
@@ -42,18 +47,18 @@ int CFtpServer::getOptionsFromCommandLine(int argc, char *argv[])
     std::cout << "CFtpServer::getOptionsFromCommandLine" << std::endl;
     if (argc == 4)
     {
-        host = argv[1];
-        port = atoi(argv[2]);
-        directory = argv[3];
+        m_host = argv[1];
+        m_port = atoi(argv[2]);
+        m_directory = argv[3];
     }
     return 0;
 }
 
 int CFtpServer::checkRootDirectory()
 {
-    string filename = this->directory+"ASTGATGAQGasfas.txt";
+    string filename = this->m_directory+"ASTGATGAQGasfas.txt";
 
-    std::cout << "CFtpServer::checkRootDirectory: " << this->directory << " filename: " << filename << std::endl;
+    std::cout << "CFtpServer::checkRootDirectory: " << this->m_directory << " filename: " << filename << std::endl;
     int exit_status;
     exit_status=0;
     /* Add check write procedure with "random" filename
@@ -70,12 +75,12 @@ int CFtpServer::checkRootDirectory()
         }
         else
         {
-            puts( "File successfully deleted" );
+            std::cout << "File successfully deleted" << std::endl;
         }
     }
     else
     {
-        std::cout << "Problem with work directory: " << this->directory << std::endl;
+        std::cout << "Problem with work directory: " << this->m_directory << std::endl;
         exit_status=1;
     }
     return exit_status;
@@ -83,6 +88,6 @@ int CFtpServer::checkRootDirectory()
 
 void CFtpServer::debugVariable()
 {
-    std::cout << "host: " << host << " port: " << port << " directory: " << directory << std::endl;
+    std::cout << "host: " << m_host << " port: " << m_port << " directory: " << m_directory << std::endl;
 }
 
