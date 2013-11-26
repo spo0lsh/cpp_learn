@@ -53,6 +53,7 @@
 #include <string>
 #include <cstdlib>
 #include <fstream>
+#include <vector>
 #include "DatabaseOperations.h"
 
 class CFtpServer
@@ -70,11 +71,13 @@ public:
     int startServer(int argc, char *argv[]);
     void stopServer();
     void debugVariable();
+    std::vector <std::vector<std::string> > *mpr_DB;
 
 private:
     int m_status;
     std::string m_host;
     std::string m_directory;
+    std::string m_dbFile;
     int m_port;
 
     int checkRootDirectory();

@@ -13,6 +13,7 @@ CFtpServer::CFtpServer()
     m_host = "0.0.0.0";
     m_port = 8080;
     m_directory = "./";
+    m_dbFile = "database.txt";
     std::cout << "Default constructor of CFtpServer" << std::endl;
 }
 
@@ -28,7 +29,9 @@ int CFtpServer::startServer(int argc, char *argv[])
     this->getOptionsFromCommandLine(argc, argv);
 
     // database
-    m_pDatabaseOperations->createDatabaseStructure();
+    this->mpr_DB=m_pDatabaseOperations->createDatabaseStructure();
+    // debug
+    m_pDatabaseOperations->debugPrint(this->mpr_DB);
 
     // thread pool
     // check root directory
@@ -45,11 +48,12 @@ int CFtpServer::startServer(int argc, char *argv[])
 int CFtpServer::getOptionsFromCommandLine(int argc, char *argv[])
 {
     std::cout << "CFtpServer::getOptionsFromCommandLine" << std::endl;
-    if (argc == 4)
+    if (argc == 5)
     {
         m_host = argv[1];
         m_port = atoi(argv[2]);
         m_directory = argv[3];
+        m_dbFile = argv[4];
     }
     return 0;
 }
