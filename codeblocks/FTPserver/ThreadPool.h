@@ -23,7 +23,7 @@ public:
     void semaphoreDown();
     int initThreadPool(int );
 
-    CDatabaseOperations *m_pDatabaseOperations = new CDatabaseOperations;
+//    CDatabaseOperations *m_pDatabaseOperations = new CDatabaseOperations;
 
     std::vector <std::vector<std::string> > *mpr_DB;
 };
