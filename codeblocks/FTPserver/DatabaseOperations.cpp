@@ -24,20 +24,27 @@ int CDatabaseOperations::addUserToDatabase(std::string login, std::string passwo
 int CDatabaseOperations::readUsersFromFile(char* filename)
 {
     std::string line;
-    std::cout << "Starting reading file: " << filename << std::endl;
-    std::ifstream myfile (filename);
-    if (myfile.is_open())
+    CFileInputOutput *po_FileInputOutput = new CFileInputOutput;
+    if(po_FileInputOutput->openStream(filename,0) != 0)
     {
-        while ( getline (myfile,line) )
-        {
-            std::cout << "CDatabaseOperations::readUsersFromFile: " << line << endl;
-            this->parseData(line);
-        }
+        std::cout << "CDatabaseOperations::readUsersFromFile Problem with open file: " << filename << std::endl;
     }
     else
     {
-        std::cout << "Unable to open file";
+        std::cout << "CDatabaseOperations::readUsersFromFile reading file" << std::endl;
+        do
+        {
+            line=po_FileInputOutput->readStream();
+            if(! line.empty())
+            {
+                this->parseData(line);
+            }
+            std::cout << line << std::endl;
+        }
+        while (!line.empty());
     }
+    po_FileInputOutput->closeStream();
+    delete po_FileInputOutput;
     return 0;
 }
 
@@ -55,6 +62,7 @@ void CDatabaseOperations::parseData(std::string data)
 {
     string login;
     string password;
+    // TODO: fix this procedure
     std::cout << "CDatabaseOperations::parseData: " << data << endl;
     char str2[] = ":";
     char * pnt;

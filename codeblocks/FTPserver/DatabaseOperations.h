@@ -8,6 +8,8 @@
 #include <fstream>
 #include <vector>
 
+#include "FileInputOutput.h"
+
 class CDatabaseOperations
 {
 public:
