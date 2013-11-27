@@ -7,6 +7,10 @@
 #include <fstream>
 #include <vector>
 
+#include <winsock2.h>
+#include <windows.h>
+#include <process.h>
+
 #include "DatabaseOperations.h"
 #include "ClientThread.h"
 
@@ -18,7 +22,7 @@ public:
     void findFreeThread();
     int setPoolSize(int );
     int getPoolSize();
-    int createQueue();
+    int createQueue(std::vector <SOCKET>*);
     //void addTaskToQueue();
     void semaphoreUp();
     void semaphoreDown();
@@ -27,7 +31,7 @@ public:
 //    CDatabaseOperations *m_pDatabaseOperations = new CDatabaseOperations;
 private:
     std::vector <std::vector<std::string> > *mpr_DB;
-    std::vector <std::string> *mp_Queue;
+    std::vector <SOCKET> *mp_Queue;
     int poolSize;
 };
 
