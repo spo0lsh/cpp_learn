@@ -13,8 +13,8 @@
 class CDatabaseOperations
 {
 public:
-//    std::vector <std::vector<std::string> > * createDatabaseStructure(std::string);
-    int createDatabaseStructure(std::string);
+    std::vector <std::vector<std::string> > * createDatabaseStructure(std::string);
+    //int createDatabaseStructure(std::string);
     int compareLoginAndPassword(std::string, std::string );
     int addUserToDatabase(std::string, std::string );
     int readUsersFromFile(char * );

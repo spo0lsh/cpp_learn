@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "DatabaseOperations.h"
+#include "ClientThread.h"
 
 class CThreadPool
 {
@@ -27,6 +28,7 @@ public:
 private:
     std::vector <std::vector<std::string> > *mpr_DB;
     std::vector <std::string> *mp_Queue;
+    int poolSize;
 };
 
 
