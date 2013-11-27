@@ -54,6 +54,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <vector>
+#include <winsock2.h>
 
 #include "ThreadPool.h"
 
