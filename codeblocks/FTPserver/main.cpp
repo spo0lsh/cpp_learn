@@ -14,18 +14,19 @@ int main(int argc, char *argv[])
 {
     int exit_status;
     exit_status=0;
+
     // Create my object
     CFtpServer *m_pFtpServer = new CFtpServer;
 
     //
     if(m_pFtpServer->startServer(argc, argv) != 0)
     {
-        std::cout << "m_pFtpServer->startServer fail!" << std::endl;
+        std::cout << "main: m_pFtpServer->startServer fail!" << std::endl;
         exit_status=1;
     }
     else
     {
-        std::cout << "m_pFtpServer->startServer successfull!" << std::endl;
+        std::cout << "main: m_pFtpServer->startServer successfull!" << std::endl;
         m_pFtpServer->debugVariable();
     }
 

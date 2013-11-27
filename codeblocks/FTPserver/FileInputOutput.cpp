@@ -1,6 +1,6 @@
 #include "FileInputOutput.h"
 
-int CFileInputOutput::openStream(char* filename, int mode=0)
+int CFileInputOutput::openFile(char* filename, int mode=0)
 {
     int exit_status;
     exit_status=0;
@@ -13,13 +13,13 @@ int CFileInputOutput::openStream(char* filename, int mode=0)
     return exit_status;
 }
 
-int CFileInputOutput::closeStream()
+int CFileInputOutput::closeFile()
 {
     m_file.close();
     return 0;
 }
 
-std::string CFileInputOutput::readStream()
+std::string CFileInputOutput::readFromFile()
 {
     std::string data;
     getline(m_file,data);

@@ -21,7 +21,6 @@ int CDatabaseOperations::createDatabaseStructure(std::string dbFile)
     int exit_status=0;
     this->mpr_DB = pr_DB;
     std::cout << "CDatabaseOperations::createDatabaseStructure: " << dbFile << std::endl;
-    //this->readUsersFromFile((char*)"database.txt");
     if(this->readUsersFromFile((char *)dbFile.c_str()) != 0)
     {
         std::cout << "CDatabaseOperations::createDatabaseStructure: fail!" << std::endl;
@@ -33,7 +32,7 @@ int CDatabaseOperations::createDatabaseStructure(std::string dbFile)
 
 int CDatabaseOperations::addUserToDatabase(std::string login, std::string password)
 {
-    std::cout << "Try add user: " << login << " password: " << password << std::endl;
+    std::cout << "CDatabaseOperations::addUserToDatabase Try add user: " << login << " password: " << password << std::endl;
     vector<string> user;
     user.push_back(login);
     user.push_back(password);
@@ -47,7 +46,7 @@ int CDatabaseOperations::readUsersFromFile(char* filename)
     std::string line;
     int exit_status=0;
     CFileInputOutput *po_FileInputOutput = new CFileInputOutput;
-    if(po_FileInputOutput->openStream(filename,0) != 0)
+    if(po_FileInputOutput->openFile(filename,0) != 0)
     {
         std::cout << "CDatabaseOperations::readUsersFromFile Problem with open file: " << filename << std::endl;
         exit_status=1;
@@ -57,7 +56,7 @@ int CDatabaseOperations::readUsersFromFile(char* filename)
         std::cout << "CDatabaseOperations::readUsersFromFile reading file" << std::endl;
         do
         {
-            line=po_FileInputOutput->readStream();
+            line=po_FileInputOutput->readFromFile();
             if(! line.empty())
             {
                 this->parseData(line);
@@ -66,7 +65,7 @@ int CDatabaseOperations::readUsersFromFile(char* filename)
         }
         while (!line.empty());
     }
-    po_FileInputOutput->closeStream();
+    po_FileInputOutput->closeFile();
     delete po_FileInputOutput;
     return exit_status;
 }
@@ -77,7 +76,7 @@ void CDatabaseOperations::debugPrint(vector <vector<string> > *DB)
     unsigned int i;
     for(i=0; i<(*DB).size(); ++i)
     {
-        std::cout << "User " << " " << (*DB)[i][0] << " password " << (*DB)[i][1] << std::endl;
+        std::cout << "CDatabaseOperations::debugPrint User " << " " << (*DB)[i][0] << " password " << (*DB)[i][1] << std::endl;
     }
 }
 
@@ -86,7 +85,7 @@ void CDatabaseOperations::parseData(std::string data)
     string login;
     string password;
     // TODO: fix this procedure
-    std::cout << "CDatabaseOperations::parseData: " << data << endl;
+    std::cout << "CDatabaseOperations::parseData: " << data << std::endl;
     char str2[] = ":";
     char * pnt;
     pnt=strtok( const_cast<char *>(data.c_str()),":");

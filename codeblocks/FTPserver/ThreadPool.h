@@ -17,15 +17,16 @@ public:
     void findFreeThread();
     int setPoolSize(int );
     int getPoolSize();
-    //queue createQueue();
+    int createQueue();
     //void addTaskToQueue();
     void semaphoreUp();
     void semaphoreDown();
     int initThreadPool(int , std::string);
 
 //    CDatabaseOperations *m_pDatabaseOperations = new CDatabaseOperations;
-
+private:
     std::vector <std::vector<std::string> > *mpr_DB;
+    std::vector <std::string> *mp_Queue;
 };
 
 

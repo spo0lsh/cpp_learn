@@ -38,9 +38,20 @@ int CFtpServer::startServer(int argc, char *argv[])
     }
 
     // check root directory
-    if(this->checkRootDirectory() != 0)
+    if(exit_status != 1)
     {
-        exit_status=1;
+        if(this->checkRootDirectory() != 0)
+        {
+            exit_status=1;
+        }
+        else
+        {
+
+        }
+    }
+    else
+    {
+
     }
 
     // socket

@@ -9,10 +9,10 @@ class CFileInputOutput
 {
 public:
 
-    int openStream(char* , int );
-    int closeStream();
-    std::string readStream();
-    int writeStream(std::string );
+    int openFile(char* , int );
+    int closeFile();
+    std::string readFromFile();
+    int writeToFile(std::string );
 
     std::string m_data;
 private:
