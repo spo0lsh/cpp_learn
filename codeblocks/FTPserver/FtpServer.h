@@ -77,6 +77,7 @@ private:
     std::string m_directory;
     std::string m_dbFile;
     int m_port;
+    int m_poolSize;
 
     int checkRootDirectory();
     int getOptionsFromCommandLine(int , char **);

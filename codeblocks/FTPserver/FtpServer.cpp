@@ -50,7 +50,8 @@ int CFtpServer::getOptionsFromCommandLine(int argc, char *argv[])
         m_host = argv[1];
         m_port = atoi(argv[2]);
         m_directory = argv[3];
-        m_dbFile = argv[4];
+        m_poolSize = atoi(argv[4]);
+        m_dbFile = argv[5];
     }
     return 0;
 }
