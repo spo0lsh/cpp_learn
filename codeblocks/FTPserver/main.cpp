@@ -20,12 +20,14 @@ int main(int argc, char *argv[])
     //
     if(m_pFtpServer->startServer(argc, argv) != 0)
     {
-        std::cout << "startServer fail!" << std::endl;
+        std::cout << "m_pFtpServer->startServer fail!" << std::endl;
         exit_status=1;
     }
-
-    //
-    m_pFtpServer->debugVariable();
+    else
+    {
+        std::cout << "m_pFtpServer->startServer successfull!" << std::endl;
+        m_pFtpServer->debugVariable();
+    }
 
     // Destroy object
     delete m_pFtpServer;

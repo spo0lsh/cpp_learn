@@ -2,13 +2,34 @@
 
 using namespace std;
 
-vector <vector<string> > * CDatabaseOperations::createDatabaseStructure()
+//vector <vector<string> > * CDatabaseOperations::createDatabaseStructure(std::string dbFile)
+//{
+//    vector <vector<string> > *pr_DB = new vector <vector<string> >();
+//    this->mpr_DB = pr_DB;
+//    std::cout << "CDatabaseOperations::createDatabaseStructure: " << dbFile << std::endl;
+//    //this->readUsersFromFile((char*)"database.txt");
+//    if(this->readUsersFromFile((char *)dbFile.c_str()) != 0)
+//    {
+//        std::cout << "CDatabaseOperations::createDatabaseStructure: fail!" << std::endl;
+//    }
+//    return pr_DB;
+//}
+
+int CDatabaseOperations::createDatabaseStructure(std::string dbFile)
 {
     vector <vector<string> > *pr_DB = new vector <vector<string> >();
+    int exit_status=0;
     this->mpr_DB = pr_DB;
-    this->readUsersFromFile((char*)"database.txt");
-    return pr_DB;
+    std::cout << "CDatabaseOperations::createDatabaseStructure: " << dbFile << std::endl;
+    //this->readUsersFromFile((char*)"database.txt");
+    if(this->readUsersFromFile((char *)dbFile.c_str()) != 0)
+    {
+        std::cout << "CDatabaseOperations::createDatabaseStructure: fail!" << std::endl;
+        exit_status=1;
+    }
+    return exit_status;
 }
+
 
 int CDatabaseOperations::addUserToDatabase(std::string login, std::string password)
 {
@@ -24,10 +45,12 @@ int CDatabaseOperations::addUserToDatabase(std::string login, std::string passwo
 int CDatabaseOperations::readUsersFromFile(char* filename)
 {
     std::string line;
+    int exit_status=0;
     CFileInputOutput *po_FileInputOutput = new CFileInputOutput;
     if(po_FileInputOutput->openStream(filename,0) != 0)
     {
         std::cout << "CDatabaseOperations::readUsersFromFile Problem with open file: " << filename << std::endl;
+        exit_status=1;
     }
     else
     {
@@ -45,12 +68,12 @@ int CDatabaseOperations::readUsersFromFile(char* filename)
     }
     po_FileInputOutput->closeStream();
     delete po_FileInputOutput;
-    return 0;
+    return exit_status;
 }
 
 void CDatabaseOperations::debugPrint(vector <vector<string> > *DB)
 {
-    std::cout << "DB size: " << (*DB).size() << std::endl;
+    std::cout << "CDatabaseOperations::debugPrint DB size: " << (*DB).size() << std::endl;
     unsigned int i;
     for(i=0; i<(*DB).size(); ++i)
     {

@@ -21,7 +21,7 @@ public:
     //void addTaskToQueue();
     void semaphoreUp();
     void semaphoreDown();
-    int initThreadPool(int );
+    int initThreadPool(int , std::string);
 
 //    CDatabaseOperations *m_pDatabaseOperations = new CDatabaseOperations;
 

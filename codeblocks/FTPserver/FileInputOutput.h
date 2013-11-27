@@ -15,7 +15,6 @@ public:
     int writeStream(std::string );
 
     std::string m_data;
-    //std::ifstream *m_file;
 private:
     int m_mode;
     std::fstream m_file;
