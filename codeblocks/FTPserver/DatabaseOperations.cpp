@@ -16,26 +16,9 @@ vector <vector<string> > * CDatabaseOperations::createDatabaseStructure(std::str
     return pr_DB;
 }
 
-//int CDatabaseOperations::createDatabaseStructure(std::string dbFile)
-//{
-//    vector <vector<string> > *pr_DB = new vector <vector<string> >();
-//    int exit_status=0;
-//    this->mpr_DB = pr_DB;
-//    std::cout << "CDatabaseOperations::createDatabaseStructure: " << dbFile << std::endl;
-//    if(this->readUsersFromFile((char *)dbFile.c_str()) != 0)
-//    {
-//        std::cout << "CDatabaseOperations::createDatabaseStructure: fail!" << std::endl;
-//        exit_status=1;
-//    }
-//    this->debugPrint(mpr_DB);
-//    this->debugPrint(pr_DB);
-//    return exit_status;
-//}
-
-
 int CDatabaseOperations::addUserToDatabase(std::string login, std::string password)
 {
-    std::cout << "CDatabaseOperations::addUserToDatabase Try add user: " << login << " password: " << password << std::endl;
+    std::cout << "CDatabaseOperations::addUserToDatabase: " << login << " password: " << password << std::endl;
     vector<string> user;
     user.push_back(login);
     user.push_back(password);
@@ -64,7 +47,7 @@ int CDatabaseOperations::readUsersFromFile(char* filename)
             {
                 this->parseData(line);
             }
-            std::cout << line << std::endl;
+//            std::cout << line << std::endl;
         }
         while (!line.empty());
     }
