@@ -9,7 +9,8 @@ class CSocketInputOutput
 {
 public:
 
-    int openSocket(char* , int );
+//    int openSocket(char* , int , SOCKET *);
+    SOCKET openSocket(char* , int );
     int closeSocket();
     std::string readFromSocket();
     int writeToSocket(std::string );
@@ -17,8 +18,8 @@ public:
     std::string m_data;
 private:
     int m_mode;
-    SOCKET m_ListenSocket = INVALID_SOCKET;
-    SOCKET m_ClientSocket = INVALID_SOCKET;
+    SOCKET mp_ListenSocket = INVALID_SOCKET;
+    //SOCKET m_ClientSocket = INVALID_SOCKET;
 };
 
 #endif // SOCKETINPUTOUTPUT_H_INCLUDED

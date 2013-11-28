@@ -57,6 +57,7 @@
 #include <winsock2.h>
 
 #include "ThreadPool.h"
+#include "SocketInputOutput.h"
 
 class CFtpServer
 {
@@ -74,7 +75,7 @@ public:
 
 private:
     int m_status;
-    std::string m_host;
+    char* m_host;
     std::string m_directory;
     std::string m_dbFile;
     int m_port;
@@ -82,6 +83,11 @@ private:
 
     int checkRootDirectory();
     int getOptionsFromCommandLine(int , char **);
+
+    //SOCKET m_ListenSocket = INVALID_SOCKET;
+    //SOCKET m_ClientSocket = INVALID_SOCKET;
+    SOCKET mp_ListenSocket;
+    SOCKET *mp_ClientSocket;
 };
 
 #endif // FTPSERVER_H_INCLUDED

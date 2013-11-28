@@ -10,8 +10,9 @@ using namespace std;
  */
 CFtpServer::CFtpServer()
 {
+    // default settings
     m_host = "0.0.0.0";
-    m_port = 8080;
+    m_port = 5000;
     m_directory = "./";
     m_poolSize = 5;
     m_dbFile = "database.txt";
@@ -55,6 +56,19 @@ int CFtpServer::startServer(int argc, char *argv[])
     }
 
     // socket
+    mp_ListenSocket = INVALID_SOCKET;
+    //*m_ClientSocket = INVALID_SOCKET;
+    CSocketInputOutput *po_SocketInputOutput = new CSocketInputOutput;
+//    po_SocketInputOutput->openSocket(m_host, m_port,mp_ListenSocket);
+    mp_ListenSocket=po_SocketInputOutput->openSocket(m_host, m_port);
+    if(mp_ListenSocket == 1)
+    {
+        exit_status = 1;
+    }
+    else
+    {
+        system("pause");
+    }
 
     return exit_status;
 }
