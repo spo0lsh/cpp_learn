@@ -1,5 +1,15 @@
 #include "FileInputOutput.h"
 
+CFileInputOutput::CFileInputOutput()
+{
+
+}
+
+CFileInputOutput::~CFileInputOutput()
+{
+
+}
+
 int CFileInputOutput::openFile(char* filename, int mode=0)
 {
     int exit_status;

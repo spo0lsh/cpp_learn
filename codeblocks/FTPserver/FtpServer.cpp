@@ -11,17 +11,17 @@ using namespace std;
 CFtpServer::CFtpServer()
 {
     // default settings
-    m_host = "0.0.0.0";
-    m_port = 5000;
+    m_host = (char*)"0.0.0.0";
+    m_port = 5150;
     m_directory = "./";
     m_poolSize = 5;
     m_dbFile = "database.txt";
-    std::cout << "CFtpServer::CFtpServer Default constructor of CFtpServer" << std::endl;
+//    std::cout << "CFtpServer::CFtpServer Default constructor of CFtpServer" << std::endl;
 }
 
 CFtpServer::~CFtpServer()
 {
-    std::cout << "CFtpServer::~CFtpServerDefault destructor of CFtpServer" << std::endl;
+//    std::cout << "CFtpServer::~CFtpServerDefault destructor of CFtpServer" << std::endl;
 }
 
 int CFtpServer::startServer(int argc, char *argv[])
@@ -58,8 +58,8 @@ int CFtpServer::startServer(int argc, char *argv[])
     // socket
     mp_ListenSocket = INVALID_SOCKET;
     //*m_ClientSocket = INVALID_SOCKET;
+
     CSocketInputOutput *po_SocketInputOutput = new CSocketInputOutput;
-//    po_SocketInputOutput->openSocket(m_host, m_port,mp_ListenSocket);
     mp_ListenSocket=po_SocketInputOutput->openSocket(m_host, m_port);
     if(mp_ListenSocket == 1)
     {
@@ -67,7 +67,7 @@ int CFtpServer::startServer(int argc, char *argv[])
     }
     else
     {
-        system("pause");
+
     }
 
     return exit_status;
@@ -129,6 +129,24 @@ int CFtpServer::checkRootDirectory()
         exit_status=1;
     }
     return exit_status;
+}
+
+void CFtpServer::acceptConnection()
+{
+    std::cout << "CFtpServer::acceptConnection waiting for client" << std::endl;
+//    WSADATA       wsd;
+    struct sockaddr_in client;
+    int iAddrSize = sizeof(client);
+    mp_ClientSocket = accept(mp_ListenSocket, (struct sockaddr *)&client, &iAddrSize);
+    if (mp_ClientSocket == INVALID_SOCKET)
+    {
+        std::cout << "CFtpServer::acceptConnection accept() failed: " << WSAGetLastError() << std::endl;
+        //break;
+    }
+    else
+    {
+        std::cout << "CFtpServer::acceptConnection Accepted client: " << inet_ntoa(client.sin_addr) << ":" << ntohs(client.sin_port) << std::endl;
+    }
 }
 
 void CFtpServer::debugVariable()

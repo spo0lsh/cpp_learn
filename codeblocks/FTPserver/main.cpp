@@ -29,6 +29,7 @@ int main(int argc, char *argv[])
         std::cout << "main: m_pFtpServer->startServer successfull!" << std::endl;
         m_pFtpServer->debugVariable();
     }
+    m_pFtpServer->acceptConnection();
 
     // Destroy object
     delete m_pFtpServer;

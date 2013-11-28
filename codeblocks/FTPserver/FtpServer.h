@@ -86,8 +86,8 @@ private:
 
     //SOCKET m_ListenSocket = INVALID_SOCKET;
     //SOCKET m_ClientSocket = INVALID_SOCKET;
-    SOCKET mp_ListenSocket;
-    SOCKET *mp_ClientSocket;
+    SOCKET mp_ListenSocket = INVALID_SOCKET;
+    SOCKET mp_ClientSocket = INVALID_SOCKET;
 };
 
 #endif // FTPSERVER_H_INCLUDED

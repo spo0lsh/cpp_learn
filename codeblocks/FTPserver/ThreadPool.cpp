@@ -1,5 +1,15 @@
 #include "ThreadPool.h"
 
+CThreadPool::CThreadPool()
+{
+
+}
+
+CThreadPool::~CThreadPool()
+{
+
+}
+
 int CThreadPool::initThreadPool(int maxPoolSize, std::string dbFile)
 {
     int exit_status=0;
@@ -12,8 +22,8 @@ int CThreadPool::initThreadPool(int maxPoolSize, std::string dbFile)
 
     // create database
     CDatabaseOperations *m_pDatabaseOperations = new CDatabaseOperations;
-    mpr_DB=m_pDatabaseOperations->createDatabaseStructure(dbFile);
-    if(mpr_DB == 0)
+    mp_DB=m_pDatabaseOperations->createDatabaseStructure(dbFile);
+    if(mp_DB == 0)
     {
         exit_status=1;
     }

@@ -6,6 +6,8 @@
 class CClientThread
 {
 public:
+    CClientThread();
+    ~CClientThread();
     void mainThread();
 };
 

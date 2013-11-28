@@ -1,6 +1,16 @@
 #include "SocketInputOutput.h"
 
-//int CSocketInputOutput::openSocket(char* host, int port, SOCKET *p_ListenSocket)
+CSocketInputOutput::CSocketInputOutput()
+{
+
+}
+
+CSocketInputOutput::~CSocketInputOutput()
+{
+
+}
+
+// bind and listen, not only open socket ... FIX!
 SOCKET CSocketInputOutput::openSocket(char* host, int port)
 {
     std::cout << "SocketInputOutput::openSocket " << host <<  " " << port << std::endl;

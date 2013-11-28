@@ -13,6 +13,8 @@
 class CDatabaseOperations
 {
 public:
+    CDatabaseOperations();
+    ~CDatabaseOperations();
     std::vector <std::vector<std::string> > * createDatabaseStructure(std::string);
     //int createDatabaseStructure(std::string);
     int compareLoginAndPassword(std::string, std::string );
@@ -21,7 +23,7 @@ public:
     void parseData(std::string );
     void debugPrint(std::vector <std::vector<std::string> > *DB);
 
-    std::vector <std::vector<std::string> > *mpr_DB;
+    std::vector <std::vector<std::string> > *mp_DB;
 };
 
 #endif // DATABASEOPERATIONS_H_INCLUDED

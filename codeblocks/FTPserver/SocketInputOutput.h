@@ -8,7 +8,8 @@
 class CSocketInputOutput
 {
 public:
-
+    CSocketInputOutput();
+    ~CSocketInputOutput();
 //    int openSocket(char* , int , SOCKET *);
     SOCKET openSocket(char* , int );
     int closeSocket();
@@ -19,7 +20,7 @@ public:
 private:
     int m_mode;
     SOCKET mp_ListenSocket = INVALID_SOCKET;
-    //SOCKET m_ClientSocket = INVALID_SOCKET;
+//    SOCKET m_ClientSocket = INVALID_SOCKET;
 };
 
 #endif // SOCKETINPUTOUTPUT_H_INCLUDED

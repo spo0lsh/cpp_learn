@@ -2,10 +2,20 @@
 
 using namespace std;
 
+CDatabaseOperations::CDatabaseOperations()
+{
+
+}
+
+CDatabaseOperations::~CDatabaseOperations()
+{
+
+}
+
 vector <vector<string> > * CDatabaseOperations::createDatabaseStructure(std::string dbFile)
 {
     vector <vector<string> > *pr_DB = new vector <vector<string> >();
-    this->mpr_DB = pr_DB;
+    this->mp_DB = pr_DB;
     std::cout << "CDatabaseOperations::createDatabaseStructure: " << dbFile << std::endl;
     //this->readUsersFromFile((char*)"database.txt");
     if(this->readUsersFromFile((char *)dbFile.c_str()) != 0)
@@ -22,7 +32,7 @@ int CDatabaseOperations::addUserToDatabase(std::string login, std::string passwo
     vector<string> user;
     user.push_back(login);
     user.push_back(password);
-    this->mpr_DB->push_back(user);
+    this->mp_DB->push_back(user);
     user.clear();
     return 0;
 }

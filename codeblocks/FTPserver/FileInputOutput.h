@@ -8,7 +8,8 @@
 class CFileInputOutput
 {
 public:
-
+    CFileInputOutput();
+    ~CFileInputOutput();
     int openFile(char* , int );
     int closeFile();
     std::string readFromFile();

@@ -17,6 +17,8 @@
 class CThreadPool
 {
 public:
+    CThreadPool();
+    ~CThreadPool();
     int addThread();
     int removeThread();
     void findFreeThread();
@@ -30,7 +32,7 @@ public:
 
 //    CDatabaseOperations *m_pDatabaseOperations = new CDatabaseOperations;
 private:
-    std::vector <std::vector<std::string> > *mpr_DB;
+    std::vector <std::vector<std::string> > *mp_DB;
     std::vector <SOCKET> *mp_Queue;
     int poolSize;
 };
