@@ -10,11 +10,11 @@ CFileInputOutput::~CFileInputOutput()
 
 }
 
-int CFileInputOutput::openFile(char* filename, int mode=0)
+int CFileInputOutput::openFile(char* a_filename, int a_mode=0)
 {
     int exit_status;
     exit_status=0;
-    m_file.open(filename);
+    m_file.open(a_filename);
     if(! m_file.is_open())
     {
         std::cout << "CFileInputOutput::openStream Unable to open file" << std::endl;
