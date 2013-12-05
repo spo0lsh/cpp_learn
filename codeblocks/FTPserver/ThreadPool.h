@@ -35,6 +35,7 @@ private:
     std::vector <std::vector<std::string> > *mp_DB;
     std::vector <SOCKET> *mp_Queue;
     int poolSize;
+	std::vector<CClientThread> m_vThreads;
 };
 
 

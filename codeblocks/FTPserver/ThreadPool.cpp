@@ -34,7 +34,42 @@ int CThreadPool::initThreadPool(int a_maxPoolSize, std::string a_dbFile)
     for(int i=0;i<poolSize;++i)
     {
         std::cout << "CThreadPool::initThreadPool addThread()" << std::endl;
+
     }
+// tmp
+	HANDLE hThreadHandler = 0;
+	unsigned int uiThreadID = 0;
+	for (int i = 0; i < poolSize; i++)
+	{
+		CClientThread newThread;
+		this->m_vThreads.push_back( newThread);
+	}
+	for(int i = 0; i < poolSize; i++)
+	{
+		hThreadHandler = (HANDLE)_beginthreadex( NULL, 0, CClientThread::mainThread, (void*)&this->m_vThreads[i], CREATE_SUSPENDED, &uiThreadID);
+	}
+// end tmp
+
+
+    return exit_status;
+}
+
+int CThreadPool::addThread()
+{
+    int exit_status=0;
+
+	HANDLE hThreadHandler = 0;
+	unsigned int uiThreadID = 0;
+	for (int i = 0; i < poolSize; i++)
+	{
+		CClientThread newThread;
+		this->m_vThreads.push_back( newThread);
+	}
+	for(int i = 0; i < poolSize; i++)
+	{
+		hThreadHandler = (HANDLE)_beginthreadex( NULL, 0, CClientThread::mainThread, (void*)&this->m_vThreads[i], CREATE_SUSPENDED, &uiThreadID);
+//		hThreadHandler = (HANDLE)_beginthreadex( NULL, 0, CClientThread::staticThreadFunction, (void*)&this->m_vThreads[i], CREATE_SUSPENDED, &uiThreadID);
+	}
 
     return exit_status;
 }
