@@ -18,6 +18,7 @@ public:
     HANDLE getHandle();
     void setThreadState(int );
     int getThreadState();
+    SOCKET getTaskFromQueue();
 
 //    friend class CThreadPool;
 

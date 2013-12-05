@@ -16,6 +16,18 @@ unsigned int __stdcall CClientThread::mainThread( void* a_pvThis)
 	while(1)
     {
         std::cout << "CClientThread::mainThread ID: " << pThis->getThreadID() << std::endl;
+        //get task from queue
+
+        /// IN LOOP?
+        // reading socket
+
+        // parsing
+
+        // executing
+
+        /// END LOOP?
+
+        //going to sleep
         pThis->setThreadState(0);
         SuspendThread(GetCurrentThread());
     }
@@ -50,4 +62,10 @@ void CClientThread::setThreadState(int state)
 int CClientThread::getThreadState()
 {
     return this->m_iThreadState;
+}
+
+SOCKET CClientThread::getTaskFromQueue()
+{
+    std::cout << "CClientThread::getTaskFromQueue" << std::endl;
+//    return this->vector.pop_back();
 }
