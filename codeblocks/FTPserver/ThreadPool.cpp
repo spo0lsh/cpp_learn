@@ -36,6 +36,7 @@ int CThreadPool::initThreadPool(int a_maxPoolSize, std::string a_dbFile)
         std::cout << "CThreadPool::initThreadPool addThread()" << std::endl;
 
     }
+
 // tmp
 	HANDLE hThreadHandler = 0;
 	unsigned int uiThreadID = 0;
@@ -47,6 +48,7 @@ int CThreadPool::initThreadPool(int a_maxPoolSize, std::string a_dbFile)
 	for(int i = 0; i < poolSize; i++)
 	{
 		hThreadHandler = (HANDLE)_beginthreadex( NULL, 0, CClientThread::mainThread, (void*)&this->m_vThreads[i], CREATE_SUSPENDED, &uiThreadID);
+//		hThreadHandler = (HANDLE)_beginthreadex( NULL, 0, CClientThread::mainThread, (void*)&this->m_vThreads[i], 0, &uiThreadID);
 	}
 // end tmp
 
