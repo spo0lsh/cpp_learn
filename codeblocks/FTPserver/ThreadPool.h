@@ -21,12 +21,11 @@ public:
     ~CThreadPool();
     int addThread();
     int removeThread();
-    void findFreeThread();
+    int findFreeThread();
     int setPoolSize(int );
     int getPoolSize();
     int createQueue(std::vector <SOCKET>*);
-    int addTaskToQueue(std::vector <SOCKET>*, SOCKET);
-    //void addTaskToQueue();
+    int addTaskToQueue(SOCKET);
     void semaphoreUp();
     void semaphoreDown();
     int initThreadPool(int , std::string);

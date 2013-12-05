@@ -134,7 +134,6 @@ int CFtpServer::checkRootDirectory()
 void CFtpServer::acceptConnection()
 {
     std::cout << "CFtpServer::acceptConnection waiting for client" << std::endl;
-//    WSADATA       wsd;
     struct sockaddr_in client;
     int iAddrSize = sizeof(client);
     mp_ClientSocket = accept(mp_ListenSocket, (struct sockaddr *)&client, &iAddrSize);
@@ -146,6 +145,8 @@ void CFtpServer::acceptConnection()
     else
     {
         std::cout << "CFtpServer::acceptConnection Accepted client: " << inet_ntoa(client.sin_addr) << ":" << ntohs(client.sin_port) << std::endl;
+        m_pCThreadPool->addTaskToQueue(mp_ClientSocket);
+        m_pCThreadPool->findFreeThread();
     }
 }
 

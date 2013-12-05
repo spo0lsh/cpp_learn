@@ -48,6 +48,9 @@ int CThreadPool::initThreadPool(int a_maxPoolSize, std::string a_dbFile)
 	for(int i = 0; i < poolSize; i++)
 	{
 		hThreadHandler = (HANDLE)_beginthreadex( NULL, 0, CClientThread::mainThread, (void*)&this->m_vThreads[i], CREATE_SUSPENDED, &uiThreadID);
+		this->m_vThreads[i].setHandle( hThreadHandler);
+		this->m_vThreads[i].setThreadID( uiThreadID);
+        std::cout << "CThreadPool::initThreadPool TMP: " << m_vThreads[i].getHandle() << " ID: " << m_vThreads[i].getThreadID() << " Address: " << (void*)&this->m_vThreads[i] << std::endl;
 //		hThreadHandler = (HANDLE)_beginthreadex( NULL, 0, CClientThread::mainThread, (void*)&this->m_vThreads[i], 0, &uiThreadID);
 	}
 // end tmp
@@ -70,7 +73,7 @@ int CThreadPool::addThread()
 	for(int i = 0; i < poolSize; i++)
 	{
 		hThreadHandler = (HANDLE)_beginthreadex( NULL, 0, CClientThread::mainThread, (void*)&this->m_vThreads[i], CREATE_SUSPENDED, &uiThreadID);
-//		hThreadHandler = (HANDLE)_beginthreadex( NULL, 0, CClientThread::staticThreadFunction, (void*)&this->m_vThreads[i], CREATE_SUSPENDED, &uiThreadID);
+		std::cout << "CThreadPool | _beginthreadex | Handler: " << m_vThreads[i].getHandle() << " ID: " << m_vThreads[i].getThreadID() << " Address: " << (void*)&this->m_vThreads[i] << std::endl;
 	}
 
     return exit_status;
@@ -83,8 +86,21 @@ int CThreadPool::createQueue(std::vector <SOCKET>* a_Queue)
     return 0;
 }
 
+int CThreadPool::addTaskToQueue(SOCKET a_Socket)
+{
+    std::cout << "CThreadPool::addTaskToQueue" << std::endl;
+    this->mp_Queue->push_back(a_Socket);
+    return 0;
+}
+
 int CThreadPool::setPoolSize(int a_maxPoolSize)
 {
     this->poolSize=a_maxPoolSize;
+    return 0;
+}
+
+int CThreadPool::findFreeThread()
+{
+    std::cout << "CThreadPool::findFreeThread" << std::endl;
     return 0;
 }

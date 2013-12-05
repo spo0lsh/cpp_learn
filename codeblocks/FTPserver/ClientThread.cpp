@@ -17,3 +17,23 @@ unsigned int __stdcall CClientThread::mainThread( void* a_pvThis)
 //	pThis->serviceTask();
 	return 1;
 }
+
+unsigned int CClientThread::getThreadID()
+{
+	return this->m_uiThreadID;
+}
+
+HANDLE CClientThread::getHandle()
+{
+	return this->m_hThreadHandle;
+}
+
+void CClientThread::setHandle( HANDLE a_Handle)
+{
+	this->m_hThreadHandle = a_Handle;
+}
+
+void CClientThread::setThreadID( unsigned int a_ThreadID)
+{
+	this->m_uiThreadID = a_ThreadID;
+}
