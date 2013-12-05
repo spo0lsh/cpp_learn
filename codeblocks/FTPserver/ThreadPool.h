@@ -25,6 +25,7 @@ public:
     int setPoolSize(int );
     int getPoolSize();
     int createQueue(std::vector <SOCKET>*);
+    int addTaskToQueue(std::vector <SOCKET>*, SOCKET);
     //void addTaskToQueue();
     void semaphoreUp();
     void semaphoreDown();
