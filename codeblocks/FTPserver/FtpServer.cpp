@@ -14,7 +14,7 @@ CFtpServer::CFtpServer()
     m_host = (char*)"0.0.0.0";
     m_port = 5150;
     m_directory = "./";
-    m_poolSize = 5;
+    m_poolSize = 4;
     m_dbFile = "database.txt";
 //    std::cout << "CFtpServer::CFtpServer Default constructor of CFtpServer" << std::endl;
 }
@@ -145,8 +145,16 @@ void CFtpServer::acceptConnection()
     else
     {
         std::cout << "CFtpServer::acceptConnection Accepted client: " << inet_ntoa(client.sin_addr) << ":" << ntohs(client.sin_port) << std::endl;
-        m_pCThreadPool->addTaskToQueue(mp_ClientSocket);
-        m_pCThreadPool->findFreeThread();
+        if(m_pCThreadPool->addTaskToQueue(mp_ClientSocket) != 0)
+        {
+            std::cout << "CFtpServer::acceptConnection->addTaskToQueue problem." << std::endl;
+        }
+        else
+        {
+            m_pCThreadPool->findFreeThread();
+        }
+//        std::cout << "CFtpServer::acceptConnection->addTaskToQueue status: " << m_pCThreadPool->addTaskToQueue(mp_ClientSocket) << std::endl;
+//        m_pCThreadPool->findFreeThread();
     }
 }
 

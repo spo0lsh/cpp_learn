@@ -39,7 +39,12 @@ int main(int argc, char *argv[])
 //        }
 //        m_pFtpServer->acceptConnection();
 //    }
-    m_pFtpServer->acceptConnection();
+    while(1)
+    {
+        m_pFtpServer->acceptConnection();
+    }
+    //m_pFtpServer->acceptConnection();
+//    system("PAUSE");
 
 
     // Destroy object

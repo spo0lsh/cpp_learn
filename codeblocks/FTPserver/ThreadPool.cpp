@@ -31,51 +31,29 @@ int CThreadPool::initThreadPool(int a_maxPoolSize, std::string a_dbFile)
     delete m_pDatabaseOperations; // need?!
 
     // addThread
-    for(int i=0;i<poolSize;++i)
-    {
-        std::cout << "CThreadPool::initThreadPool addThread()" << std::endl;
 
-    }
-
-// tmp
-	HANDLE hThreadHandler = 0;
-	unsigned int uiThreadID = 0;
 	for (int i = 0; i < poolSize; i++)
 	{
 		CClientThread newThread;
 		this->m_vThreads.push_back( newThread);
+		this->addThread(i);
 	}
-	for(int i = 0; i < poolSize; i++)
-	{
-		hThreadHandler = (HANDLE)_beginthreadex( NULL, 0, CClientThread::mainThread, (void*)&this->m_vThreads[i], CREATE_SUSPENDED, &uiThreadID);
-		this->m_vThreads[i].setHandle( hThreadHandler);
-		this->m_vThreads[i].setThreadID( uiThreadID);
-        std::cout << "CThreadPool::initThreadPool TMP: " << m_vThreads[i].getHandle() << " ID: " << m_vThreads[i].getThreadID() << " Address: " << (void*)&this->m_vThreads[i] << std::endl;
-//		hThreadHandler = (HANDLE)_beginthreadex( NULL, 0, CClientThread::mainThread, (void*)&this->m_vThreads[i], 0, &uiThreadID);
-	}
-// end tmp
-
 
     return exit_status;
 }
 
-int CThreadPool::addThread()
+int CThreadPool::addThread(int i)
 {
     int exit_status=0;
+//    std::cout << "CThreadPool::addThread: " << i << std::endl;
 
 	HANDLE hThreadHandler = 0;
 	unsigned int uiThreadID = 0;
-	for (int i = 0; i < poolSize; i++)
-	{
-		CClientThread newThread;
-		this->m_vThreads.push_back( newThread);
-	}
-	for(int i = 0; i < poolSize; i++)
-	{
-		hThreadHandler = (HANDLE)_beginthreadex( NULL, 0, CClientThread::mainThread, (void*)&this->m_vThreads[i], CREATE_SUSPENDED, &uiThreadID);
-		std::cout << "CThreadPool | _beginthreadex | Handler: " << m_vThreads[i].getHandle() << " ID: " << m_vThreads[i].getThreadID() << " Address: " << (void*)&this->m_vThreads[i] << std::endl;
-	}
-
+	hThreadHandler = (HANDLE)_beginthreadex( NULL, 0, CClientThread::mainThread, (void*)&this->m_vThreads[i], CREATE_SUSPENDED, &uiThreadID);
+	this->m_vThreads[i].setHandle(hThreadHandler);
+	this->m_vThreads[i].setThreadID(uiThreadID);
+	this->m_vThreads[i].setThreadState(0);
+    std::cout << "CThreadPool::addThread: " << m_vThreads[i].getHandle() << " ID: " << m_vThreads[i].getThreadID() << " Address: " << (void*)&this->m_vThreads[i] << " State: " << m_vThreads[i].getThreadState() << std::endl;
     return exit_status;
 }
 
@@ -88,9 +66,19 @@ int CThreadPool::createQueue(std::vector <SOCKET>* a_Queue)
 
 int CThreadPool::addTaskToQueue(SOCKET a_Socket)
 {
-    std::cout << "CThreadPool::addTaskToQueue" << std::endl;
-    this->mp_Queue->push_back(a_Socket);
-    return 0;
+    int exit_status=0;
+    std::cout << "CThreadPool::addTaskToQueue: size: " << this->mp_Queue->size() << std::endl;
+    if(this->mp_Queue->size() < this->poolSize)
+    {
+        this->mp_Queue->push_back(a_Socket);
+        std::cout << "CThreadPool::addTaskToQueue: OK size: " << this->mp_Queue->size() << std::endl;
+    }
+    else
+    {
+        std::cout << "CThreadPool::addTaskToQueue: KO size: " << this->mp_Queue->size() << std::endl;
+        exit_status=1;
+    }
+    return exit_status;
 }
 
 int CThreadPool::setPoolSize(int a_maxPoolSize)
@@ -102,5 +90,20 @@ int CThreadPool::setPoolSize(int a_maxPoolSize)
 int CThreadPool::findFreeThread()
 {
     std::cout << "CThreadPool::findFreeThread" << std::endl;
+	for (int i = 0; i < poolSize; i++)
+	{
+        if(this->m_vThreads[i].getThreadState() != 0)
+        {
+            std::cout << "CThreadPool::findFreeThread getThreadState(): " << this->m_vThreads[i].getThreadState() << std::endl;
+        }
+        else
+        {
+            std::cout << "CThreadPool::findFreeThread getThreadState(): " << this->m_vThreads[i].getThreadState() << std::endl;
+            this->m_vThreads[i].setThreadState(1);
+            ResumeThread(this->m_vThreads[i].getHandle());
+            break;
+        }
+	}
+	std::cout << "CThreadPool::findFreeThread after if" << std::endl;
     return 0;
 }

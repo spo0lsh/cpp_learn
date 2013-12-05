@@ -19,7 +19,7 @@ class CThreadPool
 public:
     CThreadPool();
     ~CThreadPool();
-    int addThread();
+    int addThread(int );
     int removeThread();
     int findFreeThread();
     int setPoolSize(int );
