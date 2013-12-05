@@ -13,11 +13,12 @@ CClientThread::~CClientThread()
 unsigned int __stdcall CClientThread::mainThread( void* a_pvThis)
 {
 	CClientThread *pThis = (CClientThread*)a_pvThis;
-//	while(1)
-//    {
-//        std::cout << "CClientThread::mainThread" << std::endl;
-//    }
-	std::cout << "CClientThread::mainThread ID: " << pThis->getThreadID() << std::endl;
+	while(1)
+    {
+        std::cout << "CClientThread::mainThread ID: " << pThis->getThreadID() << std::endl;
+        pThis->setThreadState(0);
+        SuspendThread(GetCurrentThread());
+    }
 	return 0;
 }
 

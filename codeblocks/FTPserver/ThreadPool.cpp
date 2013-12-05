@@ -67,7 +67,7 @@ int CThreadPool::createQueue(std::vector <SOCKET>* a_Queue)
 int CThreadPool::addTaskToQueue(SOCKET a_Socket)
 {
     int exit_status=0;
-    std::cout << "CThreadPool::addTaskToQueue: size: " << this->mp_Queue->size() << std::endl;
+//    std::cout << "CThreadPool::addTaskToQueue: size: " << this->mp_Queue->size() << std::endl;
     if(this->mp_Queue->size() < this->poolSize)
     {
         this->mp_Queue->push_back(a_Socket);
