@@ -21,7 +21,7 @@ unsigned int __stdcall CClientThread::mainThread( void* a_pvThis)
 
         /// IN LOOP?
         // reading socket
-        pThis->debugSocket();
+//        pThis->debugSocket();
         // parsing
 
         // executing
@@ -75,15 +75,44 @@ int CClientThread::getThreadState()
     return this->m_iThreadState;
 }
 
-void CClientThread::getTaskFromQueue(SOCKET a_sClientSocket)
+void CClientThread::wakeUpThread(std::vector <SOCKET>* a_Queue, std::vector <std::vector<std::string> > *mp_DB)
 {
-    std::cout << "CClientThread::getTaskFromQueue" << std::endl;
-    this->m_sClientSocket = a_sClientSocket;
+    std::cout << "CClientThread::wakeUp" << std::endl;
+    this->mp_Queue = a_Queue;
+    this->mp_DB = mp_DB;
+    ResumeThread(this->getHandle());
+}
+
+//void CClientThread::getTaskFromQueue(SOCKET a_sClientSocket)
+//{
+//    std::cout << "CClientThread::getTaskFromQueue" << std::endl;
+//    this->m_sClientSocket = a_sClientSocket;
+//
+//
+////    int ret;
+////    char szBuffer[2048];
+////    ret = recv(this->m_sClientSocket, szBuffer, 2048, 0);
+////    if (ret == SOCKET_ERROR)
+////    {
+////    printf("recv() failed: %d\n", WSAGetLastError());
+////
+////    }
+////    szBuffer[ret] = '\0';
+////    printf("RECV [%d bytes]: '%s'\n", ret, szBuffer);
+////    closesocket(this->m_sClientSocket);
+//}
+
+//void CClientThread::writeDB(std::vector <std::vector<std::string> > *a_pvDB)
+//{
+//    this->mp_DB = a_pvDB;
+//}
 
 
+//void CClientThread::debugSocket()
+//{
 //    int ret;
 //    char szBuffer[2048];
-//    ret = recv(this->m_sClientSocket, szBuffer, 2048, 0);
+//    ret = recv(m_sClientSocket, szBuffer, 2048, 0);
 //    if (ret == SOCKET_ERROR)
 //    {
 //    printf("recv() failed: %d\n", WSAGetLastError());
@@ -91,26 +120,5 @@ void CClientThread::getTaskFromQueue(SOCKET a_sClientSocket)
 //    }
 //    szBuffer[ret] = '\0';
 //    printf("RECV [%d bytes]: '%s'\n", ret, szBuffer);
-//    closesocket(this->m_sClientSocket);
-}
-
-void CClientThread::writeDB(std::vector <std::vector<std::string> > *a_pvDB)
-{
-    this->mp_DB = a_pvDB;
-}
-
-
-void CClientThread::debugSocket()
-{
-    int ret;
-    char szBuffer[2048];
-    ret = recv(m_sClientSocket, szBuffer, 2048, 0);
-    if (ret == SOCKET_ERROR)
-    {
-    printf("recv() failed: %d\n", WSAGetLastError());
-
-    }
-    szBuffer[ret] = '\0';
-    printf("RECV [%d bytes]: '%s'\n", ret, szBuffer);
-    closesocket(m_sClientSocket);
-}
+//    closesocket(m_sClientSocket);
+//}

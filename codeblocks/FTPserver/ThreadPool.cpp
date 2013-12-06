@@ -53,7 +53,7 @@ int CThreadPool::addThread(int i)
 //	hThreadHandler = (HANDLE)_beginthreadex( NULL, 0, CClientThread::mainThread, (void*)&this->m_vThreads[i], 0, &uiThreadID);
 	this->m_vThreads[i].setHandle(hThreadHandler);
 	this->m_vThreads[i].setThreadID(uiThreadID);
-	this->m_vThreads[i].writeDB(this->mp_DB);
+//	this->m_vThreads[i].writeDB(this->mp_DB);
 	this->m_vThreads[i].setThreadState(0);
     std::cout << "CThreadPool::addThread: " << m_vThreads[i].getHandle() << " ID: " << m_vThreads[i].getThreadID() << " Address: " << (void*)&this->m_vThreads[i] << " State: " << m_vThreads[i].getThreadState() << std::endl;
     return exit_status;
@@ -92,7 +92,7 @@ int CThreadPool::setPoolSize(int a_maxPoolSize)
 
 int CThreadPool::findFreeThread()
 {
-    SOCKET clientSocket;
+//    SOCKET clientSocket;
     std::cout << "CThreadPool::findFreeThread" << std::endl;
 	for (int i = 0; i < poolSize; i++)
 	{
@@ -104,10 +104,11 @@ int CThreadPool::findFreeThread()
         {
             std::cout << "CThreadPool::findFreeThread getThreadState(): " << this->m_vThreads[i].getThreadState() << std::endl;
             this->m_vThreads[i].setThreadState(1);
-            clientSocket=(*mp_Queue)[this->mp_Queue->size() - 1];
-            this->m_vThreads[i].getTaskFromQueue(clientSocket);
-            this->mp_Queue->pop_back();
-            ResumeThread(this->m_vThreads[i].getHandle());
+//            clientSocket=(*mp_Queue)[this->mp_Queue->size() - 1];
+//            this->m_vThreads[i].getTaskFromQueue(clientSocket);
+//            this->mp_Queue->pop_back();
+//            ResumeThread(this->m_vThreads[i].getHandle()); // wakeup
+//            this->m_vThreads[i].wakeUp(mp_DB, mp_Queue);
             break;
         }
 	}
