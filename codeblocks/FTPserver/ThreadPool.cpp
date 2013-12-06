@@ -52,6 +52,7 @@ int CThreadPool::addThread(int i)
 	hThreadHandler = (HANDLE)_beginthreadex( NULL, 0, CClientThread::mainThread, (void*)&this->m_vThreads[i], CREATE_SUSPENDED, &uiThreadID);
 	this->m_vThreads[i].setHandle(hThreadHandler);
 	this->m_vThreads[i].setThreadID(uiThreadID);
+	this->m_vThreads[i].writeDB(this->mp_DB);
 	this->m_vThreads[i].setThreadState(0);
     std::cout << "CThreadPool::addThread: " << m_vThreads[i].getHandle() << " ID: " << m_vThreads[i].getThreadID() << " Address: " << (void*)&this->m_vThreads[i] << " State: " << m_vThreads[i].getThreadState() << std::endl;
     return exit_status;
@@ -84,11 +85,13 @@ int CThreadPool::addTaskToQueue(SOCKET a_Socket)
 int CThreadPool::setPoolSize(int a_maxPoolSize)
 {
     this->poolSize=a_maxPoolSize;
+    this->maxPoolSize=a_maxPoolSize;
     return 0;
 }
 
 int CThreadPool::findFreeThread()
 {
+    SOCKET clientSocket;
     std::cout << "CThreadPool::findFreeThread" << std::endl;
 	for (int i = 0; i < poolSize; i++)
 	{
@@ -100,6 +103,22 @@ int CThreadPool::findFreeThread()
         {
             std::cout << "CThreadPool::findFreeThread getThreadState(): " << this->m_vThreads[i].getThreadState() << std::endl;
             this->m_vThreads[i].setThreadState(1);
+            clientSocket=(*mp_Queue)[this->mp_Queue->size() - 1];
+            //tmp
+            int ret;
+            char szBuffer[2048];
+            ret = recv(clientSocket, szBuffer, 2048, 0);
+            if (ret == SOCKET_ERROR)
+            {
+            printf("recv() failed: %d\n", WSAGetLastError());
+            }
+            szBuffer[ret] = '\0';
+            printf("RECV [%d bytes]: '%s'\n", ret, szBuffer);
+            closesocket(clientSocket);
+
+            //end tmp
+//            this->m_vThreads[i].getTaskFromQueue(&clientSocket);
+//            this->mp_Queue->pop_back();
             ResumeThread(this->m_vThreads[i].getHandle());
             break;
         }

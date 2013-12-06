@@ -148,6 +148,7 @@ void CFtpServer::acceptConnection()
         if(m_pCThreadPool->addTaskToQueue(mp_ClientSocket) != 0)
         {
             std::cout << "CFtpServer::acceptConnection->addTaskToQueue problem." << std::endl;
+            closesocket(mp_ClientSocket); // close connection (need socket class!)
         }
         else
         {
