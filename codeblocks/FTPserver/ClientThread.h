@@ -5,6 +5,7 @@
 #include <winsock2.h>
 #include <process.h>
 #include <vector>
+#include <windows.h>
 
 #include "DatabaseOperations.h"
 
@@ -21,7 +22,8 @@ public:
     HANDLE getHandle();
     void setThreadState(int );
     int getThreadState();
-    void getTaskFromQueue(SOCKET );
+//    void getTaskFromQueue(SOCKET );
+    void getTaskFromQueue();
     void debugSocket();
     void wakeUpThread(std::vector <SOCKET>*,std::vector <std::vector<std::string> > * );
     void goSleep();
@@ -36,6 +38,7 @@ private:
 	unsigned int m_uiThreadID;
 	int m_iThreadState;
 
+    SOCKET m_sClientSocket;
 	std::vector <std::vector<std::string> > *mp_DB;
 	std::vector <SOCKET> *mp_Queue;
 

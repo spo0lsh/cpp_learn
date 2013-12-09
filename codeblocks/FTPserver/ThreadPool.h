@@ -30,13 +30,14 @@ public:
     void semaphoreDown();
     int initThreadPool(int , std::string);
 
-//    CDatabaseOperations *m_pDatabaseOperations = new CDatabaseOperations;
 private:
     std::vector <std::vector<std::string> > *mp_DB;
     std::vector <SOCKET> *mp_Queue;
     int poolSize;
     int maxPoolSize;
 	std::vector<CClientThread> m_vThreads;
+//	HANDLE hThreadHandler = 0;
+//	unsigned int uiThreadID = 0;
 };
 
 

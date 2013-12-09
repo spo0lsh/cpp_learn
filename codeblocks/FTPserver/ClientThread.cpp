@@ -13,11 +13,13 @@ CClientThread::~CClientThread()
 unsigned int __stdcall CClientThread::mainThread( void* a_pvThis)
 {
 	CClientThread *pThis = (CClientThread*)a_pvThis;
+
 //    CDatabaseOperations *m_pDatabaseOperations = new CDatabaseOperations;
-	while(1)
-    {
+//	while(1)
+//    {
         std::cout << "CClientThread::mainThread ID: " << pThis->getThreadID() << std::endl;
         //get task from queue
+//        pThis->getTaskFromQueue();
 
         /// IN LOOP?
         // reading socket
@@ -32,8 +34,8 @@ unsigned int __stdcall CClientThread::mainThread( void* a_pvThis)
         //going to sleep
 //        pThis->setThreadState(0);
 //        SuspendThread(GetCurrentThread());
-        pThis->goSleep();
-    }
+//        pThis->goSleep();
+//    }
 //    delete m_pDatabaseOperations; // need?!
 	return 0;
 }
@@ -77,10 +79,18 @@ int CClientThread::getThreadState()
 
 void CClientThread::wakeUpThread(std::vector <SOCKET>* a_Queue, std::vector <std::vector<std::string> > *mp_DB)
 {
-    std::cout << "CClientThread::wakeUp" << std::endl;
+    std::cout << "CClientThread::wakeUp " << this->getThreadID() << std::endl;
     this->mp_Queue = a_Queue;
     this->mp_DB = mp_DB;
     ResumeThread(this->getHandle());
+}
+
+void CClientThread::getTaskFromQueue()
+{
+    std::cout << "CClientThread::getTaskFromQueue" << std::endl;
+    std::cout << "CClientThread::getTaskFromQueue: queue size: " << mp_Queue->size() << std::endl;
+//    this->m_sClientSocket=(*mp_Queue)[this->mp_Queue->size() - 1];
+//    this->mp_Queue->pop_back();
 }
 
 //void CClientThread::getTaskFromQueue(SOCKET a_sClientSocket)
@@ -108,17 +118,17 @@ void CClientThread::wakeUpThread(std::vector <SOCKET>* a_Queue, std::vector <std
 //}
 
 
-//void CClientThread::debugSocket()
-//{
-//    int ret;
-//    char szBuffer[2048];
-//    ret = recv(m_sClientSocket, szBuffer, 2048, 0);
-//    if (ret == SOCKET_ERROR)
-//    {
-//    printf("recv() failed: %d\n", WSAGetLastError());
-//
-//    }
-//    szBuffer[ret] = '\0';
-//    printf("RECV [%d bytes]: '%s'\n", ret, szBuffer);
-//    closesocket(m_sClientSocket);
-//}
+void CClientThread::debugSocket()
+{
+    int ret;
+    char szBuffer[2048];
+    ret = recv(m_sClientSocket, szBuffer, 2048, 0);
+    if (ret == SOCKET_ERROR)
+    {
+    printf("recv() failed: %d\n", WSAGetLastError());
+
+    }
+    szBuffer[ret] = '\0';
+    printf("RECV [%d bytes]: '%s'\n", ret, szBuffer);
+    closesocket(m_sClientSocket);
+}
