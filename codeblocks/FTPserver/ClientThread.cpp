@@ -21,6 +21,7 @@ unsigned int __stdcall CClientThread::mainThread( void* a_pvThis)
         //get task from queue
         pThis->getTaskFromQueue();
         pThis->oExecuteCommand.setLoginStatus(1);
+        pThis->oExecuteCommand.m_sClientSocket = pThis->m_sClientSocket;;
 
         /// IN LOOP?
         // reading socket
