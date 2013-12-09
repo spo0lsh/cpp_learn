@@ -8,6 +8,7 @@
 #include <windows.h>
 
 #include "DatabaseOperations.h"
+#include "ExecuteCommand.h"
 
 class CClientThread
 {
@@ -22,21 +23,22 @@ public:
     HANDLE getHandle();
     void setThreadState(int );
     int getThreadState();
-//    void getTaskFromQueue(SOCKET );
     void getTaskFromQueue();
     void debugSocket();
     void wakeUpThread(std::vector <SOCKET>*,std::vector <std::vector<std::string> > * );
     void goSleep();
 
-//    void debugPrint(std::vector <std::vector<std::string> > *);
+    void ReadFromSocket();
+    void closeSocket();
 
-//    friend class CThreadPool;
+    CExecuteCommand oExecuteCommand;
 
 
 private:
     HANDLE m_hThreadHandle;
 	unsigned int m_uiThreadID;
 	int m_iThreadState;
+	char sBuffer[2048];
 
     SOCKET m_sClientSocket;
 	std::vector <std::vector<std::string> > *mp_DB;
