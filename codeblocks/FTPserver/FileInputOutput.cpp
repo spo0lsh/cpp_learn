@@ -29,9 +29,22 @@ int CFileInputOutput::closeFile()
     return 0;
 }
 
-std::string CFileInputOutput::readFromFile()
+std::string CFileInputOutput::readLineFromFile()
 {
     std::string data;
     getline(m_file,data);
     return data;
+}
+
+int CFileInputOutput::checkFileSize()
+{
+    int exit_status=-1;
+    long begin;
+    long end;
+//    fseek( &m_file, 0, SEEK_END ); //std::fstream m_file;
+    begin = m_file.tellg();
+    m_file.seekg (0, std::ios::end);
+    end = m_file.tellg();
+    exit_status = end-begin;
+    return exit_status;
 }

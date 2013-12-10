@@ -52,7 +52,7 @@ int CDatabaseOperations::readUsersFromFile(char* a_filename)
         std::cout << "CDatabaseOperations::readUsersFromFile reading file" << std::endl;
         do
         {
-            line=po_FileInputOutput->readFromFile();
+            line=po_FileInputOutput->readLineFromFile();
             if(! line.empty())
             {
                 this->parseData(line);

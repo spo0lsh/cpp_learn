@@ -28,7 +28,8 @@ public:
     void wakeUpThread(std::vector <SOCKET>*,std::vector <std::vector<std::string> > * );
     void goSleep();
 
-    void ReadFromSocket();
+    int ReadFromSocket();
+//    int ReadFromSocketTest();
     void closeSocket();
 
     CExecuteCommand oExecuteCommand;

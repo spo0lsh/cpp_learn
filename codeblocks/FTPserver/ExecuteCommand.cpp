@@ -17,6 +17,7 @@ int CExecuteCommand::getLoginStatus()
 
 void CExecuteCommand::setLoginStatus(int a_iLoginStatus)
 {
+    std::cout << "CExecuteCommand::setLoginStatus to " << a_iLoginStatus << std::endl;
     this->m_iLoginStatus=a_iLoginStatus;
 }
 
@@ -48,17 +49,32 @@ void CExecuteCommand::parseData(std::string a_data)
 
 void CExecuteCommand::executeCommand(std::string command, std::string parameter)
 {
+    this->m_opCSocketInputOutput->m_sClientSocket=m_sClientSocket; //todo: opensocket for this
     std::cout << "CExecuteCommand::executeCommand" << std::endl;
-    this->setLoginStatus(0); // for debug!
+//    this->setLoginStatus(0); // for debug!
     if(this->getLoginStatus() != 0 )
     {
         if(command.compare("USER") == 0 )
         {
-            std::cout << "CExecuteCommand::executeCommand need execute USER" << std::endl;
+//            this->m_opCSocketInputOutput->m_sClientSocket=m_sClientSocket;
+            this->login = parameter;
+            this->m_opCSocketInputOutput->writeToSocket("OK");
         }
         else if(command.compare("PASS") == 0 )
         {
-            std::cout << "CExecuteCommand::executeCommand need execute PASS" << std::endl;
+            std::cout << "CExecuteCommand::executeCommand need execute PASS: " << parameter << std::endl;
+            this->password = parameter;
+            if(this->login.empty())
+            {
+                std::cout << "CExecuteCommand::executeCommand PASS login is empty" << std::endl;
+                this->m_opCSocketInputOutput->writeToSocket("KO");
+            }
+            else
+            {
+                std::cout << "CExecuteCommand::executeCommand need execute loginToServer" << std::endl;
+                this->setLoginStatus(0);
+                this->m_opCSocketInputOutput->writeToSocket("OK");
+            }
         }
         else
         {
@@ -71,31 +87,37 @@ void CExecuteCommand::executeCommand(std::string command, std::string parameter)
         if(command.compare("QUIT") == 0 )
         {
             std::cout << "CExecuteCommand::executeCommand need execute QUIT" << std::endl;
+            this->m_opCSocketInputOutput->writeToSocket("OK");
         }
         else if(command.compare("RETR") == 0 )
         {
             std::cout << "CExecuteCommand::executeCommand need execute RETR" << std::endl;
+            this->getFileFromServer(parameter);
         }
         else if(command.compare("SIZE") == 0 )
         {
             std::cout << "CExecuteCommand::executeCommand need execute SIZE" << std::endl;
-            this->checkFileSize( parameter );
+            this->checkFileSize(parameter);
         }
         else if(command.compare("STOR") == 0 )
         {
             std::cout << "CExecuteCommand::executeCommand need execute STOR" << std::endl;
+            this->putFileToServer(parameter); // fix size!
         }
         else if(command.compare("DELE") == 0 )
         {
             std::cout << "CExecuteCommand::executeCommand need execute DELE" << std::endl;
+            this->deleteFileOnServer(parameter);
         }
         else if(command.compare("LIST") == 0 )
         {
             std::cout << "CExecuteCommand::executeCommand need execute LIST" << std::endl;
+            this->showFilesOnServer();
         }
         else if(command.compare("NOOP") == 0 )
         {
             std::cout << "CExecuteCommand::executeCommand need execute NOOP" << std::endl;
+            this->m_opCSocketInputOutput->writeToSocket("OK");
         }
         else
         {
@@ -107,90 +129,81 @@ void CExecuteCommand::executeCommand(std::string command, std::string parameter)
 int CExecuteCommand::getFileFromServer(std::string filename)
 {
     std::cout << "CExecuteCommand::getFileFromServer" << std::endl;
+    this->m_opCSocketInputOutput->writeToSocket("KO");
     return 0;
 }
 
 int CExecuteCommand::putFileToServer(std::string filename)
 {
     std::cout << "CExecuteCommand::putFileToServer" << std::endl;
+    this->m_opCSocketInputOutput->writeToSocket("KO");
     return 0;
 }
 
-int CExecuteCommand::showFilesOnServer(std::string filename)
+int CExecuteCommand::showFilesOnServer()
 {
     std::cout << "CExecuteCommand::showFilesOnServer" << std::endl;
+    this->m_opCSocketInputOutput->writeToSocket("KO");
     return 0;
 }
 
 int CExecuteCommand::deleteFileOnServer(std::string filename)
 {
     std::cout << "CExecuteCommand::deleteFileOnServer" << std::endl;
+    this->m_opCSocketInputOutput->writeToSocket("KO");
     return 0;
 }
 
 int CExecuteCommand::loginToServer(std::string login, std::string password)
 {
     std::cout << "CExecuteCommand::loginToServer" << std::endl;
+    this->m_opCSocketInputOutput->writeToSocket("KO");
     return 0;
 }
 
 int CExecuteCommand::logoutFromServer()
 {
     std::cout << "CExecuteCommand::logoutFromServer" << std::endl;
+    this->m_opCSocketInputOutput->writeToSocket("KO");
     return 0;
 }
 
-int CExecuteCommand::checkFileSize(std::string filename)
+int CExecuteCommand::checkFileSize(std::string a_filename)
 {
-    std::cout << "CExecuteCommand::checkFileSize: " << filename << std::endl;
-//    if(file exist != true)
-//        write NOK
-//    else
-//        size=sizeof filename
-//        write OK size
-    return 0;
+    int exit_status=0;
+    char *filename = &a_filename[0]; //cast
+
+    int ret;
+    char szBuffer[2048];
+
+    std::cout << "CExecuteCommand::checkFileSize: " << a_filename << std::endl;
+    if(m_opFileInputOutput->openFile(filename,0) != 0)
+    {
+        std::cout << "CExecuteCommand::checkFileSize Problem with open file: " << a_filename << std::endl;
+        exit_status=1;
+    }
+    else
+    {
+        int fileSize = m_opFileInputOutput->checkFileSize();
+        if(fileSize != -1)
+        {
+            std::cout << "CExecuteCommand::checkFileSize size: " << fileSize << std::endl;
+            itoa (fileSize, szBuffer,10);
+            ret = send(m_sClientSocket, szBuffer, strlen(szBuffer), 0);
+            if (ret != SOCKET_ERROR)
+            {
+                //send
+            }
+            else
+            {
+                std::cout << "CExecuteCommand::checkFileSize fail: " << WSAGetLastError() << std::endl;
+            }
+        }
+        else
+        {
+            std::cout << "CExecuteCommand::checkFileSize get file size fail! " << std::endl;
+        }
+        m_opFileInputOutput->closeFile();
+    }
+    return exit_status;
 }
-
-
-//
-//int CExecuteCommand::getFileFromServer(SOCKET a_clientSocket, char *filename)
-//{
-//    std::cout << "CExecuteCommand::getFileFromServer" << std::endl;
-//    return 0;
-//}
-//
-//int CExecuteCommand::putFileToServer(SOCKET a_clientSocket, char *filename)
-//{
-//    std::cout << "CExecuteCommand::putFileToServer" << std::endl;
-//    return 0;
-//}
-//
-//int CExecuteCommand::showFilesOnServer(SOCKET a_clientSocket, char *filename)
-//{
-//    std::cout << "CExecuteCommand::showFilesOnServer" << std::endl;
-//    return 0;
-//}
-//
-//int CExecuteCommand::deleteFileOnServer(SOCKET a_clientSocket, char *filename)
-//{
-//    std::cout << "CExecuteCommand::deleteFileOnServer" << std::endl;
-//    return 0;
-//}
-//
-//int CExecuteCommand::loginToServer(SOCKET a_clientSocket, char *login, char *password)
-//{
-//    std::cout << "CExecuteCommand::loginToServer" << std::endl;
-//    return 0;
-//}
-//
-//int CExecuteCommand::logoutFromServer(SOCKET a_clientSocket)
-//{
-//    std::cout << "CExecuteCommand::logoutFromServer" << std::endl;
-//    return 0;
-//}
-//
-//int CExecuteCommand::checkFileSize(SOCKET a_clientSocket, char *filename)
-//{
-//    std::cout << "CExecuteCommand::checkFileSize" << std::endl;
-//    return 0;
-//}

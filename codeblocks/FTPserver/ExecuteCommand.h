@@ -4,6 +4,8 @@
 #include <iostream>
 #include <winsock2.h>
 #include <string>
+#include "FileInputOutput.h"
+#include "SocketInputOutput.h"
 
 class CExecuteCommand
 {
@@ -14,11 +16,15 @@ public:
     void parseData(std::string );
     void executeCommand(std::string , std::string );
     void setLoginStatus(int);
-
+    int getLoginStatus();
     SOCKET m_sClientSocket;
 
+//    CFileInputOutput m_oFileInputOutput;
+    CFileInputOutput *m_opFileInputOutput = new CFileInputOutput;
+    CSocketInputOutput *m_opCSocketInputOutput = new CSocketInputOutput;
+
 private:
-    int getLoginStatus();
+
 //    int getFileFromServer(SOCKET, char *);      // RETR filename
 //    int putFileToServer(SOCKET, char *);        // STOR filename size
 //    int showFilesOnServer(SOCKET, char *);      // LIST
@@ -28,12 +34,14 @@ private:
 //    int checkFileSize(SOCKET, char *);          // SIZE filename
     int getFileFromServer(std::string );      // RETR filename
     int putFileToServer(std::string );        // STOR filename size
-    int showFilesOnServer(std::string );      // LIST
+    int showFilesOnServer();      // LIST
     int deleteFileOnServer(std::string );     // DELETE fielname
     int loginToServer(std::string, std::string );   // USER, PASS
     int logoutFromServer();               // logout //missed in design!
     int checkFileSize(std::string );          // SIZE filename
 
+    std::string login;
+    std::string password;
     int m_iLoginStatus;
 };
 

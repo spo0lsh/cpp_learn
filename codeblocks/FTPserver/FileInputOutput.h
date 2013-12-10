@@ -1,9 +1,10 @@
 #ifndef FILEINPUTOUTPUT_H_INCLUDED
 #define FILEINPUTOUTPUT_H_INCLUDED
 
-#include <iostream>
 #include <string>
+#include <iostream>
 #include <fstream>
+//#include <ios>
 
 class CFileInputOutput
 {
@@ -12,8 +13,9 @@ public:
     ~CFileInputOutput();
     int openFile(char* , int );
     int closeFile();
-    std::string readFromFile();
+    std::string readLineFromFile();
     int writeToFile(std::string );
+    int checkFileSize();
 
     std::string m_data;
 private:
