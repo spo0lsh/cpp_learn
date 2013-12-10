@@ -65,9 +65,7 @@ public:
     CFtpServer();
     ~CFtpServer();
 
-//    CThreadPool *m_pCThreadPool = new CThreadPool;
     CThreadPool m_ThreadPool;
-
     void acceptConnection();
     void bindAndListen();
     int startServer(int argc, char *argv[]);

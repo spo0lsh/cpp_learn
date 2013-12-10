@@ -16,7 +16,6 @@ CFtpServer::CFtpServer()
     m_directory = "./";
     m_poolSize = 4;
     m_dbFile = "database.txt";
-//    std::cout << "CFtpServer::CFtpServer Default constructor of CFtpServer" << std::endl;
 }
 
 CFtpServer::~CFtpServer()

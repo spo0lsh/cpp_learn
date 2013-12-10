@@ -21,6 +21,27 @@ CThreadPool::CThreadPool()
 	}
 }
 
+CThreadPool::CThreadPool(int a_poolSize)
+{
+    poolSize = a_poolSize;
+    std::cout << "CThreadPool::CThreadPool(int ) " << poolSize << std::cout;
+	HANDLE hThreadHandler = 0;
+	unsigned int uiThreadID = 0;
+	for (int i = 0; i < poolSize; i++)
+	{
+		CClientThread newThread;
+		this->m_vThreads.push_back( newThread);
+	}
+	for(int i = 0; i < poolSize; i++)
+	{
+		hThreadHandler = (HANDLE)_beginthreadex( NULL, 0, CClientThread::mainThread, (void*)&this->m_vThreads[i], CREATE_SUSPENDED, &uiThreadID);
+		this->m_vThreads[i].setHandle( hThreadHandler);
+		this->m_vThreads[i].setThreadID( uiThreadID);
+		this->m_vThreads[i].setThreadState(0);
+        std::cout << "CThreadPool::addThread: " << m_vThreads[i].getHandle() << " ID: " << m_vThreads[i].getThreadID() << " Address: " << (void*)&this->m_vThreads[i] << " State: " << m_vThreads[i].getThreadState() << std::endl;
+	}
+}
+
 CThreadPool::~CThreadPool()
 {
 

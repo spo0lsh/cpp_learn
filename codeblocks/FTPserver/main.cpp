@@ -29,23 +29,10 @@ int main(int argc, char *argv[])
         std::cout << "main: m_pFtpServer->startServer successfull!" << std::endl;
         m_pFtpServer->debugVariable();
     }
-//    bool exit = false;
-//
-//    while(exit == false)
-//    {
-//        if (GetAsyncKeyState(VK_ESCAPE))
-//        {
-//            exit = true;
-//        }
-//        m_pFtpServer->acceptConnection();
-//    }
     while(1)
     {
         m_pFtpServer->acceptConnection();
     }
-    //m_pFtpServer->acceptConnection();
-//    system("PAUSE");
-
 
     // Destroy object
     delete m_pFtpServer;

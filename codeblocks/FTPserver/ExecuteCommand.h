@@ -19,19 +19,10 @@ public:
     int getLoginStatus();
     SOCKET m_sClientSocket;
 
-//    CFileInputOutput m_oFileInputOutput;
     CFileInputOutput *m_opFileInputOutput = new CFileInputOutput;
     CSocketInputOutput *m_opCSocketInputOutput = new CSocketInputOutput;
 
 private:
-
-//    int getFileFromServer(SOCKET, char *);      // RETR filename
-//    int putFileToServer(SOCKET, char *);        // STOR filename size
-//    int showFilesOnServer(SOCKET, char *);      // LIST
-//    int deleteFileOnServer(SOCKET, char *);     // DELETE fielname
-//    int loginToServer(SOCKET, char*, char *);   // USER, PASS
-//    int logoutFromServer(SOCKET);               // logout //missed in design!
-//    int checkFileSize(SOCKET, char *);          // SIZE filename
     int getFileFromServer(std::string );      // RETR filename
     int putFileToServer(std::string );        // STOR filename size
     int showFilesOnServer();      // LIST

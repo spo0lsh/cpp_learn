@@ -18,6 +18,7 @@ class CThreadPool
 {
 public:
     CThreadPool();
+    CThreadPool(int );
     ~CThreadPool();
     int addThread(int );
     int removeThread();
