@@ -26,9 +26,16 @@ unsigned int __stdcall CClientThread::mainThread( void* a_pvThis)
 
         /// IN LOOP?
         // read
-        while(pThis->ReadFromSocket() > 0)
+//        while(pThis->ReadFromSocket() > 0)
+//        {
+//            // parse
+//            std::cout << "CClientThread::mainThread: while(pThis->ReadFromSocket() login status: " << pThis->oExecuteCommand.getLoginStatus() << std::endl;
+//            pThis->oExecuteCommand.parseData(pThis->sBuffer);
+//            Sleep(2000); // for debug
+//        }
+//        std::cout << "CClientThread::mainThread.ReadFromSocketNG" << pThis->ReadFromSocketNG() << std::endl;
+        while(pThis->ReadFromSocketNG() > 0)
         {
-            // parse
             std::cout << "CClientThread::mainThread: while(pThis->ReadFromSocket() login status: " << pThis->oExecuteCommand.getLoginStatus() << std::endl;
             pThis->oExecuteCommand.parseData(pThis->sBuffer);
             Sleep(2000); // for debug
@@ -43,6 +50,17 @@ unsigned int __stdcall CClientThread::mainThread( void* a_pvThis)
         pThis->goSleep();
     }
 	return 0;
+}
+
+int CClientThread::ReadFromSocketNG()
+{
+    int ret=0;
+    //this->oExecuteCommand.m_opCSocketInputOutput->mp_ListenSocket=m_sClientSocket;
+    ret=this->oExecuteCommand.m_opCSocketInputOutput->readFromSocket(m_sClientSocket);
+//    this->sBuffer=this->oExecuteCommand.m_opCSocketInputOutput->sBuffer;
+    strcpy(this->sBuffer,this->oExecuteCommand.m_opCSocketInputOutput->sBuffer);
+    std::cout << "CClientThread::ReadFromSocketNG: " << this->sBuffer << std::endl;
+    return ret;
 }
 
 int CClientThread::ReadFromSocket()
