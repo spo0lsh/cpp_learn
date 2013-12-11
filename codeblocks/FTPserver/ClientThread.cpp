@@ -4,10 +4,7 @@ HANDLE CClientThread::m_QueueMutex = NULL;
 
 CClientThread::CClientThread()
 {
-//	if ( NULL == this->m_QueueMutex)
-//	{
-//		this->m_QueueMutex = CreateMutex( NULL, FALSE, NULL);
-//	}
+
 }
 
 CClientThread::~CClientThread()
@@ -18,14 +15,13 @@ CClientThread::~CClientThread()
 unsigned int __stdcall CClientThread::mainThread( void* a_pvThis)
 {
 	CClientThread *pThis = (CClientThread*)a_pvThis;
-
-//    CDatabaseOperations *m_pDatabaseOperations = new CDatabaseOperations;
 	while(1)
     {
         std::cout << "CClientThread::mainThread ID: " << pThis->getThreadID() << std::endl;
         //get task from queue
+
+        pThis->m_QueueMutex = CreateMutex( NULL, FALSE, NULL); // probably get return exit
         WaitForSingleObject(pThis->m_QueueMutex,INFINITE);
-        pThis->m_QueueMutex = CreateMutex( NULL, FALSE, NULL);
         pThis->getTaskFromQueue();
         ReleaseMutex(pThis->m_QueueMutex);
         pThis->oExecuteCommand.setLoginStatus(1);
@@ -57,7 +53,7 @@ int CClientThread::ReadFromSocket()
     int ret=0;
     ret=this->oExecuteCommand.m_opCSocketInputOutput->readFromSocket(m_sClientSocket);
     strcpy(this->sBuffer,this->oExecuteCommand.m_opCSocketInputOutput->sBuffer);
-    std::cout << "CClientThread::ReadFromSocketNG: " << this->sBuffer << std::endl;
+    std::cout << "CClientThread::ReadFromSocket: " << this->sBuffer << std::endl;
     return ret;
 }
 
