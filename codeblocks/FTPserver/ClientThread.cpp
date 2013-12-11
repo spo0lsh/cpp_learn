@@ -105,9 +105,6 @@ void CClientThread::wakeUpThread(std::vector <SOCKET>* a_Queue, std::vector <std
     std::cout << "CClientThread::wakeUp " << this->getThreadID() << std::endl;
     this->mp_Queue = a_Queue;
     this->mp_DB = mp_DB;
-//    CDatabaseOperations *opDatabaseOperations = new CDatabaseOperations;
-//    opDatabaseOperations->debugPrint(mp_DB);
-//    delete opDatabaseOperations;
     ResumeThread(this->getHandle());
 }
 
@@ -131,5 +128,4 @@ void CClientThread::debugSocket()
     }
     szBuffer[ret] = '\0';
     printf("RECV [%d bytes]: '%s'\n", ret, szBuffer);
-//    closesocket(m_sClientSocket);
 }

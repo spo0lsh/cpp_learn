@@ -45,8 +45,6 @@ private:
 	std::vector <SOCKET> *mp_Queue;
 
 	static HANDLE m_QueueMutex;
-
-//	SOCKET m_sClientSocket;
 };
 
 #endif // CLIENTTHREAD_H_INCLUDED

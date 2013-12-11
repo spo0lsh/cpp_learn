@@ -37,8 +37,6 @@ private:
     int poolSize;
     int maxPoolSize;
 	std::vector<CClientThread> m_vThreads;
-//	HANDLE hThreadHandler = 0;
-//	unsigned int uiThreadID = 0;
 };
 
 

@@ -27,11 +27,13 @@ int main(int argc, char *argv[])
     else
     {
         std::cout << "main: m_pFtpServer->startServer successfull!" << std::endl;
-        m_pFtpServer->debugVariable();
     }
-    while(1)
+    if(exit_status != 1)
     {
-        m_pFtpServer->acceptConnection();
+        while(1)
+        {
+            m_pFtpServer->acceptConnection();
+        }
     }
 
     // Destroy object

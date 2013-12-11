@@ -91,21 +91,15 @@ int CSocketInputOutput::readFromSocket()
 }
 int CSocketInputOutput::writeToSocket(std::string a_data)
 {
-//                std::cout << "CExecuteCommand::executeCommand need execute USER: " << parameter << std::endl;
-//            this->login = parameter;
-//            int ret;
-//            char szBuffer[2048];
-            strcpy(sBuffer, a_data.c_str());
-            ret = send(m_sClientSocket, sBuffer, strlen(sBuffer), 0);
-            if (ret != SOCKET_ERROR)
-            {
-                std::cout << "CSocketInputOutput::writeToSocket send: " << sBuffer << std::endl;
-            }
-            else
-            {
-                std::cout << "CSocketInputOutput::writeToSocket: " << WSAGetLastError() << std::endl;
-            }
-
-//    std::cout << "CSocketInputOutput::writeToSocket" << std::endl;
+    strcpy(sBuffer, a_data.c_str());
+    ret = send(m_sClientSocket, sBuffer, strlen(sBuffer), 0);
+    if (ret != SOCKET_ERROR)
+    {
+        std::cout << "CSocketInputOutput::writeToSocket send: " << sBuffer << std::endl;
+    }
+    else
+    {
+        std::cout << "CSocketInputOutput::writeToSocket: " << WSAGetLastError() << std::endl;
+    }
     return 0;
 }

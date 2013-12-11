@@ -66,7 +66,6 @@ public:
     CFtpServer(int );
     ~CFtpServer();
 
-//    CThreadPool m_ThreadPool;
     CThreadPool *m_ThreadPool;
     void acceptConnection();
     void bindAndListen();
@@ -85,8 +84,6 @@ private:
     int checkRootDirectory();
     int getOptionsFromCommandLine(int , char **);
 
-    //SOCKET m_ListenSocket = INVALID_SOCKET;
-    //SOCKET m_ClientSocket = INVALID_SOCKET;
     SOCKET mp_ListenSocket = INVALID_SOCKET;
     SOCKET mp_ClientSocket = INVALID_SOCKET;
 };

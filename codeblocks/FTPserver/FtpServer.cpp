@@ -17,8 +17,6 @@ CFtpServer::CFtpServer()
     m_poolSize = 4;
     m_dbFile = "database.txt";
     m_ThreadPool = new CThreadPool(m_poolSize);
-//    this->m_ThreadPool.setPoolSize(10);
-//    m_ThreadPool = CThreadPool(10);
 }
 
 CFtpServer::CFtpServer(int a_poolSize)
@@ -29,14 +27,11 @@ CFtpServer::CFtpServer(int a_poolSize)
     m_directory = "./";
     m_poolSize = 4;
     m_dbFile = "database.txt";
-//    m_ThreadPool = new CThreadPool(a_poolSize);
-//    this->m_ThreadPool.setPoolSize(10);
-//    m_ThreadPool = CThreadPool(10);
 }
 
 CFtpServer::~CFtpServer()
 {
-//    std::cout << "CFtpServer::~CFtpServerDefault destructor of CFtpServer" << std::endl;
+
 }
 
 int CFtpServer::startServer(int argc, char *argv[])
@@ -46,9 +41,6 @@ int CFtpServer::startServer(int argc, char *argv[])
     this->getOptionsFromCommandLine(argc, argv);
 
     // thread pool
-//    std::cout << "CFtpServer::startServer initTrheadPool status " << m_pCThreadPool->initThreadPool(m_poolSize,m_dbFile) << std::endl;
-//    if(m_pCThreadPool->initThreadPool(m_poolSize,m_dbFile) != 0)
-//    if(m_ThreadPool.initThreadPool(m_poolSize,m_dbFile) != 0)
     if(m_ThreadPool->initThreadPool(m_poolSize,m_dbFile) != 0)
     {
         std::cout << "CFtpServer::startServer m_ThreadPool.initThreadPool problem" << std::endl;
@@ -74,8 +66,6 @@ int CFtpServer::startServer(int argc, char *argv[])
 
     // socket
     mp_ListenSocket = INVALID_SOCKET;
-    //*m_ClientSocket = INVALID_SOCKET;
-
     CSocketInputOutput *po_SocketInputOutput = new CSocketInputOutput;
     mp_ListenSocket=po_SocketInputOutput->openSocket(m_host, m_port);
     if(mp_ListenSocket == 1)
@@ -159,13 +149,10 @@ void CFtpServer::acceptConnection()
     if (mp_ClientSocket == INVALID_SOCKET)
     {
         std::cout << "CFtpServer::acceptConnection accept() failed: " << WSAGetLastError() << std::endl;
-        //break;
     }
     else
     {
         std::cout << "CFtpServer::acceptConnection Accepted client: " << inet_ntoa(client.sin_addr) << ":" << ntohs(client.sin_port) << std::endl;
-//        if(m_pCThreadPool->addTaskToQueue(mp_ClientSocket) != 0)
-//        if(m_ThreadPool.addTaskToQueue(mp_ClientSocket) != 0)
         if(m_ThreadPool->addTaskToQueue(mp_ClientSocket) != 0)
         {
             std::cout << "CFtpServer::acceptConnection->addTaskToQueue problem." << std::endl;
@@ -174,10 +161,7 @@ void CFtpServer::acceptConnection()
         else
         {
             m_ThreadPool->findFreeThread();
-//            m_ThreadPool.findFreeThread();
         }
-//        std::cout << "CFtpServer::acceptConnection->addTaskToQueue status: " << m_pCThreadPool->addTaskToQueue(mp_ClientSocket) << std::endl;
-//        m_pCThreadPool->findFreeThread();
     }
 }
 
