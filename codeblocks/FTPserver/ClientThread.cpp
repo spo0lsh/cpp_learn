@@ -26,15 +26,7 @@ unsigned int __stdcall CClientThread::mainThread( void* a_pvThis)
 
         /// IN LOOP?
         // read
-//        while(pThis->ReadFromSocket() > 0)
-//        {
-//            // parse
-//            std::cout << "CClientThread::mainThread: while(pThis->ReadFromSocket() login status: " << pThis->oExecuteCommand.getLoginStatus() << std::endl;
-//            pThis->oExecuteCommand.parseData(pThis->sBuffer);
-//            Sleep(2000); // for debug
-//        }
-//        std::cout << "CClientThread::mainThread.ReadFromSocketNG" << pThis->ReadFromSocketNG() << std::endl;
-        while(pThis->ReadFromSocketNG() > 0)
+        while(pThis->ReadFromSocket() > 0)
         {
             std::cout << "CClientThread::mainThread: while(pThis->ReadFromSocket() login status: " << pThis->oExecuteCommand.getLoginStatus() << std::endl;
             pThis->oExecuteCommand.parseData(pThis->sBuffer);
@@ -52,58 +44,14 @@ unsigned int __stdcall CClientThread::mainThread( void* a_pvThis)
 	return 0;
 }
 
-int CClientThread::ReadFromSocketNG()
+int CClientThread::ReadFromSocket()
 {
     int ret=0;
-    //this->oExecuteCommand.m_opCSocketInputOutput->mp_ListenSocket=m_sClientSocket;
     ret=this->oExecuteCommand.m_opCSocketInputOutput->readFromSocket(m_sClientSocket);
-//    this->sBuffer=this->oExecuteCommand.m_opCSocketInputOutput->sBuffer;
     strcpy(this->sBuffer,this->oExecuteCommand.m_opCSocketInputOutput->sBuffer);
     std::cout << "CClientThread::ReadFromSocketNG: " << this->sBuffer << std::endl;
     return ret;
 }
-
-int CClientThread::ReadFromSocket()
-{
-    int ret=0;
-    int timeout = 10000; //in milliseconds. this is 10 seconds
-    std::cout << "CClientThread::ReadFromSocketTest timeout: " << timeout / 1000 << std::endl;
-    memset(sBuffer, 0, sizeof(sBuffer));
-    setsockopt(m_sClientSocket,SOL_SOCKET,SO_RCVTIMEO,(char *)&timeout,sizeof(int)); //setting the receive timeout
-    ret = recv(m_sClientSocket, sBuffer, 2048, 0);
-    if (ret == SOCKET_ERROR)
-    {
-        std::cout << "CClientThread::ReadFromSocket.recv() failed: " << WSAGetLastError() << std::endl;
-    }
-    else
-    {
-        std::cout << "CClientThread::ReadFromSocket ret: " << ret << std::endl;
-        sBuffer[ret] = '\0';
-    }
-
-    return ret;
-}
-
-//void CClientThread::ReadFromSocket()
-//{
-//    std::cout << "CClientThread::ReadFromSocket()" << std::endl;
-//    int ret;
-////    char szBuffer[2048];
-//    ret = recv(m_sClientSocket, sBuffer, 2048, 0);
-//    if (ret == SOCKET_ERROR)
-//    {
-////        printf("CClientThread::ReadFromSocket.recv() failed: %d\n", WSAGetLastError());
-//        std::cout << "CClientThread::ReadFromSocket.recv() failed: " << WSAGetLastError() << std::endl;
-//    }
-//    else
-//    {
-//        sBuffer[ret] = '\0';
-//        std::cout << "CClientThread::ReadFromSocket.recv() bytes: " << ret << std::endl;
-//    }
-////    sBuffer[ret] = '\0';
-////    printf("CClientThread::ReadFromSocket [%d bytes]: '%s'\n", ret, sBuffer);
-////    closesocket(m_sClientSocket);
-//}
 
 void CClientThread::closeSocket()
 {

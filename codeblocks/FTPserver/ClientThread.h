@@ -29,8 +29,6 @@ public:
     void goSleep();
 
     int ReadFromSocket();
-    int ReadFromSocketNG();
-//    int ReadFromSocketTest();
     void closeSocket();
 
     CExecuteCommand oExecuteCommand;
