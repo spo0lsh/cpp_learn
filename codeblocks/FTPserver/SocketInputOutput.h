@@ -17,10 +17,10 @@ public:
     int writeToSocket(std::string );
 
     std::string m_data;
-    SOCKET m_sClientSocket = INVALID_SOCKET;
+    SOCKET m_sClientSocket; //= INVALID_SOCKET;
     int ret; // ?!
     char sBuffer[2048];
-    SOCKET mp_ListenSocket = INVALID_SOCKET;
+    SOCKET mp_ListenSocket; //= INVALID_SOCKET;
 private:
     int m_mode;
 };

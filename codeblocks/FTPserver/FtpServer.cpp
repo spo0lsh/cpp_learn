@@ -10,6 +10,8 @@ using namespace std;
  */
 CFtpServer::CFtpServer()
 {
+    mp_ListenSocket = INVALID_SOCKET;
+    mp_ClientSocket = INVALID_SOCKET;
     // default settings
     m_host = (char*)"0.0.0.0";
     m_port = 5150;
@@ -21,6 +23,8 @@ CFtpServer::CFtpServer()
 
 CFtpServer::CFtpServer(int a_poolSize)
 {
+    mp_ListenSocket = INVALID_SOCKET;
+    mp_ClientSocket = INVALID_SOCKET;
     // default settings
     m_host = (char*)"0.0.0.0";
     m_port = 5150;

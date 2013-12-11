@@ -2,7 +2,8 @@
 
 CSocketInputOutput::CSocketInputOutput()
 {
-
+    m_sClientSocket = INVALID_SOCKET;
+    mp_ListenSocket = INVALID_SOCKET;
 }
 
 CSocketInputOutput::~CSocketInputOutput()
@@ -26,7 +27,7 @@ SOCKET CSocketInputOutput::openSocket(char* a_host, int a_port)
     }
 
     this->mp_ListenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
-    if (this->mp_ListenSocket == SOCKET_ERROR)
+    if (this->mp_ListenSocket == (unsigned int)SOCKET_ERROR) //(unsigned int)
     {
         //printf("socket() failed: %d\n", WSAGetLastError());
         std::cout << "CSocketInputOutput::openSocket socket() failed: " << WSAGetLastError() << std::endl;

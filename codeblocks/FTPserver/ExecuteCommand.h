@@ -22,8 +22,8 @@ public:
 
     std::vector <std::vector<std::string> > *mp_DB;
 
-    CFileInputOutput *m_opFileInputOutput = new CFileInputOutput;
-    CSocketInputOutput *m_opCSocketInputOutput = new CSocketInputOutput;
+    CFileInputOutput *m_opFileInputOutput; //= new CFileInputOutput;
+    CSocketInputOutput *m_opCSocketInputOutput; //= new CSocketInputOutput;
 
 private:
     int getFileFromServer(std::string );      // RETR filename

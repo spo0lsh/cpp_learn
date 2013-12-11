@@ -84,8 +84,8 @@ private:
     int checkRootDirectory();
     int getOptionsFromCommandLine(int , char **);
 
-    SOCKET mp_ListenSocket = INVALID_SOCKET;
-    SOCKET mp_ClientSocket = INVALID_SOCKET;
+    SOCKET mp_ListenSocket; //= INVALID_SOCKET;
+    SOCKET mp_ClientSocket; //= INVALID_SOCKET;
 };
 
 #endif // FTPSERVER_H_INCLUDED

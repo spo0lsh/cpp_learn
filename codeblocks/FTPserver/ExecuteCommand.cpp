@@ -2,7 +2,8 @@
 
 CExecuteCommand::CExecuteCommand()
 {
-
+    m_opFileInputOutput = new CFileInputOutput;
+    m_opCSocketInputOutput = new CSocketInputOutput;
 }
 
 CExecuteCommand::~CExecuteCommand()
