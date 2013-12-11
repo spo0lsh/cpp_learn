@@ -16,6 +16,20 @@ CFtpServer::CFtpServer()
     m_directory = "./";
     m_poolSize = 4;
     m_dbFile = "database.txt";
+    m_ThreadPool = new CThreadPool(m_poolSize);
+//    this->m_ThreadPool.setPoolSize(10);
+//    m_ThreadPool = CThreadPool(10);
+}
+
+CFtpServer::CFtpServer(int a_poolSize)
+{
+    // default settings
+    m_host = (char*)"0.0.0.0";
+    m_port = 5150;
+    m_directory = "./";
+    m_poolSize = 4;
+    m_dbFile = "database.txt";
+//    m_ThreadPool = new CThreadPool(a_poolSize);
 //    this->m_ThreadPool.setPoolSize(10);
 //    m_ThreadPool = CThreadPool(10);
 }
@@ -34,7 +48,8 @@ int CFtpServer::startServer(int argc, char *argv[])
     // thread pool
 //    std::cout << "CFtpServer::startServer initTrheadPool status " << m_pCThreadPool->initThreadPool(m_poolSize,m_dbFile) << std::endl;
 //    if(m_pCThreadPool->initThreadPool(m_poolSize,m_dbFile) != 0)
-    if(m_ThreadPool.initThreadPool(m_poolSize,m_dbFile) != 0)
+//    if(m_ThreadPool.initThreadPool(m_poolSize,m_dbFile) != 0)
+    if(m_ThreadPool->initThreadPool(m_poolSize,m_dbFile) != 0)
     {
         std::cout << "CFtpServer::startServer m_ThreadPool.initThreadPool problem" << std::endl;
         exit_status=1;
@@ -87,6 +102,7 @@ int CFtpServer::getOptionsFromCommandLine(int argc, char *argv[])
             m_directory = argv[3];
             m_poolSize = atoi(argv[4]);
             m_dbFile = argv[5];
+            m_ThreadPool = new CThreadPool(m_poolSize);
         }
         catch(...) {
             //cout << "Error: " << e.what() << endl;
@@ -97,6 +113,7 @@ int CFtpServer::getOptionsFromCommandLine(int argc, char *argv[])
     {
         std::cout << "CFtpServer::getOptionsFromCommandLine FtpServer using default settings!" << std::endl;
         std::cout << "CFtpServer::getOptionsFromCommandLine Example: " << argv[0] << " 0.0.0.0 6667 c:\\temp 10 c:\\temp\\database.txt" << std::endl;
+        m_ThreadPool = new CThreadPool;
     }
     return 0;
 }
@@ -148,15 +165,16 @@ void CFtpServer::acceptConnection()
     {
         std::cout << "CFtpServer::acceptConnection Accepted client: " << inet_ntoa(client.sin_addr) << ":" << ntohs(client.sin_port) << std::endl;
 //        if(m_pCThreadPool->addTaskToQueue(mp_ClientSocket) != 0)
-        if(m_ThreadPool.addTaskToQueue(mp_ClientSocket) != 0)
+//        if(m_ThreadPool.addTaskToQueue(mp_ClientSocket) != 0)
+        if(m_ThreadPool->addTaskToQueue(mp_ClientSocket) != 0)
         {
             std::cout << "CFtpServer::acceptConnection->addTaskToQueue problem." << std::endl;
             closesocket(mp_ClientSocket); // close connection (need socket class!)
         }
         else
         {
-//            m_pCThreadPool->findFreeThread();
-            m_ThreadPool.findFreeThread();
+            m_ThreadPool->findFreeThread();
+//            m_ThreadPool.findFreeThread();
         }
 //        std::cout << "CFtpServer::acceptConnection->addTaskToQueue status: " << m_pCThreadPool->addTaskToQueue(mp_ClientSocket) << std::endl;
 //        m_pCThreadPool->findFreeThread();

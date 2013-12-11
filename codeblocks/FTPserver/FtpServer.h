@@ -63,9 +63,11 @@ class CFtpServer
 {
 public:
     CFtpServer();
+    CFtpServer(int );
     ~CFtpServer();
 
-    CThreadPool m_ThreadPool;
+//    CThreadPool m_ThreadPool;
+    CThreadPool *m_ThreadPool;
     void acceptConnection();
     void bindAndListen();
     int startServer(int argc, char *argv[]);
