@@ -25,15 +25,12 @@ unsigned int __stdcall CClientThread::mainThread( void* a_pvThis)
 
         /// IN LOOP?
         // read
-//        pThis->ReadFromSocket();
         while(pThis->ReadFromSocket() > 0)
         {
             // parse
-//            std::cout << "parse before" << std::endl;
             std::cout << "login status: " << pThis->oExecuteCommand.getLoginStatus() << std::endl;
             pThis->oExecuteCommand.parseData(pThis->sBuffer);
 //            Sleep(2000); // for debug
-//            std::cout << "parse after" << std::endl;
         }
         /// END LOOP?
         // close socket
