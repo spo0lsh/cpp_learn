@@ -21,9 +21,9 @@ public:
     HANDLE getHandle();
     void setThreadState(int );
     int getThreadState();
-    void writeDB(std::vector <std::vector<std::string> > *);
     void getTaskFromQueue(SOCKET );
     void debugSocket();
+    void wakeUpThread(std::vector <SOCKET>* );
     void goSleep();
 
 //    void debugPrint(std::vector <std::vector<std::string> > *);
@@ -37,7 +37,7 @@ private:
 	int m_iThreadState;
 
 	std::vector <std::vector<std::string> > *mp_DB;
-	SOCKET m_sClientSocket;
+//	SOCKET m_sClientSocket;
 };
 
 #endif // CLIENTTHREAD_H_INCLUDED

@@ -6,6 +6,7 @@
 #include <string>
 #include "FileInputOutput.h"
 #include "SocketInputOutput.h"
+#include "DatabaseOperations.h"
 
 class CExecuteCommand
 {
@@ -18,6 +19,8 @@ public:
     void setLoginStatus(int);
     int getLoginStatus();
     SOCKET m_sClientSocket;
+
+    std::vector <std::vector<std::string> > *mp_DB;
 
     CFileInputOutput *m_opFileInputOutput = new CFileInputOutput;
     CSocketInputOutput *m_opCSocketInputOutput = new CSocketInputOutput;

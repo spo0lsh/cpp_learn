@@ -21,19 +21,21 @@ unsigned int __stdcall CClientThread::mainThread( void* a_pvThis)
         //get task from queue
         pThis->getTaskFromQueue();
         pThis->oExecuteCommand.setLoginStatus(1);
-        pThis->oExecuteCommand.m_sClientSocket = pThis->m_sClientSocket;;
+        pThis->oExecuteCommand.m_sClientSocket = pThis->m_sClientSocket;
+        pThis->oExecuteCommand.mp_DB = pThis->mp_DB;
 
         /// IN LOOP?
         // read
         while(pThis->ReadFromSocket() > 0)
         {
             // parse
-            std::cout << "login status: " << pThis->oExecuteCommand.getLoginStatus() << std::endl;
+            std::cout << "CClientThread::mainThread: while(pThis->ReadFromSocket() login status: " << pThis->oExecuteCommand.getLoginStatus() << std::endl;
             pThis->oExecuteCommand.parseData(pThis->sBuffer);
-//            Sleep(2000); // for debug
+            Sleep(2000); // for debug
         }
         /// END LOOP?
         // close socket
+        std::cout << "CClientThread::mainThread: after while(pThis->ReadFromSocket() > 0)" << std::endl;
         pThis->oExecuteCommand.setLoginStatus(1);
         pThis->closeSocket();
 
@@ -133,6 +135,9 @@ void CClientThread::wakeUpThread(std::vector <SOCKET>* a_Queue, std::vector <std
     std::cout << "CClientThread::wakeUp " << this->getThreadID() << std::endl;
     this->mp_Queue = a_Queue;
     this->mp_DB = mp_DB;
+//    CDatabaseOperations *opDatabaseOperations = new CDatabaseOperations;
+//    opDatabaseOperations->debugPrint(mp_DB);
+//    delete opDatabaseOperations;
     ResumeThread(this->getHandle());
 }
 

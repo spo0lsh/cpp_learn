@@ -16,7 +16,8 @@ CFtpServer::CFtpServer()
     m_directory = "./";
     m_poolSize = 4;
     m_dbFile = "database.txt";
-//    m_ThreadPool = CThreadPool(m_poolSize);
+//    this->m_ThreadPool.setPoolSize(10);
+//    m_ThreadPool = CThreadPool(10);
 }
 
 CFtpServer::~CFtpServer()

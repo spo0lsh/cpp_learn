@@ -72,8 +72,21 @@ void CExecuteCommand::executeCommand(std::string command, std::string parameter)
             else
             {
                 std::cout << "CExecuteCommand::executeCommand need execute loginToServer" << std::endl;
-                this->setLoginStatus(0);
-                this->m_opCSocketInputOutput->writeToSocket("OK");
+//                this->setLoginStatus(0);
+//                std::cout << "CExecuteCommand::executeCommand.loginToServer() status: " << this->loginToServer(this->login, this->password) << std::endl;
+                if(this->loginToServer(this->login, this->password) != 0)
+                {
+                    std::cout << "CExecuteCommand::executeCommand.loginToServer fail" << std::endl;
+                    this->m_opCSocketInputOutput->writeToSocket("KO");
+                    this->setLoginStatus(1);
+                }
+                else
+                {
+                    std::cout << "CExecuteCommand::executeCommand.loginToServer OK." << std::endl;
+                    this->m_opCSocketInputOutput->writeToSocket("OK");
+                    this->setLoginStatus(0);
+                }
+//                this->m_opCSocketInputOutput->writeToSocket("OK");
             }
         }
         else
@@ -156,9 +169,14 @@ int CExecuteCommand::deleteFileOnServer(std::string filename)
 
 int CExecuteCommand::loginToServer(std::string login, std::string password)
 {
+    int exit_status=0;
     std::cout << "CExecuteCommand::loginToServer" << std::endl;
-    this->m_opCSocketInputOutput->writeToSocket("KO");
-    return 0;
+    CDatabaseOperations *opDatabaseOperations = new CDatabaseOperations;
+    opDatabaseOperations->mp_DB=this->mp_DB;
+    exit_status = opDatabaseOperations->compareLoginAndPassword(login, password);
+    delete opDatabaseOperations;
+    std::cout << "CExecuteCommand::loginToServer exit_status: " << exit_status << std::endl;
+    return exit_status;
 }
 
 int CExecuteCommand::logoutFromServer()

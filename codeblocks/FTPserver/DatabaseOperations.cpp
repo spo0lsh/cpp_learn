@@ -102,3 +102,24 @@ void CDatabaseOperations::parseData(std::string a_data)
     std::cout << "CDatabaseOperations::parseData: " << login << " " << password << std::endl;
     this->addUserToDatabase(login,password);
 }
+
+int CDatabaseOperations::compareLoginAndPassword(std::string login, std::string password)
+{
+    int exit_status=0;
+    for(unsigned int i=0; i<(*mp_DB).size(); ++i)
+    {
+        std::cout << "CDatabaseOperations::compareLoginAndPassword User " << (*mp_DB)[i][0] << "=" << login << " password " << (*mp_DB)[i][1] << "=" << password;
+        if((*mp_DB)[i][0].compare(login) == 0 && (*mp_DB)[i][1].compare(password) == 0)
+        {
+            std::cout << " OK. Grant access." << std::endl;
+            exit_status=0;
+            break;
+        }
+        else
+        {
+            std::cout << " fail." << std::endl;
+            exit_status=1;
+        }
+    }
+    return exit_status;
+}

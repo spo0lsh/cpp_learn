@@ -59,7 +59,7 @@ int CSocketInputOutput::writeToSocket(std::string a_data)
 //            this->login = parameter;
 //            int ret;
 //            char szBuffer[2048];
-            strcpy(sBuffer, "OK");
+            strcpy(sBuffer, a_data.c_str());
             ret = send(m_sClientSocket, sBuffer, strlen(sBuffer), 0);
             if (ret != SOCKET_ERROR)
             {
