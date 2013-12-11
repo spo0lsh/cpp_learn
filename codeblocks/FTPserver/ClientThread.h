@@ -44,6 +44,8 @@ private:
 	std::vector <std::vector<std::string> > *mp_DB;
 	std::vector <SOCKET> *mp_Queue;
 
+	static HANDLE m_QueueMutex;
+
 //	SOCKET m_sClientSocket;
 };
 

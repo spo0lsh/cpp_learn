@@ -1,8 +1,13 @@
 #include "ClientThread.h"
 
+HANDLE CClientThread::m_QueueMutex = NULL;
+
 CClientThread::CClientThread()
 {
-
+//	if ( NULL == this->m_QueueMutex)
+//	{
+//		this->m_QueueMutex = CreateMutex( NULL, FALSE, NULL);
+//	}
 }
 
 CClientThread::~CClientThread()
@@ -19,7 +24,10 @@ unsigned int __stdcall CClientThread::mainThread( void* a_pvThis)
     {
         std::cout << "CClientThread::mainThread ID: " << pThis->getThreadID() << std::endl;
         //get task from queue
+        WaitForSingleObject(pThis->m_QueueMutex,INFINITE);
+        pThis->m_QueueMutex = CreateMutex( NULL, FALSE, NULL);
         pThis->getTaskFromQueue();
+        ReleaseMutex(pThis->m_QueueMutex);
         pThis->oExecuteCommand.setLoginStatus(1);
         pThis->oExecuteCommand.m_sClientSocket = pThis->m_sClientSocket;
         pThis->oExecuteCommand.mp_DB = pThis->mp_DB;
