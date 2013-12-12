@@ -71,8 +71,6 @@ void CExecuteCommand::executeCommand(std::string command, std::string parameter)
             else
             {
                 std::cout << "CExecuteCommand::executeCommand need execute loginToServer" << std::endl;
-//                this->setLoginStatus(0);
-//                std::cout << "CExecuteCommand::executeCommand.loginToServer() status: " << this->loginToServer(this->login, this->password) << std::endl;
                 if(this->loginToServer(this->login, this->password) != 0)
                 {
                     std::cout << "CExecuteCommand::executeCommand.loginToServer fail" << std::endl;
@@ -85,7 +83,6 @@ void CExecuteCommand::executeCommand(std::string command, std::string parameter)
                     this->m_opCSocketInputOutput->writeToSocket("OK");
                     this->setLoginStatus(0);
                 }
-//                this->m_opCSocketInputOutput->writeToSocket("OK");
             }
         }
         else
@@ -138,10 +135,21 @@ void CExecuteCommand::executeCommand(std::string command, std::string parameter)
     }
 }
 
-int CExecuteCommand::getFileFromServer(std::string filename)
+int CExecuteCommand::getFileFromServer(std::string a_filename)
 {
     std::cout << "CExecuteCommand::getFileFromServer" << std::endl;
-    this->m_opCSocketInputOutput->writeToSocket("KO");
+    //this->m_opCSocketInputOutput->writeToSocket("KO");
+    if(m_opFileInputOutput->openFileNG(&a_filename[0], 0) != 0)
+    {
+        this->m_opCSocketInputOutput->writeToSocket("KO");
+    }
+    else
+    {
+        this->m_opCSocketInputOutput->writeToSocket("OK");
+        //read from file write to socket procedure
+        //end
+        this->m_opFileInputOutput->closeFileNG();
+    }
     return 0;
 }
 
@@ -161,8 +169,17 @@ int CExecuteCommand::showFilesOnServer()
 
 int CExecuteCommand::deleteFileOnServer(std::string filename)
 {
-    std::cout << "CExecuteCommand::deleteFileOnServer" << std::endl;
-    this->m_opCSocketInputOutput->writeToSocket("KO");
+    std::cout << "CExecuteCommand::deleteFileOnServer ";
+    if(std::remove(filename.c_str()) != 0)
+    {
+        std::cerr << "Error during the deletion: " << std::endl;
+        this->m_opCSocketInputOutput->writeToSocket("KO");
+    }
+    else
+    {
+        std::cout << "File was successfully deleted" << std::endl;
+        this->m_opCSocketInputOutput->writeToSocket("OK");
+    }
     return 0;
 }
 
@@ -189,14 +206,13 @@ int CExecuteCommand::checkFileSize(std::string a_filename)
 {
     int exit_status=0;
     char *filename = &a_filename[0]; //cast
-
-    int ret;
     char szBuffer[2048];
 
     std::cout << "CExecuteCommand::checkFileSize: " << a_filename << std::endl;
     if(m_opFileInputOutput->openFile(filename,0) != 0)
     {
         std::cout << "CExecuteCommand::checkFileSize Problem with open file: " << a_filename << std::endl;
+        this->m_opCSocketInputOutput->writeToSocket("KO");
         exit_status=1;
     }
     else
@@ -205,20 +221,12 @@ int CExecuteCommand::checkFileSize(std::string a_filename)
         if(fileSize != -1)
         {
             std::cout << "CExecuteCommand::checkFileSize size: " << fileSize << std::endl;
-            itoa (fileSize, szBuffer,10);
-            ret = send(m_sClientSocket, szBuffer, strlen(szBuffer), 0);
-            if (ret != SOCKET_ERROR)
-            {
-                //send
-            }
-            else
-            {
-                std::cout << "CExecuteCommand::checkFileSize fail: " << WSAGetLastError() << std::endl;
-            }
+            this->m_opCSocketInputOutput->writeToSocket(itoa (fileSize, szBuffer,10));
         }
         else
         {
             std::cout << "CExecuteCommand::checkFileSize get file size fail! " << std::endl;
+            this->m_opCSocketInputOutput->writeToSocket("KO");
         }
         m_opFileInputOutput->closeFile();
     }
