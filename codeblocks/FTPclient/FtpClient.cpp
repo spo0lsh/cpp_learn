@@ -23,7 +23,7 @@ int CFtpClient::checkRequireOptions(int argc, char *argv[])
         {
             if(argv[i+1] != 0)
             {
-                std::cout << "login: " << argv[i+1] << std::endl;
+                std::cout << "CFtpClient::checkRequireOptions login: " << argv[i+1] << std::endl;
                 needed=needed+4;
             }
         }
@@ -31,7 +31,7 @@ int CFtpClient::checkRequireOptions(int argc, char *argv[])
         {
             if(argv[i+1] != 0)
             {
-                std::cout << "pass: " << argv[i+1] << std::endl;
+                std::cout << "CFtpClient::checkRequireOptions pass: " << argv[i+1] << std::endl;
                 needed=needed+2;
             }
         }
@@ -39,7 +39,7 @@ int CFtpClient::checkRequireOptions(int argc, char *argv[])
         {
             if(argv[i+1] != 0)
             {
-                std::cout << "host: " << argv[i+1] << std::endl;
+                std::cout << "CFtpClient::checkRequireOptions host: " << argv[i+1] << std::endl;
                 needed=needed+1;
             }
         }

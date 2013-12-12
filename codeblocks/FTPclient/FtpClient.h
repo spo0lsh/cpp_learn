@@ -10,7 +10,6 @@ class CFtpClient
 public:
     CFtpClient();
     ~CFtpClient();
-    int isLogged;
     int checkRequireOptions(int , char **);
     int parsingOptionsForCommand(int , char **);
     int executeCommand(std::string, std::string );

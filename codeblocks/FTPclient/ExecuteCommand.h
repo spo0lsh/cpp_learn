@@ -22,7 +22,7 @@ public:
     void setPassword(char *);
     void setHost(char *);
     void setPort(int);
-    void setLoginStatus();
+    void setLoginStatus(int);
     int getLoginStatus();
 protected:
 
@@ -31,6 +31,7 @@ private:
     std::string password;
     std::string host;
     int port;
+    int loginStatus;
     CSocketInputOutput oSocketInputOutput;
     CFileInputOutput oFileInputOutput;
 };

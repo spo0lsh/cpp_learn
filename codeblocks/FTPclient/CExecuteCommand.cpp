@@ -2,7 +2,8 @@
 
 CExecuteCommand::CExecuteCommand()
 {
-
+    this->setLoginStatus(1);
+    this->setPort(5150);
 }
 
 CExecuteCommand::~CExecuteCommand()
@@ -32,7 +33,14 @@ void CExecuteCommand::getFileFromServer(char *a_filename)
 
 void CExecuteCommand::getFileSizeFromServer(char *a_filename)
 {
-    std::cout << "CExecuteCommand::getFileSizeFromServer: " << std::endl;
+    if(this->getLoginStatus() != 0)
+    {
+        std::cout << "CExecuteCommand::getFileSizeFromServer: not logged" << std::endl;
+    }
+    else
+    {
+        std::cout << "CExecuteCommand::getFileSizeFromServer: " << std::endl;
+    }
 }
 
 void CExecuteCommand::setLogin(char *a_login)
@@ -59,14 +67,14 @@ void CExecuteCommand::setPort(int a_port)
     std::cout << "CExecuteCommand::setPort: " << this->port << std::endl;
 }
 
-void CExecuteCommand::setLoginStatus()
+void CExecuteCommand::setLoginStatus(int a_status)
 {
-    std::cout << "CExecuteCommand::setLoginStatus" << std::endl;
+    this->loginStatus=a_status;
+    std::cout << "CExecuteCommand::setLoginStatus: " << this->loginStatus << std::endl;
 }
 
 int CExecuteCommand::getLoginStatus()
 {
-    int exit_status=0;
-    std::cout << "CExecuteCommand::getLoginStatus" << std::endl;
-    return exit_status;
+    std::cout << "CExecuteCommand::getLoginStatus: " << this->loginStatus << std::endl;
+    return this->loginStatus;;
 }
