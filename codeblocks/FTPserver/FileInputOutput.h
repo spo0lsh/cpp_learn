@@ -16,10 +16,12 @@ public:
     int closeFile();
     int closeFileNG();
     std::string readLineFromFile();
+    void readFile(int );
     int writeToFile(std::string );
     int checkFileSize();
 
     std::string m_data;
+    char *m_pData;
 private:
     int m_mode;
     std::fstream m_file;

@@ -65,7 +65,7 @@ int CSocketInputOutput::readFromSocket(SOCKET a_sClientSocket)
     else
     {
         std::cout << "CClientThread::ReadFromSocket ret: " << ret << std::endl;
-        sBuffer[ret] = '\0';
+        sBuffer[ret] = '\0'; //problem with binary
     }
     return ret;
 }
@@ -86,7 +86,7 @@ int CSocketInputOutput::readFromSocket()
     else
     {
         std::cout << "CClientThread::ReadFromSocket ret: " << ret << std::endl;
-        sBuffer[ret] = '\0';
+        sBuffer[ret] = '\0'; //problem with binary
     }
     return ret;
 }

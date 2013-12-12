@@ -137,18 +137,29 @@ void CExecuteCommand::executeCommand(std::string command, std::string parameter)
 
 int CExecuteCommand::getFileFromServer(std::string a_filename)
 {
+//    int fileSize;
     std::cout << "CExecuteCommand::getFileFromServer" << std::endl;
-    //this->m_opCSocketInputOutput->writeToSocket("KO");
-    if(m_opFileInputOutput->openFileNG(&a_filename[0], 0) != 0)
-    {
-        this->m_opCSocketInputOutput->writeToSocket("KO");
-    }
-    else
-    {
-        this->m_opCSocketInputOutput->writeToSocket("OK");
-        //read from file write to socket procedure
-        //end
-        this->m_opFileInputOutput->closeFileNG();
+//    fileSize=this->checkFileSize(a_filename);
+//    std::cout << "CExecuteCommand::getFileFromServer file size: " << fileSize << std::endl;
+//    //this->m_opCSocketInputOutput->writeToSocket("KO");
+//    if(m_opFileInputOutput->openFileNG(&a_filename[0], 0) != 0)
+//    {
+//        this->m_opCSocketInputOutput->writeToSocket("KO");
+//    }
+//    else
+//    {
+//        this->m_opCSocketInputOutput->writeToSocket("OK");
+//        //read from file write to socket procedure
+//        if(fileSize < 2048)
+//        {
+//            std::cout << "CExecuteCommand::getFileFromServer one block" << std::endl;
+//        }
+//        else
+//        {
+//            std::cout << "CExecuteCommand::getFileFromServer more then one block" << std::endl;
+//        }
+//        //end
+//        this->m_opFileInputOutput->closeFileNG();
     }
     return 0;
 }
