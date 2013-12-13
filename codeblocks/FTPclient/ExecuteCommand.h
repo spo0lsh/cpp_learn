@@ -14,9 +14,9 @@ public:
     ~CExecuteCommand();
 
     void showFilesOnServer();
-    void deleteFileOnServer(char *);
-    void putFileToServer(char *);
-    void getFileFromServer(char *);
+    void deleteFileOnServer(std::string);
+    void putFileToServer(std::string);
+    void getFileFromServer(std::string);
     void getFileSizeFromServer(std::string);
     void setLogin(char *);
     void setPassword(char *);

@@ -13,22 +13,75 @@ CExecuteCommand::~CExecuteCommand()
 
 void CExecuteCommand::showFilesOnServer()
 {
-    std::cout << "CExecuteCommand::showFilesOnServer" << std::endl;
+//    std::cout << "CExecuteCommand::showFilesOnServer" << std::endl;
+    if(this->getLoginStatus() != 0)
+    {
+        std::cout << "CExecuteCommand::showFilesOnServer: not logged" << std::endl;
+    }
+    else
+    {
+        std::cout << "CExecuteCommand::showFilesOnServer" << std::endl;
+        oSocketInputOutput.writeToSocket("LIST");
+        if(oSocketInputOutput.readFromSocket() > 0)
+        {
+            std::cout << "CExecuteCommand::showFilesOnServer.readFromSocket() RETR: " << oSocketInputOutput.sBuffer << std::endl;
+        }
+    }
 }
 
-void CExecuteCommand::deleteFileOnServer(char *a_filename)
+void CExecuteCommand::deleteFileOnServer(std::string a_filename)
 {
-    std::cout << "CExecuteCommand::deleteFileOnServer: " << std::endl;
+//    std::cout << "CExecuteCommand::deleteFileOnServer: " << std::endl;
+    if(this->getLoginStatus() != 0)
+    {
+        std::cout << "CExecuteCommand::deleteFileOnServer: not logged" << std::endl;
+    }
+    else
+    {
+        std::cout << "CExecuteCommand::deleteFileOnServer: " << a_filename << std::endl;
+        oSocketInputOutput.writeToSocket("DELE " + a_filename);
+        if(oSocketInputOutput.readFromSocket() > 0)
+        {
+            std::cout << "CExecuteCommand::deleteFileOnServer.readFromSocket() RETR: " << oSocketInputOutput.sBuffer << std::endl;
+        }
+    }
 }
 
-void CExecuteCommand::putFileToServer(char *a_filename)
+
+void CExecuteCommand::putFileToServer(std::string a_filename)
 {
-    std::cout << "CExecuteCommand::putFileToServer: " << std::endl;
+//    std::cout << "CExecuteCommand::putFileToServer: " << std::endl;
+    if(this->getLoginStatus() != 0)
+    {
+        std::cout << "CExecuteCommand::putFileToServer: not logged" << std::endl;
+    }
+    else
+    {
+        std::cout << "CExecuteCommand::putFileToServer: " << a_filename << std::endl;
+        oSocketInputOutput.writeToSocket("STOR " + a_filename);
+        if(oSocketInputOutput.readFromSocket() > 0)
+        {
+            std::cout << "CExecuteCommand::putFileToServer.readFromSocket() RETR: " << oSocketInputOutput.sBuffer << std::endl;
+        }
+    }
 }
 
-void CExecuteCommand::getFileFromServer(char *a_filename)
+void CExecuteCommand::getFileFromServer(std::string a_filename)
 {
-    std::cout << "CExecuteCommand::getFileFromServer: " << std::endl;
+//    std::cout << "CExecuteCommand::getFileFromServer: " << std::endl;
+    if(this->getLoginStatus() != 0)
+    {
+        std::cout << "CExecuteCommand::getFileFromServer: not logged" << std::endl;
+    }
+    else
+    {
+        std::cout << "CExecuteCommand::getFileFromServer: " << a_filename << std::endl;
+        oSocketInputOutput.writeToSocket("RETR " + a_filename);
+        if(oSocketInputOutput.readFromSocket() > 0)
+        {
+            std::cout << "CExecuteCommand::getFileFromServer.readFromSocket() RETR: " << oSocketInputOutput.sBuffer << std::endl;
+        }
+    }
 }
 
 void CExecuteCommand::getFileSizeFromServer(std::string a_filename)
@@ -43,15 +96,15 @@ void CExecuteCommand::getFileSizeFromServer(std::string a_filename)
         oSocketInputOutput.writeToSocket("SIZE " + a_filename);
         if(oSocketInputOutput.readFromSocket() > 0)
         {
-            std::cout << "CExecuteCommand::connectToServer.readFromSocket(): " << oSocketInputOutput.sBuffer << std::endl;
-//            if(strcmp("OK",oSocketInputOutput.sBuffer) != 0)
-//            {
-//                exit_status=1;
-//            }
-//            else
-//            {
-//
-//            }
+            std::cout << "CExecuteCommand::getFileSizeFromServer.readFromSocket() SIZE: " << oSocketInputOutput.sBuffer << std::endl;
+            if(strcmp(oSocketInputOutput.sBuffer, "KO") != 0)
+            {
+                std::cout << "Size of: " << a_filename << " is " << oSocketInputOutput.sBuffer << " bytes." << std::endl;
+            }
+            else
+            {
+                std::cout << "Size of: " << a_filename << " fail. " << std::endl;
+            }
         }
     }
 }
