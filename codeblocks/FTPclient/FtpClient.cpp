@@ -218,35 +218,41 @@ int CFtpClient::executeCommand(std::string a_command, std::string a_param)
     }
     else
     {
-        oExecuteCommand.connectToServer();
-        if(a_command == "dir")
+        if(oExecuteCommand.getLoginStatus() != 0)
         {
-            std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
-            oExecuteCommand.showFilesOnServer();
-        }
-        else if(a_command == "del")
-        {
-            std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
-            oExecuteCommand.deleteFileOnServer(&a_param[0]);
-        }
-        else if(a_command == "put")
-        {
-            std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
-            oExecuteCommand.putFileToServer(&a_param[0]);
-        }
-        else if(a_command == "size")
-        {
-            std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
-            oExecuteCommand.getFileSizeFromServer(&a_param[0]);
-        }
-        else if(a_command == "get")
-        {
-            std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
-            oExecuteCommand.getFileFromServer(&a_param[0]);
+            oExecuteCommand.connectToServer();
         }
         else
         {
-            std::cout << "CFtpClient::executeCommand unknow command: " << a_command << std::endl;
+            if(a_command == "dir")
+            {
+                std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
+                oExecuteCommand.showFilesOnServer();
+            }
+            else if(a_command == "del")
+            {
+                std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
+                oExecuteCommand.deleteFileOnServer(&a_param[0]);
+            }
+            else if(a_command == "put")
+            {
+                std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
+                oExecuteCommand.putFileToServer(&a_param[0]);
+            }
+            else if(a_command == "size")
+            {
+                std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
+                oExecuteCommand.getFileSizeFromServer(&a_param[0]);
+            }
+            else if(a_command == "get")
+            {
+                std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
+                oExecuteCommand.getFileFromServer(&a_param[0]);
+            }
+            else
+            {
+                std::cout << "CFtpClient::executeCommand unknow command: " << a_command << std::endl;
+            }
         }
     }
     return 0;
