@@ -66,6 +66,26 @@ void CExecuteCommand::putFileToServer(std::string a_filename)
     else
     {
         std::cout << "CExecuteCommand::putFileToServer: " << a_filename << std::endl;
+        if(this->oFileInputOutput.openFile(&a_filename[0], 0) != 0)
+        {
+            std::cout << "CExecuteCommand::putFileToServer->oFileInputOutput.openFile" << std::endl;
+            int size=this->oFileInputOutput.checkFileSize();
+            std::cout << "CExecuteCommand::putFileToServer->oFileInputOutput.checkFileSize(): " << size << std::endl;
+            this->oFileInputOutput.closeFile();
+        }
+        else
+        {
+            std::cout << "CExecuteCommand::putFileToServer.openFile: " << a_filename << " fail." << std::endl;
+        }
+        // if(file exist)
+        //   size=checksize(a_filename)
+        //   openfile
+        //   if(size > maxbuffor)
+        //      segmentation of file
+        //   else
+        //      data=read(file)
+        //      socketsend(data)
+        //      wait for OK
         oSocketInputOutput.writeToSocket("STOR " + a_filename);
         if(oSocketInputOutput.readFromSocket() > 0)
         {

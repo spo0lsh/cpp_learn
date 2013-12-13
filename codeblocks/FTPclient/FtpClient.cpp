@@ -220,10 +220,12 @@ int CFtpClient::executeCommand(std::string a_command, std::string a_param)
     {
         if(oExecuteCommand.getLoginStatus() != 0)
         {
+            std::cout << "CFtpClient::executeCommand.oExecuteCommand.connectToServer" << std::endl;
             oExecuteCommand.connectToServer();
         }
         else
         {
+            std::cout << "CFtpClient::executeCommand user is logged." << std::endl;
             if(a_command == "dir")
             {
                 std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
