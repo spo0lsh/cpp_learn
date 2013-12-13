@@ -51,7 +51,7 @@ void CExecuteCommand::parseData(std::string a_data)
 void CExecuteCommand::executeCommand(std::string command, std::string parameter)
 {
     this->m_opCSocketInputOutput->m_sClientSocket=m_sClientSocket; //todo: opensocket for this
-    std::cout << "CExecuteCommand::executeCommand" << std::endl;
+    std::cout << "CExecuteCommand::executeCommand try: " << command <<  " " << parameter << std::endl;
     if(this->getLoginStatus() != 0 )
     {
         if(command.compare("USER") == 0 )
@@ -87,7 +87,8 @@ void CExecuteCommand::executeCommand(std::string command, std::string parameter)
         }
         else
         {
-            std::cout << "CExecuteCommand::executeCommand fail, user not logged" << std::endl;
+            std::cout << "CExecuteCommand::executeCommand fail, user not logged and command not found" << std::endl;
+            this->m_opCSocketInputOutput->writeToSocket("KO");
             // exit status 1
         }
     }
@@ -139,6 +140,7 @@ int CExecuteCommand::getFileFromServer(std::string a_filename)
 {
 //    int fileSize;
     std::cout << "CExecuteCommand::getFileFromServer" << std::endl;
+    this->m_opCSocketInputOutput->writeToSocket("KO");
 //    fileSize=this->checkFileSize(a_filename);
 //    std::cout << "CExecuteCommand::getFileFromServer file size: " << fileSize << std::endl;
 //    //this->m_opCSocketInputOutput->writeToSocket("KO");
@@ -160,7 +162,7 @@ int CExecuteCommand::getFileFromServer(std::string a_filename)
 //        }
 //        //end
 //        this->m_opFileInputOutput->closeFileNG();
-    }
+//    }
     return 0;
 }
 
