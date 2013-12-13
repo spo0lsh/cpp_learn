@@ -30,8 +30,8 @@ private:
 //    std::string m_cHost;
 //    char m_cHost[128];
 //    unsigned int  i;
-//    struct sockaddr_in server;
-//    struct hostent *host;// = NULL;
+    struct sockaddr_in server;
+    struct hostent *host;// = NULL;
 };
 
 #endif // SOCKETINPUTOUTPUT_H_INCLUDED

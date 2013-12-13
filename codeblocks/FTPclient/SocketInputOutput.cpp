@@ -3,7 +3,7 @@
 CSocketInputOutput::CSocketInputOutput()
 {
     m_sServerSocket = INVALID_SOCKET;
-//    host = NULL;
+    host = NULL;
 }
 
 CSocketInputOutput::~CSocketInputOutput()
@@ -16,11 +16,11 @@ int CSocketInputOutput::openSocket(char* a_host, int a_port)
 //    memset(m_cHost, 0, sizeof(m_cHost)); //
 //    int   iPort     = 5150;  // Port on server to connect to
     WSADATA       wsd;
-    SOCKET        sClient;
+//    SOCKET        sClient;
 //    char          szBuffer[DEFAULT_BUFFER];
 //    int           ret, i;
-    struct sockaddr_in server;
-    struct hostent    *host = NULL;
+//    struct sockaddr_in server;
+//    struct hostent    *host = NULL;
     // Parse the command line and load Winsock
 //    ValidateArgs(argc, argv);
     if (WSAStartup(MAKEWORD(2,2), &wsd) != 0)
