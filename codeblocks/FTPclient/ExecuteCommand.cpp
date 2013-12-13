@@ -43,6 +43,14 @@ void CExecuteCommand::deleteFileOnServer(std::string a_filename)
         if(oSocketInputOutput.readFromSocket() > 0)
         {
             std::cout << "CExecuteCommand::deleteFileOnServer.readFromSocket() RETR: " << oSocketInputOutput.sBuffer << std::endl;
+            if(strcmp(oSocketInputOutput.sBuffer, "KO") != 0)
+            {
+                std::cout << "Delete file: " << a_filename << " successfull." << std::endl;
+            }
+            else
+            {
+                std::cout << "Delete file: " << a_filename << " fail." << std::endl;
+            }
         }
     }
 }
