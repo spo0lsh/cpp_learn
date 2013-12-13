@@ -24,6 +24,9 @@ public:
     void setPort(int);
     void setLoginStatus(int);
     int getLoginStatus();
+
+    int connectToServer();
+    void disconnectFromServer();
 protected:
 
 private:

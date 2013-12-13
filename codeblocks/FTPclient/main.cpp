@@ -15,8 +15,8 @@ int main(int argc, char *argv[])
     }
     else
     {
-        oFtpClient.parsingOptionsForCommand(argc, argv);
         std::cout << "main: oFtpClient.checkRequireOptions: " << exit_status << std::endl;
+        oFtpClient.parsingOptionsForCommand(argc, argv);
     }
 
     return exit_status;
@@ -345,12 +345,12 @@ int main(int argc, char *argv[])
 //    //
 //    // Create the socket, and attempt to connect to the server
 //    //
-//    sClient = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-//    if (sClient == INVALID_SOCKET)
-//    {
-//        printf("socket() failed: %d\n", WSAGetLastError());
-//        return 1;
-//    }
+////    sClient = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+////    if (sClient == INVALID_SOCKET)
+////    {
+////        printf("socket() failed: %d\n", WSAGetLastError());
+////        return 1;
+////    }
 //    server.sin_family = AF_INET;
 //    server.sin_port = htons(iPort);
 //    server.sin_addr.s_addr = inet_addr(szServer);

@@ -76,5 +76,18 @@ void CExecuteCommand::setLoginStatus(int a_status)
 int CExecuteCommand::getLoginStatus()
 {
     std::cout << "CExecuteCommand::getLoginStatus: " << this->loginStatus << std::endl;
-    return this->loginStatus;;
+    return this->loginStatus;
+}
+
+int CExecuteCommand::connectToServer()
+{
+    int exit_status=0;
+    std::cout << "CExecuteCommand::connectToServer: " << exit_status << std::endl;
+    oSocketInputOutput.openSocket(&this->host[0], this->port);
+    return exit_status;
+}
+
+void CExecuteCommand::disconnectFromServer()
+{
+    std::cout << "CExecuteCommand::disconnectFromServer: " << std::endl;
 }
