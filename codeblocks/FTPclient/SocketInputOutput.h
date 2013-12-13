@@ -26,9 +26,9 @@ public:
 //    SOCKET mp_ListenSocket; //= INVALID_SOCKET;
 private:
     int m_mode;
-    int m_iPort;
+//    int m_iPort;
 //    std::string m_cHost;
-    char m_cHost[128];
+//    char m_cHost[128];
 //    unsigned int  i;
 //    struct sockaddr_in server;
 //    struct hostent *host;// = NULL;
