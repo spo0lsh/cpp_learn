@@ -190,7 +190,7 @@ int CFtpClient::parsingOptionsForCommand(int argc, char *argv[])
         }
         i=i+found;
     }
-    oExecuteCommand.disconnectFromServer();
+//    oExecuteCommand.disconnectFromServer();
     return exit_status;
 }
 

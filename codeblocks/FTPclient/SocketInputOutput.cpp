@@ -13,27 +13,19 @@ CSocketInputOutput::~CSocketInputOutput()
 
 int CSocketInputOutput::openSocket(char* a_host, int a_port)
 {
-//    memset(m_cHost, 0, sizeof(m_cHost)); //
-//    int   iPort     = 5150;  // Port on server to connect to
-    WSADATA       wsd;
-//    SOCKET        sClient;
-//    char          szBuffer[DEFAULT_BUFFER];
-//    int           ret, i;
-//    struct sockaddr_in server;
-//    struct hostent    *host = NULL;
-    // Parse the command line and load Winsock
-//    ValidateArgs(argc, argv);
+    int exit_status=0;
+//    WSADATA       wsd;
     if (WSAStartup(MAKEWORD(2,2), &wsd) != 0)
     {
         printf("Failed to load Winsock library!\n");
-        return 1;
+        exit_status=1;
     }
 //    strcpy(szMessage, "dupa");
     m_sServerSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (m_sServerSocket == INVALID_SOCKET)
     {
         printf("socket() failed: %d\n", WSAGetLastError());
-        return 1;
+        exit_status=1;
     }
     server.sin_family = AF_INET;
     server.sin_port = htons(a_port);
@@ -46,7 +38,7 @@ int CSocketInputOutput::openSocket(char* a_host, int a_port)
         if (host == NULL)
         {
             printf("Unable to resolve server: %s\n", a_host);
-            return 1;
+            exit_status=1;
         }
         CopyMemory(&server.sin_addr, host->h_addr_list[0], host->h_length);
     }
@@ -54,12 +46,56 @@ int CSocketInputOutput::openSocket(char* a_host, int a_port)
         sizeof(server)) == SOCKET_ERROR)
     {
         printf("connect() failed: %d\n", WSAGetLastError());
-        return 1;
+        exit_status=1;
     }
 // send
 // recv
-closesocket(m_sServerSocket);
-WSACleanup();
-return 0;
-//    return exit_status;
+//closesocket(m_sServerSocket);
+//WSACleanup();
+return exit_status;
+}
+
+int CSocketInputOutput::closeSocket()
+{
+    std::cout << "CSocketInputOutput::closeSocket" << std::endl;
+    closesocket(m_sServerSocket);
+    m_sServerSocket = INVALID_SOCKET;
+    return 0;
+}
+
+int CSocketInputOutput::readFromSocket()
+{
+    std::cout << "CSocketInputOutput::readFromSocket" << std::endl;
+    int ret=0;
+    int timeout = TIMEOUT; //
+    std::cout << "CClientThread::ReadFromSocketTest timeout: " << timeout / 1000 << std::endl;
+    memset(sBuffer, 0, sizeof(sBuffer));
+    setsockopt(this->m_sServerSocket,SOL_SOCKET,SO_RCVTIMEO,(char *)&timeout,sizeof(int)); //setting the receive timeout
+    ret = recv(this->m_sServerSocket, sBuffer, 2048, 0);
+    if (ret == SOCKET_ERROR)
+    {
+        std::cout << "CClientThread::ReadFromSocket.recv() failed: " << WSAGetLastError() << std::endl;
+    }
+    else
+    {
+        std::cout << "CClientThread::ReadFromSocket ret: " << ret << std::endl;
+        sBuffer[ret] = '\0'; //problem with binary
+    }
+    return ret;
+}
+
+int CSocketInputOutput::writeToSocket(std::string a_data)
+{
+    std::cout << "CSocketInputOutput::writeToSocket try send: " << a_data << std::endl;
+    strcpy(sBuffer, a_data.c_str());
+    int ret = send(this->m_sServerSocket, sBuffer, strlen(sBuffer), 0);
+    if (ret != SOCKET_ERROR)
+    {
+        std::cout << "CSocketInputOutput::writeToSocket send: " << sBuffer << std::endl;
+    }
+    else
+    {
+        std::cout << "CSocketInputOutput::writeToSocket error: " << WSAGetLastError() << std::endl;
+    }
+    return 0;
 }

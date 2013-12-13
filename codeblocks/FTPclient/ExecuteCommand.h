@@ -17,7 +17,7 @@ public:
     void deleteFileOnServer(char *);
     void putFileToServer(char *);
     void getFileFromServer(char *);
-    void getFileSizeFromServer(char *);
+    void getFileSizeFromServer(std::string);
     void setLogin(char *);
     void setPassword(char *);
     void setHost(char *);

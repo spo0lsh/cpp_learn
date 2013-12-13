@@ -2,6 +2,7 @@
 #define SOCKETINPUTOUTPUT_H_INCLUDED
 
 #define DEFAULT_BUFFER      2048
+#define TIMEOUT             300000 // 300 seconds
 
 #include <iostream>
 #include <string>
@@ -18,20 +19,14 @@ public:
     int readFromSocket();
     int readFromSocket(SOCKET );
     int writeToSocket(std::string );
-
+    char sBuffer[2048];
     std::string m_data;
-    SOCKET m_sServerSocket; //= INVALID_SOCKET;
-//    int ret; // ?!
-//    char sBuffer[2048];
-//    SOCKET mp_ListenSocket; //= INVALID_SOCKET;
 private:
     int m_mode;
-//    int m_iPort;
-//    std::string m_cHost;
-//    char m_cHost[128];
-//    unsigned int  i;
+    SOCKET m_sServerSocket; //= INVALID_SOCKET;
     struct sockaddr_in server;
     struct hostent *host;// = NULL;
+    WSADATA wsd;
 };
 
 #endif // SOCKETINPUTOUTPUT_H_INCLUDED

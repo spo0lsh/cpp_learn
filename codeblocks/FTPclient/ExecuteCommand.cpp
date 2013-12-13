@@ -31,7 +31,7 @@ void CExecuteCommand::getFileFromServer(char *a_filename)
     std::cout << "CExecuteCommand::getFileFromServer: " << std::endl;
 }
 
-void CExecuteCommand::getFileSizeFromServer(char *a_filename)
+void CExecuteCommand::getFileSizeFromServer(std::string a_filename)
 {
     if(this->getLoginStatus() != 0)
     {
@@ -39,7 +39,20 @@ void CExecuteCommand::getFileSizeFromServer(char *a_filename)
     }
     else
     {
-        std::cout << "CExecuteCommand::getFileSizeFromServer: " << std::endl;
+        std::cout << "CExecuteCommand::getFileSizeFromServer: " << a_filename << std::endl;
+        oSocketInputOutput.writeToSocket("SIZE " + a_filename);
+        if(oSocketInputOutput.readFromSocket() > 0)
+        {
+            std::cout << "CExecuteCommand::connectToServer.readFromSocket(): " << oSocketInputOutput.sBuffer << std::endl;
+//            if(strcmp("OK",oSocketInputOutput.sBuffer) != 0)
+//            {
+//                exit_status=1;
+//            }
+//            else
+//            {
+//
+//            }
+        }
     }
 }
 
@@ -84,6 +97,43 @@ int CExecuteCommand::connectToServer()
     int exit_status=0;
     std::cout << "CExecuteCommand::connectToServer: " << exit_status << std::endl;
     oSocketInputOutput.openSocket(&this->host[0], this->port);
+    oSocketInputOutput.writeToSocket("USER " + this->login);
+    if(oSocketInputOutput.readFromSocket() > 0)
+    {
+        std::cout << "CExecuteCommand::connectToServer.readFromSocket(): " << oSocketInputOutput.sBuffer << std::endl;
+        if(strcmp("OK",oSocketInputOutput.sBuffer) != 0)
+        {
+            exit_status=1;
+        }
+        else
+        {
+
+        }
+    }
+    else
+    {
+        exit_status=1;
+    }
+    if(exit_status !=1)
+    {
+        oSocketInputOutput.writeToSocket("PASS " + this->password);
+    }
+    if(oSocketInputOutput.readFromSocket() > 0)
+    {
+        std::cout << "CExecuteCommand::connectToServer.readFromSocket(): " << oSocketInputOutput.sBuffer << std::endl;
+        if(strcmp("OK",oSocketInputOutput.sBuffer) != 0)
+        {
+            exit_status=1;
+        }
+        else
+        {
+            this->setLoginStatus(0);
+        }
+    }
+    else
+    {
+        exit_status=1;
+    }
     return exit_status;
 }
 
