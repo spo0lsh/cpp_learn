@@ -22,7 +22,7 @@ int CFileInputOutput::openFileNG(char* a_filename, int a_mode=0)
     switch(a_mode)
     {
     case 0:
-        if( (m_fStream = _fsopen( a_filename, "rt", _SH_DENYWR )) != NULL )
+        if( (m_fStream = _fsopen( a_filename, "rb", _SH_DENYWR )) != NULL )
         {
             std::cout << "CFileInputOutput::OpenFileNG OK rt _SH_DENYWR : " << a_filename << std::endl;
         }
@@ -33,7 +33,7 @@ int CFileInputOutput::openFileNG(char* a_filename, int a_mode=0)
         }
         break;
     case 1:
-        if( (m_fStream = _fsopen( a_filename, "wt", _SH_DENYRD )) != NULL )
+        if( (m_fStream = _fsopen( a_filename, "wb", _SH_DENYRD )) != NULL )
         {
             std::cout << "CFileInputOutput::OpenFileNG OK wt _SH_DENYRD : " << a_filename << std::endl;
         }
@@ -44,7 +44,7 @@ int CFileInputOutput::openFileNG(char* a_filename, int a_mode=0)
         }
         break;
     case 2:
-        if( (m_fStream = _fsopen( a_filename, "rt", _SH_DENYWR )) != NULL )
+        if( (m_fStream = _fsopen( a_filename, "rb", _SH_DENYWR )) != NULL )
         {
             std::cout << "CFileInputOutput::OpenFileNG OK rt _SH_DENYWR : " << a_filename << std::endl;
         }
@@ -55,7 +55,7 @@ int CFileInputOutput::openFileNG(char* a_filename, int a_mode=0)
         }
         break;
      case 3:
-        if( (m_fStream = _fsopen( a_filename, "wt", _SH_DENYWR )) != NULL )
+        if( (m_fStream = _fsopen( a_filename, "wb", _SH_DENYWR )) != NULL )
         {
             std::cout << "CFileInputOutput::OpenFileNG OK wt _SH_DENYWR : " << a_filename << std::endl;
         }
