@@ -210,7 +210,20 @@ int CExecuteCommand::putFileToServer(std::string a_filename)
 int CExecuteCommand::showFilesOnServer()
 {
     std::cout << "CExecuteCommand::showFilesOnServer" << std::endl;
-    this->m_opCSocketInputOutput->writeToSocket("KO");
+    //should be fixed, but works!
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir ("./")) != NULL) {
+        this->m_opCSocketInputOutput->writeToSocket("OK");
+        /* print all the files and directories within directory */
+        while ((ent = readdir (dir)) != NULL) {
+            this->m_opCSocketInputOutput->writeToSocket(ent->d_name);
+            this->m_opCSocketInputOutput->writeToSocket("\n");
+        }
+        closedir (dir);
+    } else {
+        this->m_opCSocketInputOutput->writeToSocket("KO");
+    }
     return 0;
 }
 

@@ -6,6 +6,7 @@
 #include <fstream>
 #include <share.h>
 #include <memory.h>
+#include <dirent.h>
 #include "SocketInputOutput.h"
 
 class CFileInputOutput

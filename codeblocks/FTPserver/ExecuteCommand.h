@@ -4,10 +4,10 @@
 #include <iostream>
 #include <winsock2.h>
 #include <string>
+#include <cmath>
 #include "FileInputOutput.h"
 #include "SocketInputOutput.h"
 #include "DatabaseOperations.h"
-#include <cmath>
 
 class CExecuteCommand
 {
