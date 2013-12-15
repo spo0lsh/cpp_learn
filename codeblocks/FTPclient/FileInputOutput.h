@@ -19,6 +19,8 @@ public:
     int closeFileNG();
     std::string readLineFromFile();
     int readFile(int );
+    void writeToFile(char* );
+    void writeToFile(char*,int );
     int writeToFile(std::string );
     int checkFileSize();
 

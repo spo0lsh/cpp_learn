@@ -128,7 +128,21 @@ void CExecuteCommand::getFileFromServer(std::string a_filename)
         if(oSocketInputOutput.readFromSocket() > 0)
         {
             std::cout << "CExecuteCommand::getFileFromServer.readFromSocket() RETR: " << oSocketInputOutput.sBuffer << std::endl;
+            if(oFileInputOutput.openFile(&a_filename[0], 3) != 0)
+            {
+
+            }
+            else
+            {
+                while(oSocketInputOutput.readFromSocket() > 0)
+                {
+            //            std::cout << "Read from socket: " << m_opCSocketInputOutput->sBuffer << std::endl;
+                    oFileInputOutput.writeToFile(oSocketInputOutput.sBuffer);
+                    oSocketInputOutput.writeToSocket("OK");
+                }
+            }
         }
+    oFileInputOutput.closeFile();
     }
 }
 

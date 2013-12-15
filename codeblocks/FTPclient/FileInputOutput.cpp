@@ -104,3 +104,18 @@ int CFileInputOutput::readFile(int a_bytes)
     size=fread(sBuffer,sizeof(char),a_bytes,this->m_fStream);
     return size;
 }
+
+void CFileInputOutput::writeToFile(char *a_sBuffor)
+{
+//    fputs(a_sBuffor,m_fStream);
+    fprintf (m_fStream, "%s",a_sBuffor);
+//    std::cout << "CFileInputOutput::writeToFile " << a_sBuffor << " " << a_bufsize << std::endl;
+//    fwrite (a_sBuffor , sizeof(char), a_bufsize, m_fStream);
+}
+
+void CFileInputOutput::writeToFile(char *a_sBuffor, int a_bufsize)
+{
+//    fputs(a_sBuffor,m_fStream);
+    std::cout << "CFileInputOutput::writeToFile " << a_sBuffor << " " << a_bufsize << std::endl;
+    fwrite (a_sBuffor , sizeof(char), a_bufsize, m_fStream);
+}
