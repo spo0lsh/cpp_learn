@@ -88,7 +88,7 @@ int CFtpClient::parsingOptionsForCommand(int argc, char *argv[])
         {
             std::cout << "CFtpClient::parsingOptionsForCommand: ";
             std::cout << "dir" << std::endl;
-            this->executeCommand(arg, argv[i+1]);
+            this->executeCommand(arg, ".");
             found=0;
         }
         else if (arg == "del")
@@ -211,7 +211,7 @@ int CFtpClient::executeCommand(std::string a_command, std::string a_param)
     }
     else if(a_command == "dir")
     {
-        std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
+        std::cout << "CFtpClient::executeCommand: " << a_command << std::endl;
         oExecuteCommand.showFilesOnServer();
     }
     else if(a_command == "del")

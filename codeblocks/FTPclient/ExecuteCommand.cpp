@@ -24,7 +24,15 @@ void CExecuteCommand::showFilesOnServer()
         oSocketInputOutput.writeToSocket("LIST");
         if(oSocketInputOutput.readFromSocket() > 0)
         {
-            std::cout << "CExecuteCommand::showFilesOnServer.readFromSocket() RETR: " << oSocketInputOutput.sBuffer << std::endl;
+//            std::cout << "CExecuteCommand::showFilesOnServer.readFromSocket() RETR: " << oSocketInputOutput.sBuffer << std::endl;
+            std::cout << "Files on server: " << std::endl;
+            while(oSocketInputOutput.readFromSocket() > 0)
+            {
+        //            std::cout << "Read from socket: " << m_opCSocketInputOutput->sBuffer << std::endl;
+                std::cout << oSocketInputOutput.sBuffer << std::endl;
+//                oFileInputOutput.writeToFile(oSocketInputOutput.sBuffer);
+//                oSocketInputOutput.writeToSocket("OK");
+            }
         }
     }
 }
