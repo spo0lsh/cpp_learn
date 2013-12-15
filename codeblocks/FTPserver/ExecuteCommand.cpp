@@ -179,7 +179,7 @@ int CExecuteCommand::putFileToServer(std::string a_filename)
         this->m_opCSocketInputOutput->writeToSocket("OK");
         while(m_opCSocketInputOutput->readFromSocket() > 0)
         {
-            std::cout << "Read from socket: " << m_opCSocketInputOutput->sBuffer << std::endl;
+//            std::cout << "Read from socket: " << m_opCSocketInputOutput->sBuffer << std::endl;
             m_opFileInputOutput->writeToFile(m_opCSocketInputOutput->sBuffer);
             this->m_opCSocketInputOutput->writeToSocket("OK");
         }

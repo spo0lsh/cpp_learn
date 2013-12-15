@@ -96,7 +96,7 @@ int CSocketInputOutput::writeToSocket(std::string a_data)
     ret = send(m_sClientSocket, sBuffer, strlen(sBuffer), 0);
     if (ret != SOCKET_ERROR)
     {
-        std::cout << "CSocketInputOutput::writeToSocket send: " << sBuffer << std::endl;
+        std::cout << "CSocketInputOutput::writeToSocket send: " << std::endl;
     }
     else
     {
