@@ -68,28 +68,47 @@ void CExecuteCommand::putFileToServer(std::string a_filename)
         std::cout << "CExecuteCommand::putFileToServer: " << a_filename << std::endl;
         if(this->oFileInputOutput.openFile(&a_filename[0], 0) != 0)
         {
-            std::cout << "CExecuteCommand::putFileToServer->oFileInputOutput.openFile" << std::endl;
-            int size=this->oFileInputOutput.checkFileSize();
-            std::cout << "CExecuteCommand::putFileToServer->oFileInputOutput.checkFileSize(): " << size << std::endl;
-            this->oFileInputOutput.closeFile();
+            std::cout << "CExecuteCommand::putFileToServer.openFile: " << a_filename << " fail." << std::endl;
         }
         else
         {
-            std::cout << "CExecuteCommand::putFileToServer.openFile: " << a_filename << " fail." << std::endl;
-        }
-        // if(file exist)
-        //   size=checksize(a_filename)
-        //   openfile
-        //   if(size > maxbuffor)
-        //      segmentation of file
-        //   else
-        //      data=read(file)
-        //      socketsend(data)
-        //      wait for OK
-        oSocketInputOutput.writeToSocket("STOR " + a_filename);
-        if(oSocketInputOutput.readFromSocket() > 0)
-        {
-            std::cout << "CExecuteCommand::putFileToServer.readFromSocket() RETR: " << oSocketInputOutput.sBuffer << std::endl;
+            std::cout << "CExecuteCommand::putFileToServer->oFileInputOutput.openFile" << std::endl;
+            int size=this->oFileInputOutput.checkFileSize();
+            std::cout << "CExecuteCommand::putFileToServer->oFileInputOutput.checkFileSize(): " << size << std::endl;
+            oSocketInputOutput.writeToSocket("STOR " + a_filename);
+            if(oSocketInputOutput.readFromSocket() > 0)
+            {
+                if(strcmp(oSocketInputOutput.sBuffer, "KO") != 0)
+                {
+                    if(size < DEFAULT_BUFFER)
+                    {
+                        std::cout << "CExecuteCommand::putFileToServe read: " << oFileInputOutput.readFile(DEFAULT_BUFFER - 1) << std::endl;
+                        oSocketInputOutput.writeToSocket(oFileInputOutput.sBuffer);
+                        if(oSocketInputOutput.readFromSocket() > 0)
+                        {
+                            std::cout << "CExecuteCommand::putFileToServer.readFromSocket() RETR status: " << oSocketInputOutput.sBuffer << std::endl;
+                        }
+                    }
+                    else
+                    {
+                        std::cout << "CExecuteCommand::putFileToServer size > DEFAULT_BUFFER, number of packages: " << ceil((double)size/DEFAULT_BUFFER) << std::endl;
+                        for(int i=0;i<ceil((double)size/DEFAULT_BUFFER);++i)
+                        {
+                            std::cout << "CExecuteCommand::putFileToServe read: " << oFileInputOutput.readFile(DEFAULT_BUFFER - 1) << std::endl;
+                            oSocketInputOutput.writeToSocket(oFileInputOutput.sBuffer);
+                            if(oSocketInputOutput.readFromSocket() > 0)
+                            {
+                                std::cout << "CExecuteCommand::putFileToServer.readFromSocket() RETR status: " << oSocketInputOutput.sBuffer << std::endl;
+                            }
+                        }
+                    }
+                    this->oFileInputOutput.closeFile();
+                }
+                else
+                {
+                    std::cout << "Can not send file: " << a_filename << " to server." << std::endl;
+                }
+            }
         }
     }
 }

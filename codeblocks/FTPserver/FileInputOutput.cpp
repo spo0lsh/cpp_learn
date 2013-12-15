@@ -103,6 +103,21 @@ void CFileInputOutput::readFile(int a_bytes)
     fgets(m_pData, a_bytes, m_fStream);
 }
 
+void CFileInputOutput::writeToFile(char *a_sBuffor)
+{
+//    fputs(a_sBuffor,m_fStream);
+    fprintf (m_fStream, "%s",a_sBuffor);
+//    std::cout << "CFileInputOutput::writeToFile " << a_sBuffor << " " << a_bufsize << std::endl;
+//    fwrite (a_sBuffor , sizeof(char), a_bufsize, m_fStream);
+}
+
+void CFileInputOutput::writeToFile(char *a_sBuffor, int a_bufsize)
+{
+//    fputs(a_sBuffor,m_fStream);
+    std::cout << "CFileInputOutput::writeToFile " << a_sBuffor << " " << a_bufsize << std::endl;
+    fwrite (a_sBuffor , sizeof(char), a_bufsize, m_fStream);
+}
+
 std::string CFileInputOutput::readLineFromFile()
 {
     std::string data;

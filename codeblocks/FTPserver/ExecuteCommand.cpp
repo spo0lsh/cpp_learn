@@ -166,10 +166,25 @@ int CExecuteCommand::getFileFromServer(std::string a_filename)
     return 0;
 }
 
-int CExecuteCommand::putFileToServer(std::string filename)
+int CExecuteCommand::putFileToServer(std::string a_filename)
 {
-    std::cout << "CExecuteCommand::putFileToServer" << std::endl;
-    this->m_opCSocketInputOutput->writeToSocket("KO");
+//    int size;
+    std::cout << "CExecuteCommand::putFileToServer: " << a_filename << std::endl;
+    if(m_opFileInputOutput->openFileNG(&a_filename[0], 3) != 0)
+    {
+        this->m_opCSocketInputOutput->writeToSocket("KO");
+    }
+    else
+    {
+        this->m_opCSocketInputOutput->writeToSocket("OK");
+        while(m_opCSocketInputOutput->readFromSocket() > 0)
+        {
+            std::cout << "Read from socket: " << m_opCSocketInputOutput->sBuffer << std::endl;
+            m_opFileInputOutput->writeToFile(m_opCSocketInputOutput->sBuffer);
+            this->m_opCSocketInputOutput->writeToSocket("OK");
+        }
+    }
+    this->m_opFileInputOutput->closeFileNG();
     return 0;
 }
 

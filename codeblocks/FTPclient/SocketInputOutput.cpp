@@ -71,7 +71,7 @@ int CSocketInputOutput::readFromSocket()
     std::cout << "CClientThread::ReadFromSocketTest timeout: " << timeout / 1000 << std::endl;
     memset(sBuffer, 0, sizeof(sBuffer));
     setsockopt(this->m_sServerSocket,SOL_SOCKET,SO_RCVTIMEO,(char *)&timeout,sizeof(int)); //setting the receive timeout
-    ret = recv(this->m_sServerSocket, sBuffer, 2048, 0);
+    ret = recv(this->m_sServerSocket, sBuffer, DEFAULT_BUFFER, 0);
     if (ret == SOCKET_ERROR)
     {
         std::cout << "CClientThread::ReadFromSocket.recv() failed: " << WSAGetLastError() << std::endl;

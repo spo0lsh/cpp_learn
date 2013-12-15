@@ -19,7 +19,7 @@ public:
     int readFromSocket();
     int readFromSocket(SOCKET );
     int writeToSocket(std::string );
-    char sBuffer[2048];
+    char sBuffer[DEFAULT_BUFFER];
     std::string m_data;
 private:
     int m_mode;

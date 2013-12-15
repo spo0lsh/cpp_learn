@@ -13,7 +13,7 @@ CFileInputOutput::~CFileInputOutput()
 int CFileInputOutput::openFile(char* a_filename, int a_mode)
 {
     int exit_status=0;
-    if( (m_fStream = _fsopen( a_filename, "rt", _SH_DENYWR )) != NULL )
+    if( (m_fStream = _fsopen( a_filename, "rb", _SH_DENYWR )) != NULL )
     {
         std::cout << "CFileInputOutput::openFile OK rt _SH_DENYWR : " << a_filename << std::endl;
     }
@@ -37,5 +37,13 @@ int CFileInputOutput::checkFileSize()
     int size = ftell(m_fStream); // get current file pointer
     fseek(m_fStream, 0, SEEK_SET); // seek back to beginning of file
     // proceed with allocating memory and reading the file
+    return size;
+}
+
+int CFileInputOutput::readFile(int a_bytes)
+{
+    int size;
+    memset(sBuffer, 0, sizeof(sBuffer));
+    size=fread(sBuffer,sizeof(char),a_bytes,this->m_fStream);
     return size;
 }

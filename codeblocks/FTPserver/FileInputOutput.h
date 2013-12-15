@@ -17,7 +17,8 @@ public:
     int closeFileNG();
     std::string readLineFromFile();
     void readFile(int );
-    int writeToFile(std::string );
+    void writeToFile(char* );
+    void writeToFile(char*,int );
     int checkFileSize();
 
     std::string m_data;

@@ -78,6 +78,9 @@ int CFtpClient::parsingOptionsForCommand(int argc, char *argv[])
     int found=0;
     std::string arg;
     int i;
+    // connect to server
+    oExecuteCommand.connectToServer();
+    // parsing and execute command
     for(i = 1; i < argc; i++)
     {
         arg = argv[i];
@@ -86,7 +89,6 @@ int CFtpClient::parsingOptionsForCommand(int argc, char *argv[])
             std::cout << "CFtpClient::parsingOptionsForCommand: ";
             std::cout << "dir" << std::endl;
             this->executeCommand(arg, argv[i+1]);
-//                oExecuteCommand.showFilesOnServer();
             found=0;
         }
         else if (arg == "del")
@@ -96,7 +98,6 @@ int CFtpClient::parsingOptionsForCommand(int argc, char *argv[])
                 std::cout << "CFtpClient::parsingOptionsForCommand: ";
                 std::cout << "del: " << argv[i+1] << std::endl;
                 this->executeCommand(arg, argv[i+1]);
-//                    oExecuteCommand.deleteFileOnServer(argv[i+1]);
             }
             else
             {
@@ -113,7 +114,6 @@ int CFtpClient::parsingOptionsForCommand(int argc, char *argv[])
                 std::cout << "CFtpClient::parsingOptionsForCommand: ";
                 std::cout << "put: " << argv[i+1] << std::endl;
                 this->executeCommand(arg, argv[i+1]);
-//                    oExecuteCommand.putFileToServer(argv[i+1]);
             }
             else
             {
@@ -129,7 +129,6 @@ int CFtpClient::parsingOptionsForCommand(int argc, char *argv[])
                 std::cout << "CFtpClient::parsingOptionsForCommand: ";
                 std::cout << "size: " << argv[i+1] << std::endl;
                 this->executeCommand(arg, argv[i+1]);
-//                    oExecuteCommand.getFileSizeFromServer(argv[i+1]);
             }
             else
             {
@@ -145,7 +144,6 @@ int CFtpClient::parsingOptionsForCommand(int argc, char *argv[])
                 std::cout << "CFtpClient::parsingOptionsForCommand: ";
                 std::cout << "get: " << argv[i+1] << std::endl;
                 this->executeCommand(arg, argv[i+1]);
-//                    oExecuteCommand.getFileFromServer(argv[i+1]);
             }
             else
             {
@@ -158,28 +156,24 @@ int CFtpClient::parsingOptionsForCommand(int argc, char *argv[])
         {
             std::cout << "CFtpClient::parsingOptionsForCommand: ";
             std::cout << "login " << argv[i+1] << std::endl;
-//                oExecuteCommand.setLogin(argv[i+1]);
             found=1;
         }
         else if (arg == "pass")
         {
             std::cout << "CFtpClient::parsingOptionsForCommand: ";
             std::cout << "pass " << argv[i+1] << std::endl;
-//                oExecuteCommand.setPassword(argv[i+1]);
             found=1;
         }
         else if (arg == "host")
         {
             std::cout << "CFtpClient::parsingOptionsForCommand: ";
             std::cout << "host " << argv[i+1] << std::endl;
-//                oExecuteCommand.setHost(argv[i+1]);
             found=1;
         }
         else if (arg == "port")
         {
             std::cout << "CFtpClient::parsingOptionsForCommand: ";
             std::cout << "port " << argv[i+1] << std::endl;
-//                oExecuteCommand.setPort(atoi(argv[i+1]));
             found=1;
         }
         else
@@ -190,7 +184,6 @@ int CFtpClient::parsingOptionsForCommand(int argc, char *argv[])
         }
         i=i+found;
     }
-//    oExecuteCommand.disconnectFromServer();
     return exit_status;
 }
 
@@ -216,46 +209,34 @@ int CFtpClient::executeCommand(std::string a_command, std::string a_param)
         std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
         oExecuteCommand.setPort(atoi(a_param.c_str()));
     }
+    else if(a_command == "dir")
+    {
+        std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
+        oExecuteCommand.showFilesOnServer();
+    }
+    else if(a_command == "del")
+    {
+        std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
+        oExecuteCommand.deleteFileOnServer(&a_param[0]);
+    }
+    else if(a_command == "put")
+    {
+        std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
+        oExecuteCommand.putFileToServer(&a_param[0]);
+    }
+    else if(a_command == "size")
+    {
+        std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
+        oExecuteCommand.getFileSizeFromServer(&a_param[0]);
+    }
+    else if(a_command == "get")
+    {
+        std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
+        oExecuteCommand.getFileFromServer(&a_param[0]);
+    }
     else
     {
-        if(oExecuteCommand.getLoginStatus() != 0)
-        {
-            std::cout << "CFtpClient::executeCommand.oExecuteCommand.connectToServer" << std::endl;
-            oExecuteCommand.connectToServer();
-        }
-        else
-        {
-            std::cout << "CFtpClient::executeCommand user is logged." << std::endl;
-            if(a_command == "dir")
-            {
-                std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
-                oExecuteCommand.showFilesOnServer();
-            }
-            else if(a_command == "del")
-            {
-                std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
-                oExecuteCommand.deleteFileOnServer(&a_param[0]);
-            }
-            else if(a_command == "put")
-            {
-                std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
-                oExecuteCommand.putFileToServer(&a_param[0]);
-            }
-            else if(a_command == "size")
-            {
-                std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
-                oExecuteCommand.getFileSizeFromServer(&a_param[0]);
-            }
-            else if(a_command == "get")
-            {
-                std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
-                oExecuteCommand.getFileFromServer(&a_param[0]);
-            }
-            else
-            {
-                std::cout << "CFtpClient::executeCommand unknow command: " << a_command << std::endl;
-            }
-        }
+        std::cout << "CFtpClient::executeCommand unknow command: " << a_command << std::endl;
     }
     return 0;
 }

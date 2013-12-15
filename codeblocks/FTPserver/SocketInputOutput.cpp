@@ -52,7 +52,7 @@ SOCKET CSocketInputOutput::openSocket(char* a_host, int a_port)
 int CSocketInputOutput::readFromSocket(SOCKET a_sClientSocket)
 {
     std::cout << "CSocketInputOutput::readFromSocket" << std::endl;
-    int ret=0;
+    ret=0;
     int timeout = 10000; //in milliseconds. this is 10 seconds
     std::cout << "CClientThread::ReadFromSocketTest timeout: " << timeout / 1000 << std::endl;
     memset(sBuffer, 0, sizeof(sBuffer));
@@ -65,7 +65,7 @@ int CSocketInputOutput::readFromSocket(SOCKET a_sClientSocket)
     else
     {
         std::cout << "CClientThread::ReadFromSocket ret: " << ret << std::endl;
-        sBuffer[ret] = '\0'; //problem with binary
+//        sBuffer[ret] = '\0'; //problem with binary
     }
     return ret;
 }
@@ -86,7 +86,7 @@ int CSocketInputOutput::readFromSocket()
     else
     {
         std::cout << "CClientThread::ReadFromSocket ret: " << ret << std::endl;
-        sBuffer[ret] = '\0'; //problem with binary
+//        sBuffer[ret] = '\0'; //problem with binary
     }
     return ret;
 }

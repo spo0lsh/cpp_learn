@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <cstdlib>
+#include <cmath>
 #include "SocketInputOutput.h"
 #include "FileInputOutput.h"
 
