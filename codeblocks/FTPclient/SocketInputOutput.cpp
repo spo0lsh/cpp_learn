@@ -79,19 +79,20 @@ int CSocketInputOutput::readFromSocket()
     else
     {
         std::cout << "CClientThread::ReadFromSocket ret: " << ret << std::endl;
-        sBuffer[ret] = '\0'; //problem with binary
+//        sBuffer[ret] = '\0'; //problem with binary
     }
     return ret;
 }
 
 int CSocketInputOutput::writeToSocket(std::string a_data)
 {
-    std::cout << "CSocketInputOutput::writeToSocket try send: " << a_data << std::endl;
+//    std::cout << "CSocketInputOutput::writeToSocket try send: " << a_data << std::endl;
     strcpy(sBuffer, a_data.c_str());
     int ret = send(this->m_sServerSocket, sBuffer, strlen(sBuffer), 0);
     if (ret != SOCKET_ERROR)
     {
-        std::cout << "CSocketInputOutput::writeToSocket send: " << sBuffer << std::endl;
+//        std::cout << "CSocketInputOutput::writeToSocket send: " << sBuffer << std::endl;
+        std::cout << "CSocketInputOutput::writeToSocket send: " << std::endl;
     }
     else
     {

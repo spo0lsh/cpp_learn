@@ -13,15 +13,72 @@ CFileInputOutput::~CFileInputOutput()
 int CFileInputOutput::openFile(char* a_filename, int a_mode)
 {
     int exit_status=0;
-    if( (m_fStream = _fsopen( a_filename, "rb", _SH_DENYWR )) != NULL )
+    // mode
+    // 0 - _SH_DENYWR - Denies write access to the file.
+    // 1 - _SH_DENYRD - Denies read access to the file.
+    // 2 - _SH_DENYRW - Denies read and write access to the file. READ
+    // 3 - _SH_DENYRW - Denies read and write access to the file. WRITE
+
+    switch(a_mode)
     {
-        std::cout << "CFileInputOutput::openFile OK rt _SH_DENYWR : " << a_filename << std::endl;
-    }
-    else
-    {
-        std::cout << "CFileInputOutput::openFile KO rt _SH_DENYWR : " << a_filename << std::endl;
+    case 0:
+        if( (m_fStream = _fsopen( a_filename, "rb", _SH_DENYWR )) != NULL )
+        {
+            std::cout << "CFileInputOutput::OpenFileNG OK rt _SH_DENYWR : " << a_filename << std::endl;
+        }
+        else
+        {
+            std::cout << "CFileInputOutput::OpenFileNG KO rt _SH_DENYWR : " << a_filename << std::endl;
+            exit_status=1;
+        }
+        break;
+    case 1:
+        if( (m_fStream = _fsopen( a_filename, "wb", _SH_DENYRD )) != NULL )
+        {
+            std::cout << "CFileInputOutput::OpenFileNG OK wt _SH_DENYRD : " << a_filename << std::endl;
+        }
+        else
+        {
+            std::cout << "CFileInputOutput::OpenFileNG KO wt _SH_DENYRD : " << a_filename << std::endl;
+            exit_status=1;
+        }
+        break;
+    case 2:
+        if( (m_fStream = _fsopen( a_filename, "rb", _SH_DENYWR )) != NULL )
+        {
+            std::cout << "CFileInputOutput::OpenFileNG OK rt _SH_DENYWR : " << a_filename << std::endl;
+        }
+        else
+        {
+            std::cout << "CFileInputOutput::OpenFileNG KO rt _SH_DENYWR : " << a_filename << std::endl;
+            exit_status=1;
+        }
+        break;
+     case 3:
+        if( (m_fStream = _fsopen( a_filename, "wb", _SH_DENYWR )) != NULL )
+        {
+            std::cout << "CFileInputOutput::OpenFileNG OK wt _SH_DENYWR : " << a_filename << std::endl;
+        }
+        else
+        {
+            std::cout << "CFileInputOutput::OpenFileNG KO wt _SH_DENYWR : " << a_filename << std::endl;
+            exit_status=1;
+        }
+        break;
+    default:
+        std::cout << "CFileInputOutput::OpenFileNG - unsupported open mode" << std::endl;
         exit_status=1;
+        break;
     }
+//    if( (m_fStream = _fsopen( a_filename, "rb", _SH_DENYWR )) != NULL )
+//    {
+//        std::cout << "CFileInputOutput::openFile OK rt _SH_DENYWR : " << a_filename << std::endl;
+//    }
+//    else
+//    {
+//        std::cout << "CFileInputOutput::openFile KO rt _SH_DENYWR : " << a_filename << std::endl;
+//        exit_status=1;
+//    }
     return exit_status;
 }
 

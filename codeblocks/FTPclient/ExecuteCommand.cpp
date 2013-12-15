@@ -66,7 +66,7 @@ void CExecuteCommand::putFileToServer(std::string a_filename)
     else
     {
         std::cout << "CExecuteCommand::putFileToServer: " << a_filename << std::endl;
-        if(this->oFileInputOutput.openFile(&a_filename[0], 0) != 0)
+        if(this->oFileInputOutput.openFile(&a_filename[0], 2) != 0)
         {
             std::cout << "CExecuteCommand::putFileToServer.openFile: " << a_filename << " fail." << std::endl;
         }
@@ -94,7 +94,8 @@ void CExecuteCommand::putFileToServer(std::string a_filename)
                         std::cout << "CExecuteCommand::putFileToServer size > DEFAULT_BUFFER, number of packages: " << ceil((double)size/DEFAULT_BUFFER) << std::endl;
                         for(int i=0;i<ceil((double)size/DEFAULT_BUFFER);++i)
                         {
-                            std::cout << "CExecuteCommand::putFileToServe read: " << oFileInputOutput.readFile(DEFAULT_BUFFER - 1) << std::endl;
+//                            std::cout << "CExecuteCommand::putFileToServe read: " << oFileInputOutput.readFile(DEFAULT_BUFFER - 1) << std::endl;
+                            oFileInputOutput.readFile(DEFAULT_BUFFER - 1);
                             oSocketInputOutput.writeToSocket(oFileInputOutput.sBuffer);
                             if(oSocketInputOutput.readFromSocket() > 0)
                             {
