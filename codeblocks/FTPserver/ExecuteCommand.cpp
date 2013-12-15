@@ -140,29 +140,48 @@ int CExecuteCommand::getFileFromServer(std::string a_filename)
 {
 //    int fileSize;
     std::cout << "CExecuteCommand::getFileFromServer" << std::endl;
-    this->m_opCSocketInputOutput->writeToSocket("KO");
-//    fileSize=this->checkFileSize(a_filename);
-//    std::cout << "CExecuteCommand::getFileFromServer file size: " << fileSize << std::endl;
-//    //this->m_opCSocketInputOutput->writeToSocket("KO");
-//    if(m_opFileInputOutput->openFileNG(&a_filename[0], 0) != 0)
-//    {
-//        this->m_opCSocketInputOutput->writeToSocket("KO");
-//    }
-//    else
-//    {
-//        this->m_opCSocketInputOutput->writeToSocket("OK");
-//        //read from file write to socket procedure
-//        if(fileSize < 2048)
-//        {
-//            std::cout << "CExecuteCommand::getFileFromServer one block" << std::endl;
-//        }
-//        else
-//        {
-//            std::cout << "CExecuteCommand::getFileFromServer more then one block" << std::endl;
-//        }
-//        //end
-//        this->m_opFileInputOutput->closeFileNG();
-//    }
+    if(m_opFileInputOutput->openFile(&a_filename[0], 0) != 0)
+    {
+        this->m_opCSocketInputOutput->writeToSocket("KO");
+    }
+    else
+    {
+        int fileSize = m_opFileInputOutput->checkFileSize();
+        if(fileSize != -1)
+        {
+            std::cout << "CExecuteCommand::getFileFromServer size: " << fileSize << std::endl;
+            this->m_opCSocketInputOutput->writeToSocket("OK");
+            if(fileSize < DEFAULT_BUFFER)
+            {
+                std::cout << "CExecuteCommand::putFileToServe read: " << m_opFileInputOutput->readFile(DEFAULT_BUFFER - 1) << std::endl;
+                m_opCSocketInputOutput->writeToSocket(m_opFileInputOutput->sBuffer);
+                if(m_opCSocketInputOutput->readFromSocket() > 0)
+                {
+                    std::cout << "CExecuteCommand::putFileToServer.readFromSocket() RETR status: " << m_opCSocketInputOutput->sBuffer << std::endl;
+                }
+            }
+            else
+            {
+                std::cout << "CExecuteCommand::putFileToServer size > DEFAULT_BUFFER, number of packages: " << ceil((double)fileSize/DEFAULT_BUFFER) << std::endl;
+                for(int i=0;i<ceil((double)fileSize/DEFAULT_BUFFER);++i)
+                {
+//                            std::cout << "CExecuteCommand::putFileToServe read: " << m_opFileInputOutput.readFile(DEFAULT_BUFFER - 1) << std::endl;
+                    m_opFileInputOutput->readFile(DEFAULT_BUFFER - 1);
+                    m_opCSocketInputOutput->writeToSocket(m_opFileInputOutput->sBuffer);
+                    if(m_opCSocketInputOutput->readFromSocket() > 0)
+                    {
+                        std::cout << "CExecuteCommand::putFileToServer.readFromSocket() RETR status: " << m_opCSocketInputOutput->sBuffer << std::endl;
+                    }
+                }
+            }
+        }
+        else
+        {
+            std::cout << "CExecuteCommand::getFileFromServer get file size fail! " << std::endl;
+            this->m_opCSocketInputOutput->writeToSocket("KO");
+        }
+        this->m_opFileInputOutput->closeFile();
+    }
     return 0;
 }
 
@@ -237,7 +256,7 @@ int CExecuteCommand::checkFileSize(std::string a_filename)
     char szBuffer[2048];
 
     std::cout << "CExecuteCommand::checkFileSize: " << a_filename << std::endl;
-    if(m_opFileInputOutput->openFile(filename) != 0)
+    if(m_opFileInputOutput->openFile(filename,0) != 0)
     {
         std::cout << "CExecuteCommand::checkFileSize Problem with open file: " << a_filename << std::endl;
         this->m_opCSocketInputOutput->writeToSocket("KO");

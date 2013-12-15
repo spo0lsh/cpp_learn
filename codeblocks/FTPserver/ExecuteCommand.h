@@ -7,6 +7,7 @@
 #include "FileInputOutput.h"
 #include "SocketInputOutput.h"
 #include "DatabaseOperations.h"
+#include <cmath>
 
 class CExecuteCommand
 {

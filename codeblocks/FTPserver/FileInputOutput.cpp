@@ -24,44 +24,44 @@ int CFileInputOutput::openFile(char* a_filename, int a_mode=0)
     case 0:
         if( (m_fStream = _fsopen( a_filename, "rb", _SH_DENYWR )) != NULL )
         {
-            std::cout << "CFileInputOutput::OpenFileNG OK rt _SH_DENYWR : " << a_filename << std::endl;
+            std::cout << "CFileInputOutput::OpenFileNG OK rb _SH_DENYWR : " << a_filename << std::endl;
         }
         else
         {
-            std::cout << "CFileInputOutput::OpenFileNG KO rt _SH_DENYWR : " << a_filename << std::endl;
+            std::cout << "CFileInputOutput::OpenFileNG KO rb _SH_DENYWR : " << a_filename << std::endl;
             exit_status=1;
         }
         break;
     case 1:
         if( (m_fStream = _fsopen( a_filename, "wb", _SH_DENYRD )) != NULL )
         {
-            std::cout << "CFileInputOutput::OpenFileNG OK wt _SH_DENYRD : " << a_filename << std::endl;
+            std::cout << "CFileInputOutput::OpenFileNG OK wb _SH_DENYRD : " << a_filename << std::endl;
         }
         else
         {
-            std::cout << "CFileInputOutput::OpenFileNG KO wt _SH_DENYRD : " << a_filename << std::endl;
+            std::cout << "CFileInputOutput::OpenFileNG KO wb _SH_DENYRD : " << a_filename << std::endl;
             exit_status=1;
         }
         break;
     case 2:
         if( (m_fStream = _fsopen( a_filename, "rb", _SH_DENYWR )) != NULL )
         {
-            std::cout << "CFileInputOutput::OpenFileNG OK rt _SH_DENYWR : " << a_filename << std::endl;
+            std::cout << "CFileInputOutput::OpenFileNG OK rb _SH_DENYWR : " << a_filename << std::endl;
         }
         else
         {
-            std::cout << "CFileInputOutput::OpenFileNG KO rt _SH_DENYWR : " << a_filename << std::endl;
+            std::cout << "CFileInputOutput::OpenFileNG KO rb _SH_DENYWR : " << a_filename << std::endl;
             exit_status=1;
         }
         break;
      case 3:
         if( (m_fStream = _fsopen( a_filename, "wb", _SH_DENYWR )) != NULL )
         {
-            std::cout << "CFileInputOutput::OpenFileNG OK wt _SH_DENYWR : " << a_filename << std::endl;
+            std::cout << "CFileInputOutput::OpenFileNG OK wb _SH_DENYWR : " << a_filename << std::endl;
         }
         else
         {
-            std::cout << "CFileInputOutput::OpenFileNG KO wt _SH_DENYWR : " << a_filename << std::endl;
+            std::cout << "CFileInputOutput::OpenFileNG KO wb _SH_DENYWR : " << a_filename << std::endl;
             exit_status=1;
         }
         break;
@@ -99,9 +99,17 @@ int CFileInputOutput::closeFile()
     return 0;
 }
 
-void CFileInputOutput::readFile(int a_bytes)
+//void CFileInputOutput::readFile(int a_bytes)
+//{
+//    fgets(m_pData, a_bytes, m_fStream);
+//}
+
+int CFileInputOutput::readFile(int a_bytes)
 {
-    fgets(m_pData, a_bytes, m_fStream);
+    int size;
+    memset(sBuffer, 0, sizeof(sBuffer));
+    size=fread(sBuffer,sizeof(char),a_bytes,this->m_fStream);
+    return size;
 }
 
 void CFileInputOutput::writeToFile(char *a_sBuffor)
@@ -129,12 +137,18 @@ std::string CFileInputOutput::readLineFromFile()
 int CFileInputOutput::checkFileSize()
 {
     int exit_status=-1;
-    long begin;
-    long end;
-//    fseek( &m_file, 0, SEEK_END ); //std::fstream m_file;
-    begin = m_file.tellg();
-    m_file.seekg (0, std::ios::end);
-    end = m_file.tellg();
-    exit_status = end-begin;
+//    long begin;
+//    long end;
+////    fseek( &m_file, 0, SEEK_END ); //std::fstream m_file;
+//    begin = m_file.tellg();
+//    m_file.seekg (0, std::ios::end);
+//    end = m_file.tellg();
+//    exit_status = end-begin;
+    fseek(m_fStream, 0, SEEK_END); // seek to end of file
+    int size = ftell(m_fStream); // get current file pointer
+    fseek(m_fStream, 0, SEEK_SET); // seek back to beginning of file
+    // proceed with allocating memory and reading the file
+    std::cout << "CFileInputOutput::checkFileSize: " << size << std::endl;
+    exit_status=size;
     return exit_status;
 }
