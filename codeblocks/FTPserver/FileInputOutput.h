@@ -11,8 +11,8 @@ class CFileInputOutput
 public:
     CFileInputOutput();
     ~CFileInputOutput();
+    int openFile(char* );
     int openFile(char* , int );
-    int openFileNG(char* , int );
     int closeFile();
     int closeFileNG();
     std::string readLineFromFile();

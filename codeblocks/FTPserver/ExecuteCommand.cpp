@@ -170,7 +170,7 @@ int CExecuteCommand::putFileToServer(std::string a_filename)
 {
 //    int size;
     std::cout << "CExecuteCommand::putFileToServer: " << a_filename << std::endl;
-    if(m_opFileInputOutput->openFileNG(&a_filename[0], 3) != 0)
+    if(m_opFileInputOutput->openFile(&a_filename[0], 3) != 0)
     {
         this->m_opCSocketInputOutput->writeToSocket("KO");
     }
@@ -184,7 +184,7 @@ int CExecuteCommand::putFileToServer(std::string a_filename)
             this->m_opCSocketInputOutput->writeToSocket("OK");
         }
     }
-    this->m_opFileInputOutput->closeFileNG();
+    this->m_opFileInputOutput->closeFile();
     return 0;
 }
 
@@ -237,7 +237,7 @@ int CExecuteCommand::checkFileSize(std::string a_filename)
     char szBuffer[2048];
 
     std::cout << "CExecuteCommand::checkFileSize: " << a_filename << std::endl;
-    if(m_opFileInputOutput->openFile(filename,0) != 0)
+    if(m_opFileInputOutput->openFile(filename) != 0)
     {
         std::cout << "CExecuteCommand::checkFileSize Problem with open file: " << a_filename << std::endl;
         this->m_opCSocketInputOutput->writeToSocket("KO");

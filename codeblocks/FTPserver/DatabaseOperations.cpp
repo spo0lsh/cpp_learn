@@ -42,7 +42,7 @@ int CDatabaseOperations::readUsersFromFile(char* a_filename)
     std::string line;
     int exit_status=0;
     CFileInputOutput *po_FileInputOutput = new CFileInputOutput;
-    if(po_FileInputOutput->openFile(a_filename,0) != 0)
+    if(po_FileInputOutput->openFile(a_filename) != 0)
     {
         std::cout << "CDatabaseOperations::readUsersFromFile Problem with open file: " << a_filename << std::endl;
         exit_status=1;
