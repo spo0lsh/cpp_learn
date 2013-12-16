@@ -151,9 +151,10 @@ int CExecuteCommand::getFileFromServer(std::string a_filename)
         {
             std::cout << "CExecuteCommand::getFileFromServer size: " << fileSize << std::endl;
             this->m_opCSocketInputOutput->writeToSocket("OK");
-            if(fileSize < DEFAULT_BUFFER)
+            if(fileSize < DEFAULT_BUFFER-1)
             {
                 std::cout << "CExecuteCommand::putFileToServe read: " << m_opFileInputOutput->readFile(DEFAULT_BUFFER - 1) << std::endl;
+//                std::cout << "CExecuteCommand::putFileToServe read: " << m_opFileInputOutput->readFile(DEFAULT_BUFFER) << std::endl;
                 m_opCSocketInputOutput->writeToSocket(m_opFileInputOutput->sBuffer);
                 if(m_opCSocketInputOutput->readFromSocket() > 0)
                 {
@@ -162,11 +163,15 @@ int CExecuteCommand::getFileFromServer(std::string a_filename)
             }
             else
             {
-                std::cout << "CExecuteCommand::putFileToServer size > DEFAULT_BUFFER, number of packages: " << ceil((double)fileSize/DEFAULT_BUFFER) << std::endl;
-                for(int i=0;i<ceil((double)fileSize/DEFAULT_BUFFER);++i)
+                int blocks=ceil((double)fileSize/(DEFAULT_BUFFER-1));
+//                std::cout << "CExecuteCommand::putFileToServer size > DEFAULT_BUFFER, number of packages: " << ceil((double)fileSize/DEFAULT_BUFFER) << std::endl;
+                std::cout << "CExecuteCommand::putFileToServer size > DEFAULT_BUFFER, number of packages: " << blocks << std::endl;
+//                for(int i=0;i<ceil((double)fileSize/DEFAULT_BUFFER);++i)
+                for(int i=0;i<blocks;++i)
                 {
 //                            std::cout << "CExecuteCommand::putFileToServe read: " << m_opFileInputOutput.readFile(DEFAULT_BUFFER - 1) << std::endl;
                     m_opFileInputOutput->readFile(DEFAULT_BUFFER - 1);
+//                    m_opFileInputOutput->readFile(DEFAULT_BUFFER);
                     m_opCSocketInputOutput->writeToSocket(m_opFileInputOutput->sBuffer);
                     if(m_opCSocketInputOutput->readFromSocket() > 0)
                     {
