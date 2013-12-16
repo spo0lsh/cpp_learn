@@ -99,10 +99,10 @@ void CExecuteCommand::putFileToServer(std::string a_filename)
                     }
                     else
                     {
-                        std::cout << "CExecuteCommand::putFileToServer size > DEFAULT_BUFFER, number of packages: " << ceil((double)size/DEFAULT_BUFFER) << std::endl;
-                        for(int i=0;i<ceil((double)size/DEFAULT_BUFFER);++i)
+                        int blocks=ceil((double)size/(DEFAULT_BUFFER-1));
+                        std::cout << "CExecuteCommand::putFileToServer size > DEFAULT_BUFFER, number of packages: " << blocks << std::endl;
+                        for(int i=0;i<blocks;++i)
                         {
-//                            std::cout << "CExecuteCommand::putFileToServe read: " << oFileInputOutput.readFile(DEFAULT_BUFFER - 1) << std::endl;
                             oFileInputOutput.readFile(DEFAULT_BUFFER - 1);
                             oSocketInputOutput.writeToSocket(oFileInputOutput.sBuffer);
                             if(oSocketInputOutput.readFromSocket() > 0)
