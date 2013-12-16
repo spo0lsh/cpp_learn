@@ -263,4 +263,5 @@ int CExecuteCommand::connectToServer()
 void CExecuteCommand::disconnectFromServer()
 {
     std::cout << "CExecuteCommand::disconnectFromServer: " << std::endl;
+    oSocketInputOutput.closeSocket();
 }
