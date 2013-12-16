@@ -111,7 +111,6 @@ void CExecuteCommand::putFileToServer(std::string a_filename)
                             }
                         }
                     }
-                    this->oFileInputOutput.closeFile();
                 }
                 else
                 {
@@ -119,6 +118,7 @@ void CExecuteCommand::putFileToServer(std::string a_filename)
                 }
             }
         }
+        this->oFileInputOutput.closeFile();
     }
 }
 
@@ -149,8 +149,8 @@ void CExecuteCommand::getFileFromServer(std::string a_filename)
                     oSocketInputOutput.writeToSocket("OK");
                 }
             }
+            oFileInputOutput.closeFile();
         }
-    oFileInputOutput.closeFile();
     }
 }
 
