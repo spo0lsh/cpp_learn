@@ -87,6 +87,7 @@ int CSocketInputOutput::readFromSocket()
 int CSocketInputOutput::writeToSocket(std::string a_data)
 {
 //    std::cout << "CSocketInputOutput::writeToSocket try send: " << a_data << std::endl;
+    memset(sBuffer, 0, sizeof(sBuffer)); // fix?!
     strcpy(sBuffer, a_data.c_str());
     int ret = send(this->m_sServerSocket, sBuffer, strlen(sBuffer), 0);
     if (ret != SOCKET_ERROR)

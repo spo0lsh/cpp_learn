@@ -2,7 +2,7 @@
 
 CFileInputOutput::CFileInputOutput()
 {
-
+    m_fStream=NULL;
 }
 
 CFileInputOutput::~CFileInputOutput()
@@ -75,6 +75,7 @@ int CFileInputOutput::openFile(char* a_filename, int a_mode=0)
 
 int CFileInputOutput::openFile(char* a_filename)
 {
+    std::cout << "CFileInputOutput::openFile(char *)" << std::endl;
     int exit_status;
     exit_status=0;
     m_file.open(a_filename);
@@ -94,8 +95,25 @@ int CFileInputOutput::openFile(char* a_filename)
 
 int CFileInputOutput::closeFile()
 {
-    fclose(m_fStream);
-    m_file.close();
+    std::cout << "CFileInputOutput::closeFile ";
+    if(m_fStream != 0)
+    {
+        std::cout << "m_fStream " << m_fStream << std::endl;
+        fclose(m_fStream);
+        m_fStream=NULL;
+    }
+    else if(m_file != 0)
+    {
+        std::cout << "m_file " << m_file << std::endl;
+        m_file.close();
+//        m_file=NULL;
+    }
+    else
+    {
+        std::cout << "all handle are NULL" << std::endl;
+    }
+//    fclose(m_fStream);
+//    m_file.close();
     return 0;
 }
 
