@@ -94,7 +94,8 @@ int CSocketInputOutput::writeToSocket(std::string a_data)
 {
     memset(sBuffer, 0, sizeof(sBuffer)); // fix?
     strcpy(sBuffer, a_data.c_str());
-    ret = send(m_sClientSocket, sBuffer, strlen(sBuffer), 0);
+//    ret = send(m_sClientSocket, sBuffer, strlen(sBuffer), 0);
+    ret = send(m_sClientSocket, sBuffer, sizeof(sBuffer), 0);
     if (ret != SOCKET_ERROR)
     {
         std::cout << "CSocketInputOutput::writeToSocket send: " << std::endl;

@@ -118,6 +118,7 @@ void CExecuteCommand::putFileToServer(std::string a_filename)
                 }
             }
         }
+        std::cout << "CExecuteCommand::putFileToServer done." << std::endl;
         this->oFileInputOutput.closeFile();
     }
 }

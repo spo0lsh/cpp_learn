@@ -224,6 +224,7 @@ int CFtpClient::executeCommand(std::string a_command, std::string a_param)
     {
         std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << std::endl;
         oExecuteCommand.putFileToServer(&a_param[0]);
+        std::cout << "CFtpClient::executeCommand: " << a_command << " " << a_param << " done." << std::endl;
     }
     else if(a_command == "size")
     {
