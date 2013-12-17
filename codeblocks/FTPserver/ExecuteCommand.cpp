@@ -204,6 +204,7 @@ int CExecuteCommand::putFileToServer(std::string a_filename)
         }
     }
     this->m_opFileInputOutput->closeFile();
+    std::cout << "CExecuteCommand::putFileToServer: done" << std::endl;
     return 0;
 }
 

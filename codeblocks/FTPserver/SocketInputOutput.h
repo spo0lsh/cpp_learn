@@ -5,6 +5,7 @@
 #include <string>
 #include <winsock2.h>
 #define DEFAULT_BUFFER      2048
+#define TIMEOUT             300000 // 300 seconds
 
 class CSocketInputOutput
 {
