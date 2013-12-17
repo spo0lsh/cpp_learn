@@ -66,8 +66,9 @@ int CSocketInputOutput::closeSocket()
 int CSocketInputOutput::readFromSocket()
 {
     std::cout << "CSocketInputOutput::readFromSocket" << std::endl;
-    int ret=0;
+//    int ret=0;
     int timeout = TIMEOUT; //
+    ret=0;
     std::cout << "CClientThread::ReadFromSocketTest timeout: " << timeout / 1000 << std::endl;
     memset(sBuffer, 0, sizeof(sBuffer));
     setsockopt(this->m_sServerSocket,SOL_SOCKET,SO_RCVTIMEO,(char *)&timeout,sizeof(int)); //setting the receive timeout

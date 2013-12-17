@@ -21,6 +21,7 @@ public:
     int writeToSocket(std::string );
     char sBuffer[DEFAULT_BUFFER];
     std::string m_data;
+    int ret;
 private:
     int m_mode;
     SOCKET m_sServerSocket; //= INVALID_SOCKET;
