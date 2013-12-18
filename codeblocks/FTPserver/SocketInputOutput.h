@@ -17,7 +17,7 @@ public:
     int readFromSocket();
     int readFromSocket(SOCKET );
     int writeToSocket(std::string );
-
+    int writeToSocket(int );
     std::string m_data;
     SOCKET m_sClientSocket; //= INVALID_SOCKET;
     int ret; // ?!

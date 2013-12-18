@@ -124,10 +124,11 @@ int CFileInputOutput::closeFile()
 
 int CFileInputOutput::readFile(int a_bytes)
 {
-    int size;
+//    int size;
     memset(sBuffer, 0, sizeof(sBuffer));
-    size=fread(sBuffer,sizeof(char),a_bytes,this->m_fStream);
-    return size;
+    this->bytesReaded=fread(sBuffer,sizeof(char),a_bytes,this->m_fStream);
+//    this->bytesReaded=size;
+    return this->bytesReaded;
 }
 
 void CFileInputOutput::writeToFile(char *a_sBuffor)

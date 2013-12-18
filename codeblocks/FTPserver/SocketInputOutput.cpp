@@ -106,3 +106,39 @@ int CSocketInputOutput::writeToSocket(std::string a_data)
     }
     return 0;
 }
+
+int CSocketInputOutput::writeToSocket(int a_bytes)
+{
+//    memset(sBuffer, 0, sizeof(sBuffer)); // fix?
+//    strcpy(sBuffer, a_data);
+//    ret = send(m_sClientSocket, sBuffer, strlen(sBuffer), 0);
+    ret = send(m_sClientSocket, sBuffer, a_bytes, 0);
+    std::cout << "CSocketInputOutput::writeToSocket string: " << sBuffer << std::endl;
+    if (ret != SOCKET_ERROR)
+    {
+        std::cout << "CSocketInputOutput::writeToSocket send bytes: " << a_bytes << std::endl;
+    }
+    else
+    {
+        std::cout << "CSocketInputOutput::writeToSocket: " << WSAGetLastError() << std::endl;
+    }
+    return 0;
+}
+
+//int CSocketInputOutput::writeToSocket(char a_data[DEFAULT_BUFFER], int a_bytes)
+//{
+//    memset(sBuffer, 0, sizeof(sBuffer)); // fix?
+//    strcpy(sBuffer, a_data);
+////    ret = send(m_sClientSocket, sBuffer, strlen(sBuffer), 0);
+//    ret = send(m_sClientSocket, sBuffer, a_bytes, 0);
+//    std::cout << "CSocketInputOutput::writeToSocket string: " << a_data << " " << sBuffer << std::endl;
+//    if (ret != SOCKET_ERROR)
+//    {
+//        std::cout << "CSocketInputOutput::writeToSocket send bytes: " << a_bytes << std::endl;
+//    }
+//    else
+//    {
+//        std::cout << "CSocketInputOutput::writeToSocket: " << WSAGetLastError() << std::endl;
+//    }
+//    return 0;
+//}
