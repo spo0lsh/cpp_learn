@@ -20,6 +20,7 @@ public:
     int closeFileNG();
     std::string readLineFromFile();
     int readFile(int );
+    void writeToFile(int );
     void writeToFile(char* );
     void writeToFile(char*,int );
     int checkFileSize();

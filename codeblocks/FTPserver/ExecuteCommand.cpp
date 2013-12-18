@@ -154,25 +154,25 @@ int CExecuteCommand::getFileFromServer(std::string a_filename)
             if(fileSize < DEFAULT_BUFFER-1)
             {
                 //debug
-                FILE *output;
-                output=_fsopen("output.exe", "wb", _SH_DENYWR );
+//                FILE *output;
+//                output=_fsopen("output.exe", "wb", _SH_DENYWR );
                 std::cout << "CExecuteCommand::putFileToServe read: " << m_opFileInputOutput->readFile(DEFAULT_BUFFER - 1) << std::endl;
                 memcpy( m_opCSocketInputOutput->sBuffer, m_opFileInputOutput->sBuffer, sizeof(m_opCSocketInputOutput->sBuffer) );
                 m_opCSocketInputOutput->writeToSocket(m_opFileInputOutput->bytesReaded);
-                fwrite(m_opFileInputOutput->sBuffer , sizeof(char), m_opFileInputOutput->bytesReaded, output);
+//                fwrite(m_opFileInputOutput->sBuffer , sizeof(char), m_opFileInputOutput->bytesReaded, output);
                 if(m_opCSocketInputOutput->readFromSocket() > 0)
                 {
                     std::cout << "CExecuteCommand::putFileToServer.readFromSocket() RETR status: " << m_opCSocketInputOutput->sBuffer << std::endl;
                 }
-                fclose(output);
+//                fclose(output);
             }
             else
             {
                 int blocks=ceil((double)fileSize/(DEFAULT_BUFFER-1));
                 std::cout << "CExecuteCommand::putFileToServer size > DEFAULT_BUFFER-1, number of packages: " << blocks << std::endl;
 //                // debug
-                FILE *output;
-                output=_fsopen("output.exe", "wb", _SH_DENYWR );
+//                FILE *output;
+//                output=_fsopen("output.exe", "wb", _SH_DENYWR );
 //                // debug end
                 for(int i=0;i<blocks;++i)
                 {
@@ -184,7 +184,7 @@ int CExecuteCommand::getFileFromServer(std::string a_filename)
 //                    m_opCSocketInputOutput->writeToSocket(m_opFileInputOutput->sBuffer, m_opFileInputOutput->bytesReaded);
                     // debug
                     std::cout << "CExecuteCommand::putFileToServer bytes to write: " << m_opFileInputOutput->bytesReaded << std::endl;
-                    fwrite(m_opFileInputOutput->sBuffer , sizeof(char), m_opFileInputOutput->bytesReaded, output);
+//                    fwrite(m_opFileInputOutput->sBuffer , sizeof(char), m_opFileInputOutput->bytesReaded, output);
                     // end debug
                     if(m_opCSocketInputOutput->readFromSocket() > 0)
                     {

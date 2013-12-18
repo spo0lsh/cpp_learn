@@ -143,18 +143,20 @@ void CExecuteCommand::getFileFromServer(std::string a_filename)
             }
             else
             {
-                FILE *output;
-                output=_fsopen("output.exe", "wb", _SH_DENYWR );
+//                FILE *output;
+//                output=_fsopen("output.exe", "wb", _SH_DENYWR );
 
                 while(oSocketInputOutput.readFromSocket() > 0)
                 {
             //            std::cout << "Read from socket: " << m_opCSocketInputOutput->sBuffer << std::endl;
                     std::cout << "Read from socket bytes: " << oSocketInputOutput.ret << std::endl;
-                    fwrite(oSocketInputOutput.sBuffer , sizeof(char), oSocketInputOutput.ret, output);
-                    oFileInputOutput.writeToFile(oSocketInputOutput.sBuffer);
+//                    fwrite(oSocketInputOutput.sBuffer , sizeof(char), oSocketInputOutput.ret, output);
+                    memcpy(oFileInputOutput.sBuffer, oSocketInputOutput.sBuffer, sizeof(oFileInputOutput.sBuffer) );
+                    oFileInputOutput.writeToFile(oSocketInputOutput.ret);
+//                    oFileInputOutput.writeToFile(oSocketInputOutput.sBuffer);
                     oSocketInputOutput.writeToSocket("OK");
                 }
-                fclose(output);
+//                fclose(output);
             }
             oFileInputOutput.closeFile();
         }
