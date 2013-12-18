@@ -80,6 +80,7 @@ int CSocketInputOutput::readFromSocket()
     else
     {
         std::cout << "CClientThread::ReadFromSocket ret: " << ret << std::endl;
+        std::cout << "CClientThread::ReadFromSocket string " << sBuffer << std::endl;
 //        sBuffer[ret] = '\0'; //problem with binary
     }
     return ret;
