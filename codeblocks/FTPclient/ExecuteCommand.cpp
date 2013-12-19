@@ -91,7 +91,8 @@ void CExecuteCommand::putFileToServer(std::string a_filename)
                     if(size < DEFAULT_BUFFER)
                     {
                         std::cout << "CExecuteCommand::putFileToServe read: " << oFileInputOutput.readFile(DEFAULT_BUFFER - 1) << std::endl;
-                        oSocketInputOutput.writeToSocket(oFileInputOutput.sBuffer);
+                        memcpy( oSocketInputOutput.sBuffer, oFileInputOutput.sBuffer, sizeof(oSocketInputOutput.sBuffer) );
+                        oSocketInputOutput.writeToSocket(oFileInputOutput.bytesReaded);
                         if(oSocketInputOutput.readFromSocket() > 0)
                         {
                             std::cout << "CExecuteCommand::putFileToServer.readFromSocket() RETR status: " << oSocketInputOutput.sBuffer << std::endl;
@@ -103,12 +104,27 @@ void CExecuteCommand::putFileToServer(std::string a_filename)
                         std::cout << "CExecuteCommand::putFileToServer size > DEFAULT_BUFFER, number of packages: " << blocks << std::endl;
                         for(int i=0;i<blocks;++i)
                         {
-                            oFileInputOutput.readFile(DEFAULT_BUFFER - 1);
-                            oSocketInputOutput.writeToSocket(oFileInputOutput.sBuffer);
+                            oFileInputOutput.readFile(DEFAULT_BUFFER-1);
+                            // need be fixed
+                            memcpy( oSocketInputOutput.sBuffer, oFileInputOutput.sBuffer, sizeof(oSocketInputOutput.sBuffer) );
+                            std::cout << "CExecuteCommand::getFileFromServer bytes to write: " << oFileInputOutput.bytesReaded << std::endl;
+                            std::cout << "CExecuteCommand::getFileFromServer: " << i+1 << "/" << blocks << std::endl;
+                            oSocketInputOutput.writeToSocket(oFileInputOutput.bytesReaded);
                             if(oSocketInputOutput.readFromSocket() > 0)
                             {
                                 std::cout << "CExecuteCommand::putFileToServer.readFromSocket() RETR status: " << oSocketInputOutput.sBuffer << std::endl;
                             }
+                            else
+                            {
+                                std::cout << "CExecuteCommand::putFileToServer.readFromSocket() WITH BREAK RETR status: " << oSocketInputOutput.sBuffer << std::endl;
+                                break;
+                            }
+                        }
+                        std::cout << "CExecuteCommand::getFileFromServer send NOOP" << std::endl;
+                        oSocketInputOutput.writeToSocket("NOOP");
+                        if(oSocketInputOutput.readFromSocket() > 0)
+                        {
+                            std::cout << "CExecuteCommand::getFileFromServer.readFromSocket() NOOP status: " << oSocketInputOutput.sBuffer << std::endl;
                         }
                     }
                 }

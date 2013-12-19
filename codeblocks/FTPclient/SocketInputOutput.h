@@ -19,6 +19,7 @@ public:
     int readFromSocket();
     int readFromSocket(SOCKET );
     int writeToSocket(std::string );
+    int writeToSocket(int );
     char sBuffer[DEFAULT_BUFFER];
     std::string m_data;
     int ret;

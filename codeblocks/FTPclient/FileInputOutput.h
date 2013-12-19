@@ -28,6 +28,7 @@ public:
 //    std::string m_data;
 //    char *m_pData;
     char sBuffer[DEFAULT_BUFFER];
+    int bytesReaded;
 private:
     int m_mode;
     std::fstream m_file;

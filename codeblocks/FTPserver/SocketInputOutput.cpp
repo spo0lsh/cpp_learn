@@ -51,20 +51,20 @@ SOCKET CSocketInputOutput::openSocket(char* a_host, int a_port)
 
 int CSocketInputOutput::readFromSocket(SOCKET a_sClientSocket)
 {
-    std::cout << "CSocketInputOutput::readFromSocket" << std::endl;
+    std::cout << "CSocketInputOutput::readFromSocket(SOCKET)" << std::endl;
     ret=0;
     int timeout = TIMEOUT; //
-    std::cout << "CClientThread::ReadFromSocketTest timeout: " << TIMEOUT / 1000 << std::endl;
+    std::cout << "CClientThread::ReadFromSocket(SOCKET) timeout: " << TIMEOUT / 1000 << std::endl;
     memset(sBuffer, 0, sizeof(sBuffer));
     setsockopt(a_sClientSocket,SOL_SOCKET,SO_RCVTIMEO,(char *)&timeout,sizeof(int)); //setting the receive timeout
     ret = recv(a_sClientSocket, sBuffer, 2048, 0);
     if (ret == SOCKET_ERROR)
     {
-        std::cout << "CClientThread::ReadFromSocket.recv() failed: " << WSAGetLastError() << std::endl;
+        std::cout << "CClientThread::ReadFromSocket(SOCKET).recv() failed: " << WSAGetLastError() << std::endl;
     }
     else
     {
-        std::cout << "CClientThread::ReadFromSocket ret: " << ret << std::endl;
+        std::cout << "CClientThread::ReadFromSocket(SOCKET) ret: " << ret << std::endl;
 //        sBuffer[ret] = '\0'; //problem with binary
     }
     return ret;
@@ -72,20 +72,20 @@ int CSocketInputOutput::readFromSocket(SOCKET a_sClientSocket)
 
 int CSocketInputOutput::readFromSocket()
 {
-    std::cout << "CSocketInputOutput::readFromSocket" << std::endl;
-    int ret=0;
+    std::cout << "CSocketInputOutput::readFromSocket()" << std::endl;
+//    int ret=0;
     int timeout = 10000; //in milliseconds. this is 10 seconds
-    std::cout << "CClientThread::ReadFromSocketTest timeout: " << timeout / 1000 << std::endl;
+    std::cout << "CClientThread::ReadFromSocket() timeout: " << timeout / 1000 << std::endl;
     memset(sBuffer, 0, sizeof(sBuffer));
     setsockopt(this->m_sClientSocket,SOL_SOCKET,SO_RCVTIMEO,(char *)&timeout,sizeof(int)); //setting the receive timeout
     ret = recv(this->m_sClientSocket, sBuffer, 2048, 0);
     if (ret == SOCKET_ERROR)
     {
-        std::cout << "CClientThread::ReadFromSocket.recv() failed: " << WSAGetLastError() << std::endl;
+        std::cout << "CClientThread::ReadFromSocket().recv() failed: " << WSAGetLastError() << std::endl;
     }
     else
     {
-        std::cout << "CClientThread::ReadFromSocket ret: " << ret << std::endl;
+        std::cout << "CClientThread::ReadFromSocket() ret: " << ret << std::endl;
 //        sBuffer[ret] = '\0'; //problem with binary
     }
     return ret;

@@ -131,6 +131,12 @@ int CFileInputOutput::readFile(int a_bytes)
     return this->bytesReaded;
 }
 
+void CFileInputOutput::writeToFile(int a_bytes)
+{
+    std::cout << "CFileInputOutput::writeToFile(int) bytes: " << a_bytes << std::endl;
+    fwrite(this->sBuffer , sizeof(char), a_bytes, this->m_fStream);
+}
+
 void CFileInputOutput::writeToFile(char *a_sBuffor)
 {
 //    fputs(a_sBuffor,m_fStream);

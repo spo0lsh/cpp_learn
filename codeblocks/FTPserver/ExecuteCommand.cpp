@@ -220,9 +220,21 @@ int CExecuteCommand::putFileToServer(std::string a_filename)
         this->m_opCSocketInputOutput->writeToSocket("OK");
         while(m_opCSocketInputOutput->readFromSocket() > 0)
         {
-//            std::cout << "Read from socket: " << m_opCSocketInputOutput->sBuffer << std::endl;
-            m_opFileInputOutput->writeToFile(m_opCSocketInputOutput->sBuffer);
-            this->m_opCSocketInputOutput->writeToSocket("OK");
+            if(strcmp(m_opCSocketInputOutput->sBuffer, "NOOP") != 0)
+//                    if(strncmp(oSocketInputOutput.sBuffer, "NOOP",4) != 0)
+            {
+                std::cout << "CExecuteCommand::putFileToServer read from socket bytes: " << m_opCSocketInputOutput->ret << std::endl;
+                memcpy(m_opFileInputOutput->sBuffer, m_opCSocketInputOutput->sBuffer, sizeof(m_opFileInputOutput->sBuffer) );
+                m_opFileInputOutput->writeToFile(m_opCSocketInputOutput->ret);
+                m_opCSocketInputOutput->writeToSocket("OK");
+            }
+            else
+            {
+                std::cout << "CExecuteCommand::putFileToServer Read from socket bytes NOOP: " << m_opCSocketInputOutput->ret << " " << m_opCSocketInputOutput->sBuffer << std::endl;
+                m_opCSocketInputOutput->writeToSocket("OK");
+                std::cout << "CExecuteCommand::putFileToServer BREAK" << std::endl;
+                break;
+            }
         }
     }
     this->m_opFileInputOutput->closeFile();
