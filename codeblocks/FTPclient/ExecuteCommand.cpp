@@ -157,33 +157,40 @@ void CExecuteCommand::getFileFromServer(std::string a_filename)
         oSocketInputOutput.writeToSocket("RETR " + a_filename);
         if(oSocketInputOutput.readFromSocket() > 0)
         {
-            std::cout << "CExecuteCommand::getFileFromServer.readFromSocket() RETR: " << oSocketInputOutput.sBuffer << std::endl;
-            if(oFileInputOutput.openFile(&a_filename[0], 3) != 0)
+            if(strcmp(oSocketInputOutput.sBuffer, "KO") != 0)
             {
+                std::cout << "CExecuteCommand::getFileFromServer.readFromSocket() RETR: " << oSocketInputOutput.sBuffer << std::endl;
+                if(oFileInputOutput.openFile(&a_filename[0], 3) != 0)
+                {
 
+                }
+                else
+                {
+                    while(oSocketInputOutput.readFromSocket() > 0)
+                    {
+                        if(strcmp(oSocketInputOutput.sBuffer, "NOOP") != 0)
+    //                    if(strncmp(oSocketInputOutput.sBuffer, "NOOP",4) != 0)
+                        {
+                            std::cout << "CExecuteCommand::getFileFromServer read from socket bytes: " << oSocketInputOutput.ret << std::endl;
+                            memcpy(oFileInputOutput.sBuffer, oSocketInputOutput.sBuffer, sizeof(oFileInputOutput.sBuffer) );
+                            oFileInputOutput.writeToFile(oSocketInputOutput.ret);
+                            oSocketInputOutput.writeToSocket("OK");
+                        }
+                        else
+                        {
+                            std::cout << "CExecuteCommand::getFileFromServer Read from socket bytes NOOP: " << oSocketInputOutput.ret << " " << oSocketInputOutput.sBuffer << std::endl;
+                            oSocketInputOutput.writeToSocket("OK");
+                            std::cout << "CExecuteCommand::getFileFromServer BREAK" << std::endl;
+                            break;
+                        }
+                    }
+                }
+                oFileInputOutput.closeFile();
             }
             else
             {
-                while(oSocketInputOutput.readFromSocket() > 0)
-                {
-                    if(strcmp(oSocketInputOutput.sBuffer, "NOOP") != 0)
-//                    if(strncmp(oSocketInputOutput.sBuffer, "NOOP",4) != 0)
-                    {
-                        std::cout << "CExecuteCommand::getFileFromServer read from socket bytes: " << oSocketInputOutput.ret << std::endl;
-                        memcpy(oFileInputOutput.sBuffer, oSocketInputOutput.sBuffer, sizeof(oFileInputOutput.sBuffer) );
-                        oFileInputOutput.writeToFile(oSocketInputOutput.ret);
-                        oSocketInputOutput.writeToSocket("OK");
-                    }
-                    else
-                    {
-                        std::cout << "CExecuteCommand::getFileFromServer Read from socket bytes NOOP: " << oSocketInputOutput.ret << " " << oSocketInputOutput.sBuffer << std::endl;
-                        oSocketInputOutput.writeToSocket("OK");
-                        std::cout << "CExecuteCommand::getFileFromServer BREAK" << std::endl;
-                        break;
-                    }
-                }
+                std::cout << "CExecuteCommand::getFileFromServer fail." << std::endl;
             }
-            oFileInputOutput.closeFile();
         }
     }
 }
