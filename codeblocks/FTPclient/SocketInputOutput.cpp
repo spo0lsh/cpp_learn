@@ -80,7 +80,7 @@ int CSocketInputOutput::readFromSocket()
     else
     {
         std::cout << "CClientThread::ReadFromSocket ret: " << ret << std::endl;
-        std::cout << "CClientThread::ReadFromSocket string " << sBuffer << std::endl;
+//        std::cout << "CClientThread::ReadFromSocket string " << sBuffer << std::endl;
 //        sBuffer[ret] = '\0'; //problem with binary
     }
     return ret;
@@ -95,8 +95,8 @@ int CSocketInputOutput::writeToSocket(std::string a_data)
     int ret = send(this->m_sServerSocket, sBuffer, sizeof(sBuffer), 0);
     if (ret != SOCKET_ERROR)
     {
-//        std::cout << "CSocketInputOutput::writeToSocket send: " << sBuffer << std::endl;
-        std::cout << "CSocketInputOutput::writeToSocket send: " << std::endl;
+        std::cout << "CSocketInputOutput::writeToSocket send: " << sBuffer << std::endl;
+//        std::cout << "CSocketInputOutput::writeToSocket send: " << ret << std::endl;
     }
     else
     {

@@ -125,7 +125,6 @@ void CExecuteCommand::putFileToServer(std::string a_filename)
 
 void CExecuteCommand::getFileFromServer(std::string a_filename)
 {
-//    std::cout << "CExecuteCommand::getFileFromServer: " << std::endl;
     if(this->getLoginStatus() != 0)
     {
         std::cout << "CExecuteCommand::getFileFromServer: not logged" << std::endl;
@@ -143,20 +142,24 @@ void CExecuteCommand::getFileFromServer(std::string a_filename)
             }
             else
             {
-//                FILE *output;
-//                output=_fsopen("output.exe", "wb", _SH_DENYWR );
-
                 while(oSocketInputOutput.readFromSocket() > 0)
                 {
-            //            std::cout << "Read from socket: " << m_opCSocketInputOutput->sBuffer << std::endl;
-                    std::cout << "Read from socket bytes: " << oSocketInputOutput.ret << std::endl;
-//                    fwrite(oSocketInputOutput.sBuffer , sizeof(char), oSocketInputOutput.ret, output);
-                    memcpy(oFileInputOutput.sBuffer, oSocketInputOutput.sBuffer, sizeof(oFileInputOutput.sBuffer) );
-                    oFileInputOutput.writeToFile(oSocketInputOutput.ret);
-//                    oFileInputOutput.writeToFile(oSocketInputOutput.sBuffer);
-                    oSocketInputOutput.writeToSocket("OK");
+                    if(strcmp(oSocketInputOutput.sBuffer, "NOOP") != 0)
+//                    if(strncmp(oSocketInputOutput.sBuffer, "NOOP",4) != 0)
+                    {
+                        std::cout << "CExecuteCommand::getFileFromServer read from socket bytes: " << oSocketInputOutput.ret << std::endl;
+                        memcpy(oFileInputOutput.sBuffer, oSocketInputOutput.sBuffer, sizeof(oFileInputOutput.sBuffer) );
+                        oFileInputOutput.writeToFile(oSocketInputOutput.ret);
+                        oSocketInputOutput.writeToSocket("OK");
+                    }
+                    else
+                    {
+                        std::cout << "CExecuteCommand::getFileFromServer Read from socket bytes NOOP: " << oSocketInputOutput.ret << " " << oSocketInputOutput.sBuffer << std::endl;
+                        oSocketInputOutput.writeToSocket("OK");
+                        std::cout << "CExecuteCommand::getFileFromServer BREAK" << std::endl;
+                        break;
+                    }
                 }
-//                fclose(output);
             }
             oFileInputOutput.closeFile();
         }
