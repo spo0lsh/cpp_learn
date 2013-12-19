@@ -253,9 +253,13 @@ int CExecuteCommand::showFilesOnServer()
         /* print all the files and directories within directory */
         while ((ent = readdir (dir)) != NULL) {
             this->m_opCSocketInputOutput->writeToSocket(ent->d_name);
+            m_opCSocketInputOutput->readFromSocket();
             this->m_opCSocketInputOutput->writeToSocket("\n");
+            m_opCSocketInputOutput->readFromSocket();
         }
         closedir (dir);
+        this->m_opCSocketInputOutput->writeToSocket("NOOP");
+        m_opCSocketInputOutput->readFromSocket();
     } else {
         this->m_opCSocketInputOutput->writeToSocket("KO");
     }
