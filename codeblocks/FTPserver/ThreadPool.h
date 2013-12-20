@@ -22,7 +22,8 @@ public:
     ~CThreadPool();
     int addThread(int );
     int removeThread();
-    int findFreeThread();
+    int WakeUpFreeThread();
+    int checkFreeThread();
     int setPoolSize(int );
     int getPoolSize();
     int createQueue(std::vector <SOCKET>*);

@@ -79,7 +79,9 @@ int CThreadPool::createQueue(std::vector <SOCKET>* a_Queue)
 int CThreadPool::addTaskToQueue(SOCKET a_Socket)
 {
     int exit_status=0;
-    if(this->mp_Queue->size() < (unsigned int)this->poolSize) //(unsigned int)
+    //
+//    if(this->mp_Queue->size() < (unsigned int)this->poolSize) //(unsigned int)
+    if(this->checkFreeThread() == 0)
     {
         this->mp_Queue->push_back(a_Socket);
         std::cout << "CThreadPool::addTaskToQueue: OK size: " << this->mp_Queue->size() << std::endl;
@@ -99,19 +101,40 @@ int CThreadPool::setPoolSize(int a_maxPoolSize)
     return 0;
 }
 
-int CThreadPool::findFreeThread()
+int CThreadPool::checkFreeThread()
 {
-    std::cout << "CThreadPool::findFreeThread: " << this->m_vThreads.size() << std::endl;
+    int exit_status;
+//    int iPoolSize = this->m_vThreads.size();
+    for(unsigned int i=0; i<this->m_vThreads.size();++i)
+    {
+        if(this->m_vThreads[i].getThreadState() != 0)
+        {
+            std::cout << "CThreadPool::checkFreeThread not found." << std::endl;
+            exit_status=1;
+        }
+        else
+        {
+            std::cout << "CThreadPool::checkFreeThread found." << std::endl;
+            exit_status=0;
+            break;
+        }
+    }
+    return exit_status;
+}
+
+int CThreadPool::WakeUpFreeThread()
+{
+    std::cout << "CThreadPool::WakeUpFreeThread: " << this->m_vThreads.size() << std::endl;
     int iPoolSize = this->m_vThreads.size();
     for( int i = 0; i < iPoolSize; i++)
     {
         if(this->m_vThreads[i].getThreadState() != 0)
         {
-            std::cout << "CThreadPool::findFreeThread getThreadState(): " << this->m_vThreads[i].getThreadState() << " " << m_vThreads[i].getHandle() << std::endl;
+            std::cout << "CThreadPool::WakeUpFreeThread getThreadState(): " << this->m_vThreads[i].getThreadState() << " " << m_vThreads[i].getHandle() << std::endl;
         }
         else
         {
-            std::cout << "CThreadPool::findFreeThread getThreadState(): " << this->m_vThreads[i].getThreadState() << " ID: " << m_vThreads[i].getThreadID() << " " << m_vThreads[i].getHandle() << std::endl;
+            std::cout << "CThreadPool::WakeUpFreeThread getThreadState(): " << this->m_vThreads[i].getThreadState() << " ID: " << m_vThreads[i].getThreadID() << " " << m_vThreads[i].getHandle() << std::endl;
             this->m_vThreads[i].setThreadState(1);
             this->m_vThreads[i].wakeUpThread(this->mp_Queue, this->mp_DB);
             break;

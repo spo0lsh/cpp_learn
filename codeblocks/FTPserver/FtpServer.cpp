@@ -18,7 +18,7 @@ CFtpServer::CFtpServer()
     m_directory = "./";
     m_poolSize = 4;
     m_dbFile = "database.txt";
-    m_ThreadPool = new CThreadPool(m_poolSize);
+//    m_ThreadPool = new CThreadPool(m_poolSize);
 }
 
 CFtpServer::CFtpServer(int a_poolSize)
@@ -31,6 +31,7 @@ CFtpServer::CFtpServer(int a_poolSize)
     m_directory = "./";
     m_poolSize = 4;
     m_dbFile = "database.txt";
+    m_ThreadPool = new CThreadPool(a_poolSize);
 }
 
 CFtpServer::~CFtpServer()
@@ -164,7 +165,7 @@ void CFtpServer::acceptConnection()
         }
         else
         {
-            m_ThreadPool->findFreeThread();
+            m_ThreadPool->WakeUpFreeThread();
         }
     }
 }
