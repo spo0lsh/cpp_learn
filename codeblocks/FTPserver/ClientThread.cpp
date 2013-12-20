@@ -108,6 +108,7 @@ void CClientThread::wakeUpThread(std::vector <SOCKET>* a_Queue, std::vector <std
     ResumeThread(this->getHandle());
 }
 
+// need improve mutex!
 void CClientThread::getTaskFromQueue()
 {
     std::cout << "CClientThread::getTaskFromQueue" << std::endl;

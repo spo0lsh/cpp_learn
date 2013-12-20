@@ -20,7 +20,7 @@ CFtpServer::CFtpServer()
     m_dbFile = "database.txt";
 //    m_ThreadPool = new CThreadPool(m_poolSize);
 }
-
+// double alloc cftpserver
 CFtpServer::CFtpServer(int a_poolSize)
 {
     mp_ListenSocket = INVALID_SOCKET;
@@ -29,14 +29,14 @@ CFtpServer::CFtpServer(int a_poolSize)
     m_host = (char*)"0.0.0.0";
     m_port = 5150;
     m_directory = "./";
-    m_poolSize = 4;
+    m_poolSize = 4; //a_poolSize;
     m_dbFile = "database.txt";
     m_ThreadPool = new CThreadPool(a_poolSize);
 }
 
 CFtpServer::~CFtpServer()
 {
-
+	delete m_ThreadPool; // added
 }
 
 int CFtpServer::startServer(int argc, char *argv[])
@@ -61,7 +61,7 @@ int CFtpServer::startServer(int argc, char *argv[])
         }
         else
         {
-
+//added
         }
     }
     else
@@ -71,7 +71,7 @@ int CFtpServer::startServer(int argc, char *argv[])
 
     // socket
     mp_ListenSocket = INVALID_SOCKET;
-    CSocketInputOutput *po_SocketInputOutput = new CSocketInputOutput;
+    CSocketInputOutput *po_SocketInputOutput = new CSocketInputOutput; //delete
     mp_ListenSocket=po_SocketInputOutput->openSocket(m_host, m_port);
     if(mp_ListenSocket == 1)
     {
@@ -108,7 +108,7 @@ int CFtpServer::getOptionsFromCommandLine(int argc, char *argv[])
     {
         std::cout << "CFtpServer::getOptionsFromCommandLine FtpServer using default settings!" << std::endl;
         std::cout << "CFtpServer::getOptionsFromCommandLine Example: " << argv[0] << " 0.0.0.0 6667 c:\\temp 10 c:\\temp\\database.txt" << std::endl;
-        m_ThreadPool = new CThreadPool;
+        m_ThreadPool = new CThreadPool; //need fix
     }
     return 0;
 }
@@ -118,11 +118,11 @@ int CFtpServer::checkRootDirectory()
     string filename = this->m_directory+"ASTGATGAQGasfas.txt"; // random filename like Sony
 
     std::cout << "CFtpServer::checkRootDirectory: " << this->m_directory << " filename: " << filename << std::endl;
-    int exit_status;
+    int exit_status; // =0;
     exit_status=0;
     /* Add check write procedure with "random" filename
     */
-    std::ofstream myfile(filename.c_str());
+    std::ofstream myfile(filename.c_str()); //design miss
     if (myfile.is_open())
     {
         myfile << "This is a line.\n";

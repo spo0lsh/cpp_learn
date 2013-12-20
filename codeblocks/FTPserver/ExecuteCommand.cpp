@@ -22,7 +22,8 @@ void CExecuteCommand::setLoginStatus(int a_iLoginStatus)
     this->m_iLoginStatus=a_iLoginStatus;
 }
 
-void CExecuteCommand::parseData(std::string a_data)
+// change logic of parse and execute -> return;
+void CExecuteCommand::parseData(std::string a_data) // const char, disable new alloc  (ref -> &) ->>> validate command and argv
 {
     std::cout << "CExecuteCommand::parseData: " << a_data << std::endl;
     std::string command;
@@ -169,6 +170,7 @@ int CExecuteCommand::getFileFromServer(std::string a_filename)
             }
             else
             {
+			// double -> and module (%)
                 int blocks=ceil((double)fileSize/(DEFAULT_BUFFER-1));
                 std::cout << "CExecuteCommand::getFileFromServer size > DEFAULT_BUFFER-1, number of packages: " << blocks << std::endl;
                 for(int i=0;i<blocks;++i)

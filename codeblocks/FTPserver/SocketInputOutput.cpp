@@ -90,6 +90,7 @@ int CSocketInputOutput::readFromSocket()
     }
     return ret;
 }
+// todo: return code!
 int CSocketInputOutput::writeToSocket(std::string a_data)
 {
     memset(sBuffer, 0, sizeof(sBuffer)); //
