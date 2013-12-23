@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
     if(oFtpServer.startServer(argc, argv) != 0)
     {
         std::cout << "main: oFtpServer.startServer fail!" << std::endl;
+        oFtpServer.stopServer();
         exit_status=1;
     }
     else

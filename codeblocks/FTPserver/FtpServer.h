@@ -67,9 +67,9 @@ public:
     ~CFtpServer();
 
     CThreadPool *m_ThreadPool;
-    void acceptConnection();
+    int acceptConnection();
     void bindAndListen();
-    int startServer(int argc, char *argv[]);
+    int startServer(int &, char *argv[]);
     void stopServer();
     void debugVariable();
 
@@ -82,7 +82,7 @@ private:
     int m_poolSize;
 
     int checkRootDirectory();
-    int getOptionsFromCommandLine(int , char **);
+    int getOptionsFromCommandLine(int &, char **);
 
     SOCKET mp_ListenSocket; //= INVALID_SOCKET;
     SOCKET mp_ClientSocket; //= INVALID_SOCKET;
