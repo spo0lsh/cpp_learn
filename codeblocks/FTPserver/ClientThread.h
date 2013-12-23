@@ -1,11 +1,11 @@
 #ifndef CLIENTTHREAD_H_INCLUDED
 #define CLIENTTHREAD_H_INCLUDED
 
-#include <iostream>
-#include <winsock2.h>
+//#include <iostream>
+//#include <winsock2.h>
 #include <process.h>
-#include <vector>
-#include <windows.h>
+//#include <vector>
+//#include <windows.h>
 
 #include "DatabaseOperations.h"
 #include "ExecuteCommand.h"

@@ -1,4 +1,5 @@
 #include "ExecuteCommand.h"
+#include <dirent.h>
 
 CExecuteCommand::CExecuteCommand()
 {

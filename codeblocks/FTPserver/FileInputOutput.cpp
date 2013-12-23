@@ -1,3 +1,6 @@
+#include <iostream>
+#include <string>
+#include <share.h>
 #include "FileInputOutput.h"
 
 CFileInputOutput::CFileInputOutput()

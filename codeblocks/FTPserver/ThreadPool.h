@@ -1,17 +1,17 @@
 #ifndef THREADPOOL_H_INCLUDED
 #define THREADPOOL_H_INCLUDED
 
-#include <iostream>
-#include <string>
-#include <cstdlib>
-#include <fstream>
+//#include <iostream>
+//#include <string>
+//#include <cstdlib>
+//#include <fstream>
 #include <vector>
-
-#include <winsock2.h>
-#include <windows.h>
-#include <process.h>
-
-#include "DatabaseOperations.h"
+//
+//#include <winsock2.h>
+//#include <windows.h>
+//#include <process.h>
+//
+//#include "DatabaseOperations.h"
 #include "ClientThread.h"
 
 class CThreadPool

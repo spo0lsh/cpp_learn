@@ -1,12 +1,12 @@
 #ifndef FILEINPUTOUTPUT_H_INCLUDED
 #define FILEINPUTOUTPUT_H_INCLUDED
 
-#include <string>
-#include <iostream>
+//#include <string>
+//#include <iostream>
 #include <fstream>
-#include <share.h>
-#include <memory.h>
-#include <dirent.h>
+//#include <share.h>
+//#include <memory.h>
+//#include <dirent.h>
 #include "SocketInputOutput.h"
 
 class CFileInputOutput

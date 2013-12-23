@@ -1,7 +1,7 @@
 #ifndef SOCKETINPUTOUTPUT_H_INCLUDED
 #define SOCKETINPUTOUTPUT_H_INCLUDED
 
-#include <iostream>
+//#include <iostream>
 #include <string>
 #include <winsock2.h>
 #define DEFAULT_BUFFER      2048
