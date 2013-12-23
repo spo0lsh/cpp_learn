@@ -13,7 +13,7 @@ CSocketInputOutput::~CSocketInputOutput()
 }
 
 // bind and listen, not only open socket ... FIX!
-SOCKET CSocketInputOutput::openSocket(char* a_host, int a_port)
+SOCKET CSocketInputOutput::openSocket(char* a_host, int &a_port)
 {
     std::cout << "SocketInputOutput::openSocket " << a_host <<  " " << a_port << std::endl;
 
@@ -50,7 +50,7 @@ SOCKET CSocketInputOutput::openSocket(char* a_host, int a_port)
     return mp_ListenSocket;
 }
 
-int CSocketInputOutput::readFromSocket(SOCKET a_sClientSocket)
+int CSocketInputOutput::readFromSocket(SOCKET &a_sClientSocket)
 {
     std::cout << "CSocketInputOutput::readFromSocket(SOCKET)" << std::endl;
     ret=0;
@@ -111,7 +111,7 @@ int CSocketInputOutput::writeToSocket(std::string a_data)
     return 0;
 }
 
-int CSocketInputOutput::writeToSocket(int a_bytes)
+int CSocketInputOutput::writeToSocket(int &a_bytes)
 {
 //    memset(sBuffer, 0, sizeof(sBuffer)); // fix?
 //    strcpy(sBuffer, a_data);

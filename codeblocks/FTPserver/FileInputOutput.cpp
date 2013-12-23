@@ -13,7 +13,7 @@ CFileInputOutput::~CFileInputOutput()
 
 }
 
-int CFileInputOutput::openFile(char* a_filename, int a_mode=0)
+int CFileInputOutput::openFile(char* a_filename, int &a_mode)
 {
     int exit_status=0;
     // mode
@@ -99,6 +99,7 @@ int CFileInputOutput::openFile(char* a_filename)
 int CFileInputOutput::closeFile()
 {
     std::cout << "CFileInputOutput::closeFile ";
+    int exit_status=0;
     if(m_fStream != 0)
     {
         std::cout << "m_fStream " << m_fStream << std::endl;
@@ -114,10 +115,11 @@ int CFileInputOutput::closeFile()
     else
     {
         std::cout << "all handle are NULL" << std::endl;
+        exit_status=1;
     }
 //    fclose(m_fStream);
 //    m_file.close();
-    return 0;
+    return exit_status;
 }
 
 //void CFileInputOutput::readFile(int a_bytes)
@@ -125,7 +127,7 @@ int CFileInputOutput::closeFile()
 //    fgets(m_pData, a_bytes, m_fStream);
 //}
 
-int CFileInputOutput::readFile(int a_bytes)
+int CFileInputOutput::readFile(int &a_bytes)
 {
 //    int size;
     memset(sBuffer, 0, sizeof(sBuffer));
@@ -134,7 +136,7 @@ int CFileInputOutput::readFile(int a_bytes)
     return this->bytesReaded;
 }
 
-void CFileInputOutput::writeToFile(int a_bytes)
+void CFileInputOutput::writeToFile(int &a_bytes)
 {
     std::cout << "CFileInputOutput::writeToFile(int) bytes: " << a_bytes << std::endl;
     fwrite(this->sBuffer , sizeof(char), a_bytes, this->m_fStream);
@@ -148,7 +150,7 @@ void CFileInputOutput::writeToFile(char *a_sBuffor)
 //    fwrite (a_sBuffor , sizeof(char), a_bufsize, m_fStream);
 }
 
-void CFileInputOutput::writeToFile(char *a_sBuffor, int a_bufsize)
+void CFileInputOutput::writeToFile(char *a_sBuffor, int &a_bufsize)
 {
 //    fputs(a_sBuffor,m_fStream);
     std::cout << "CFileInputOutput::writeToFile " << a_sBuffor << " " << a_bufsize << std::endl;

@@ -24,6 +24,7 @@ CThreadPool::CThreadPool()
 
 CThreadPool::CThreadPool(int &a_poolSize)
 {
+    int state=0;
     std::cout << "CThreadPool::CThreadPool(int ) " << a_poolSize << std::cout;
 	HANDLE hThreadHandler = 0;
 	unsigned int uiThreadID = 0;
@@ -37,7 +38,7 @@ CThreadPool::CThreadPool(int &a_poolSize)
 		hThreadHandler = (HANDLE)_beginthreadex( NULL, 0, CClientThread::mainThread, (void*)&this->m_vThreads[i], CREATE_SUSPENDED, &uiThreadID);
 		this->m_vThreads[i].setHandle( hThreadHandler);
 		this->m_vThreads[i].setThreadID( uiThreadID);
-		this->m_vThreads[i].setThreadState(0);
+		this->m_vThreads[i].setThreadState(state);
         std::cout << "CThreadPool::addThread: " << m_vThreads[i].getHandle() << " ID: " << m_vThreads[i].getThreadID() << " Address: " << (void*)&this->m_vThreads[i] << " State: " << m_vThreads[i].getThreadState() << std::endl;
 	}
 }
@@ -52,7 +53,7 @@ int CThreadPool::initThreadPool(int &a_maxPoolSize, std::string &a_dbFile)
     int exit_status=0;
 
     // setpoolsize
-    this->setPoolSize(a_maxPoolSize);
+//    this->setPoolSize(a_maxPoolSize);
 
     // create queue
     this->createQueue(mp_Queue);
@@ -77,6 +78,7 @@ int CThreadPool::initThreadPool(int &a_maxPoolSize, std::string &a_dbFile)
 int CThreadPool::createQueue(std::vector <SOCKET>* a_Queue)
 {
     std::cout << "CThreadPool::createQueue " << std::endl;
+    // TODO: pessimistic version for return code
     this->mp_Queue = new std::vector <SOCKET>();
     return 0;
 }
@@ -99,12 +101,12 @@ int CThreadPool::addTaskToQueue(SOCKET &a_Socket)
     return exit_status;
 }
 
-int CThreadPool::setPoolSize(int &a_maxPoolSize)
-{
-    this->poolSize=a_maxPoolSize;
-    this->maxPoolSize=a_maxPoolSize;
-    return 0;
-}
+//int CThreadPool::setPoolSize(int &a_maxPoolSize)
+//{
+//    this->poolSize=a_maxPoolSize;
+//    this->maxPoolSize=a_maxPoolSize;
+//    return 0;
+//}
 
 int CThreadPool::checkFreeThread()
 {
@@ -131,19 +133,23 @@ int CThreadPool::WakeUpFreeThread()
 {
     std::cout << "CThreadPool::WakeUpFreeThread: " << this->m_vThreads.size() << std::endl;
     int iPoolSize = this->m_vThreads.size();
-    for( int i = 0; i < iPoolSize; i++)
+    int exit_status=0;
+    for( int i = 0; i < iPoolSize; ++i)
     {
         if(this->m_vThreads[i].getThreadState() != 0)
         {
             std::cout << "CThreadPool::WakeUpFreeThread getThreadState(): " << this->m_vThreads[i].getThreadState() << " " << m_vThreads[i].getHandle() << std::endl;
+            exit_status=1;
         }
         else
         {
+            int state=1;
             std::cout << "CThreadPool::WakeUpFreeThread getThreadState(): " << this->m_vThreads[i].getThreadState() << " ID: " << m_vThreads[i].getThreadID() << " " << m_vThreads[i].getHandle() << std::endl;
-            this->m_vThreads[i].setThreadState(1);
+            this->m_vThreads[i].setThreadState(state);
             this->m_vThreads[i].wakeUpThread(this->mp_Queue, this->mp_DB);
+            exit_status=0;
             break;
         }
     }
-    return 0;
+    return exit_status;
 }

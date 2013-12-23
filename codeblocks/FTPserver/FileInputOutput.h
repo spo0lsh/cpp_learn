@@ -15,14 +15,14 @@ public:
     CFileInputOutput();
     ~CFileInputOutput();
     int openFile(char* );
-    int openFile(char* , int );
+    int openFile(char* , int &);
     int closeFile();
     int closeFileNG();
     std::string readLineFromFile();
-    int readFile(int );
-    void writeToFile(int );
+    int readFile(int &);
+    void writeToFile(int &);
     void writeToFile(char* );
-    void writeToFile(char*,int );
+    void writeToFile(char*,int &);
     int checkFileSize();
 
     std::string m_data;

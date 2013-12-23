@@ -12,7 +12,7 @@ CDatabaseOperations::~CDatabaseOperations()
 
 }
 
-vector <vector<string> > * CDatabaseOperations::createDatabaseStructure(std::string a_dbFile)
+vector <vector<string> > * CDatabaseOperations::createDatabaseStructure(std::string &a_dbFile)
 {
     vector <vector<string> > *pr_DB = new vector <vector<string> >();
     this->mp_DB = pr_DB;
@@ -23,10 +23,14 @@ vector <vector<string> > * CDatabaseOperations::createDatabaseStructure(std::str
         std::cout << "CDatabaseOperations::createDatabaseStructure: fail!" << std::endl;
         pr_DB=0;
     }
+    else
+    {
+        // do nothing
+    }
     return pr_DB;
 }
 
-int CDatabaseOperations::addUserToDatabase(std::string a_login, std::string a_password)
+int CDatabaseOperations::addUserToDatabase(std::string &a_login, std::string &a_password)
 {
     std::cout << "CDatabaseOperations::addUserToDatabase: " << a_login << " password: " << a_password << std::endl;
     vector<string> user;
@@ -34,7 +38,7 @@ int CDatabaseOperations::addUserToDatabase(std::string a_login, std::string a_pa
     user.push_back(a_password);
     this->mp_DB->push_back(user);
     user.clear();
-    return 0;
+    return 0; // TODO: fix
 }
 
 int CDatabaseOperations::readUsersFromFile(char* a_filename)
@@ -76,7 +80,7 @@ void CDatabaseOperations::debugPrint(vector <vector<string> > *a_DB)
     }
 }
 
-void CDatabaseOperations::parseData(std::string a_data)
+void CDatabaseOperations::parseData(std::string &a_data)
 {
     string login;
     string password;
@@ -103,7 +107,7 @@ void CDatabaseOperations::parseData(std::string a_data)
     this->addUserToDatabase(login,password);
 }
 
-int CDatabaseOperations::compareLoginAndPassword(std::string login, std::string password)
+int CDatabaseOperations::compareLoginAndPassword(std::string &login, std::string &password)
 {
     int exit_status=0;
     for(unsigned int i=0; i<(*mp_DB).size(); ++i)

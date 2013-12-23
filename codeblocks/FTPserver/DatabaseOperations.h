@@ -15,11 +15,11 @@ class CDatabaseOperations
 public:
     CDatabaseOperations();
     ~CDatabaseOperations();
-    std::vector <std::vector<std::string> > * createDatabaseStructure(std::string);
-    int compareLoginAndPassword(std::string, std::string );
-    int addUserToDatabase(std::string, std::string );
-    int readUsersFromFile(char * );
-    void parseData(std::string );
+    std::vector <std::vector<std::string> > * createDatabaseStructure(std::string &);
+    int compareLoginAndPassword(std::string &, std::string &);
+    int addUserToDatabase(std::string &, std::string &);
+    int readUsersFromFile(char *);
+    void parseData(std::string &);
     void debugPrint(std::vector <std::vector<std::string> > *DB);
 
     std::vector <std::vector<std::string> > *mp_DB;

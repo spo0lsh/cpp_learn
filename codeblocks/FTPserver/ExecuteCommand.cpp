@@ -142,7 +142,9 @@ int CExecuteCommand::getFileFromServer(std::string a_filename)
 {
 //    int fileSize;
     std::cout << "CExecuteCommand::getFileFromServer" << std::endl;
-    if(m_opFileInputOutput->openFile(&a_filename[0], 0) != 0)
+    int mode=0;
+    int bytes=DEFAULT_BUFFER - 1;
+    if(m_opFileInputOutput->openFile(&a_filename[0], mode) != 0)
     {
         this->m_opCSocketInputOutput->writeToSocket("KO");
     }
@@ -153,9 +155,9 @@ int CExecuteCommand::getFileFromServer(std::string a_filename)
         {
             std::cout << "CExecuteCommand::getFileFromServer size: " << fileSize << std::endl;
             this->m_opCSocketInputOutput->writeToSocket("OK");
-            if(fileSize < DEFAULT_BUFFER-1)
+            if(fileSize < bytes)
             {
-                std::cout << "CExecuteCommand::getFileFromServer read: " << m_opFileInputOutput->readFile(DEFAULT_BUFFER - 1) << std::endl;
+                std::cout << "CExecuteCommand::getFileFromServer read: " << m_opFileInputOutput->readFile(bytes) << std::endl;
                 memcpy( m_opCSocketInputOutput->sBuffer, m_opFileInputOutput->sBuffer, sizeof(m_opCSocketInputOutput->sBuffer) );
                 m_opCSocketInputOutput->writeToSocket(m_opFileInputOutput->bytesReaded);
                 if(m_opCSocketInputOutput->readFromSocket() > 0)
@@ -172,11 +174,11 @@ int CExecuteCommand::getFileFromServer(std::string a_filename)
             else
             {
 			// double -> and module (%)
-                int blocks=ceil((double)fileSize/(DEFAULT_BUFFER-1));
-                std::cout << "CExecuteCommand::getFileFromServer size > DEFAULT_BUFFER-1, number of packages: " << blocks << std::endl;
+                int blocks=ceil((double)fileSize/(bytes));
+                std::cout << "CExecuteCommand::getFileFromServer size > bytes, number of packages: " << blocks << std::endl;
                 for(int i=0;i<blocks;++i)
                 {
-                    m_opFileInputOutput->readFile(DEFAULT_BUFFER-1);
+                    m_opFileInputOutput->readFile(bytes);
                     // need be fixed
                     memcpy( m_opCSocketInputOutput->sBuffer, m_opFileInputOutput->sBuffer, sizeof(m_opCSocketInputOutput->sBuffer) );
                     std::cout << "CExecuteCommand::getFileFromServer bytes to write: " << m_opFileInputOutput->bytesReaded << std::endl;
@@ -213,8 +215,10 @@ int CExecuteCommand::getFileFromServer(std::string a_filename)
 int CExecuteCommand::putFileToServer(std::string a_filename)
 {
 //    int size;
+    int mode=3;
+//    int bytes;
     std::cout << "CExecuteCommand::putFileToServer: " << a_filename << std::endl;
-    if(m_opFileInputOutput->openFile(&a_filename[0], 3) != 0)
+    if(m_opFileInputOutput->openFile(&a_filename[0], mode) != 0)
     {
         this->m_opCSocketInputOutput->writeToSocket("KO");
     }
@@ -306,12 +310,13 @@ int CExecuteCommand::logoutFromServer()
 
 int CExecuteCommand::checkFileSize(std::string a_filename)
 {
+    int mode=0;
     int exit_status=0;
     char *filename = &a_filename[0]; //cast
     char szBuffer[2048];
 
     std::cout << "CExecuteCommand::checkFileSize: " << a_filename << std::endl;
-    if(m_opFileInputOutput->openFile(filename,0) != 0)
+    if(m_opFileInputOutput->openFile(filename,mode) != 0)
     {
         std::cout << "CExecuteCommand::checkFileSize Problem with open file: " << a_filename << std::endl;
         this->m_opCSocketInputOutput->writeToSocket("KO");

@@ -12,16 +12,16 @@ class CSocketInputOutput
 public:
     CSocketInputOutput();
     ~CSocketInputOutput();
-    SOCKET openSocket(char* , int );
+    SOCKET openSocket(char* , int &);
     int closeSocket();
     int readFromSocket();
-    int readFromSocket(SOCKET );
+    int readFromSocket(SOCKET &);
     int writeToSocket(std::string );
-    int writeToSocket(int );
+    int writeToSocket(int &);
     std::string m_data;
     SOCKET m_sClientSocket; //= INVALID_SOCKET;
     int ret; // ?!
-    char sBuffer[2048];
+    char sBuffer[DEFAULT_BUFFER];
     SOCKET mp_ListenSocket; //= INVALID_SOCKET;
 private:
     int m_mode;

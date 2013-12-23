@@ -18,10 +18,10 @@ public:
     static unsigned int __stdcall mainThread( void *);
 
     void setHandle( HANDLE a_Handle);
-    void setThreadID( unsigned int a_ThreadID);
+    void setThreadID( unsigned int &);
     unsigned int getThreadID();
     HANDLE getHandle();
-    void setThreadState(int );
+    void setThreadState(int &);
     int getThreadState();
     void getTaskFromQueue();
     void debugSocket();

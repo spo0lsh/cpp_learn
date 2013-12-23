@@ -65,7 +65,8 @@ void CClientThread::closeSocket()
 
 void CClientThread::goSleep()
 {
-    this->setThreadState(0);
+    int state=0;
+    this->setThreadState(state);
     SuspendThread(GetCurrentThread());
 }
 
@@ -84,12 +85,12 @@ void CClientThread::setHandle( HANDLE a_Handle)
 	this->m_hThreadHandle = a_Handle;
 }
 
-void CClientThread::setThreadID( unsigned int a_ThreadID)
+void CClientThread::setThreadID( unsigned int &a_ThreadID)
 {
 	this->m_uiThreadID = a_ThreadID;
 }
 
-void CClientThread::setThreadState(int state)
+void CClientThread::setThreadState(int &state)
 {
     std::cout << "CClientThread::setThreadState " << this->getThreadID() << " to: " << state << std::endl;
     this->m_iThreadState = state;
