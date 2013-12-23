@@ -2,36 +2,37 @@
 
 CThreadPool::CThreadPool()
 {
-    poolSize=4;
-    std::cout << "CThreadPool::CThreadPool(): " << poolSize << std::endl;
-	HANDLE hThreadHandler = 0;
-	unsigned int uiThreadID = 0;
-	for (int i = 0; i < poolSize; i++)
-	{
-		CClientThread newThread;
-		this->m_vThreads.push_back( newThread);
-	}
-	for(int i = 0; i < poolSize; i++)
-	{
-		hThreadHandler = (HANDLE)_beginthreadex( NULL, 0, CClientThread::mainThread, (void*)&this->m_vThreads[i], CREATE_SUSPENDED, &uiThreadID);
-		this->m_vThreads[i].setHandle( hThreadHandler);
-		this->m_vThreads[i].setThreadID( uiThreadID);
-		this->m_vThreads[i].setThreadState(0);
-        std::cout << "CThreadPool::addThread: " << m_vThreads[i].getHandle() << " ID: " << m_vThreads[i].getThreadID() << " Address: " << (void*)&this->m_vThreads[i] << " State: " << m_vThreads[i].getThreadState() << std::endl;
-	}
+    // probably never use
+//    poolSize=4;
+//    std::cout << "CThreadPool::CThreadPool(): " << poolSize << std::endl;
+//	HANDLE hThreadHandler = 0;
+//	unsigned int uiThreadID = 0;
+//	for (int i = 0; i < poolSize; i++)
+//	{
+//		CClientThread newThread;
+//		this->m_vThreads.push_back( newThread);
+//	}
+//	for(int i = 0; i < poolSize; i++)
+//	{
+//		hThreadHandler = (HANDLE)_beginthreadex( NULL, 0, CClientThread::mainThread, (void*)&this->m_vThreads[i], CREATE_SUSPENDED, &uiThreadID);
+//		this->m_vThreads[i].setHandle( hThreadHandler);
+//		this->m_vThreads[i].setThreadID( uiThreadID);
+//		this->m_vThreads[i].setThreadState(0);
+//        std::cout << "CThreadPool::addThread: " << m_vThreads[i].getHandle() << " ID: " << m_vThreads[i].getThreadID() << " Address: " << (void*)&this->m_vThreads[i] << " State: " << m_vThreads[i].getThreadState() << std::endl;
+//	}
 }
 
-CThreadPool::CThreadPool(int a_poolSize)
+CThreadPool::CThreadPool(int &a_poolSize)
 {
     std::cout << "CThreadPool::CThreadPool(int ) " << a_poolSize << std::cout;
 	HANDLE hThreadHandler = 0;
 	unsigned int uiThreadID = 0;
-	for (int i = 0; i < a_poolSize; i++)
+	for (int i = 0; i < a_poolSize; ++i)
 	{
 		CClientThread newThread;
 		this->m_vThreads.push_back( newThread);
 	}
-	for(int i = 0; i < a_poolSize; i++)
+	for(int i = 0; i < a_poolSize; ++i)
 	{
 		hThreadHandler = (HANDLE)_beginthreadex( NULL, 0, CClientThread::mainThread, (void*)&this->m_vThreads[i], CREATE_SUSPENDED, &uiThreadID);
 		this->m_vThreads[i].setHandle( hThreadHandler);
@@ -46,7 +47,7 @@ CThreadPool::~CThreadPool()
 
 }
 
-int CThreadPool::initThreadPool(int a_maxPoolSize, std::string a_dbFile)
+int CThreadPool::initThreadPool(int &a_maxPoolSize, std::string &a_dbFile)
 {
     int exit_status=0;
 
@@ -57,14 +58,18 @@ int CThreadPool::initThreadPool(int a_maxPoolSize, std::string a_dbFile)
     this->createQueue(mp_Queue);
 
     // create database
-    CDatabaseOperations *m_pDatabaseOperations = new CDatabaseOperations;
-    mp_DB=m_pDatabaseOperations->createDatabaseStructure(a_dbFile);
-    if(mp_DB == 0)
+    CDatabaseOperations *poDatabaseOperations = new CDatabaseOperations;
+    this->mp_DB=poDatabaseOperations->createDatabaseStructure(a_dbFile);
+    if(this->mp_DB != 0)
+    {
+        // do nothing
+    }
+    else
     {
         exit_status=1;
     }
-    std::cout << "CThreadPool::initThreadPool m_pDatabaseOperations->createDatabaseStructure status: " << exit_status << std::endl;
-    delete m_pDatabaseOperations; // need?!
+    std::cout << "CThreadPool::initThreadPool poDatabaseOperations->createDatabaseStructure status: " << exit_status << std::endl;
+    delete poDatabaseOperations; // need?!
 
     return exit_status;
 }
@@ -76,7 +81,7 @@ int CThreadPool::createQueue(std::vector <SOCKET>* a_Queue)
     return 0;
 }
 
-int CThreadPool::addTaskToQueue(SOCKET a_Socket)
+int CThreadPool::addTaskToQueue(SOCKET &a_Socket)
 {
     int exit_status=0;
     //
@@ -94,7 +99,7 @@ int CThreadPool::addTaskToQueue(SOCKET a_Socket)
     return exit_status;
 }
 
-int CThreadPool::setPoolSize(int a_maxPoolSize)
+int CThreadPool::setPoolSize(int &a_maxPoolSize)
 {
     this->poolSize=a_maxPoolSize;
     this->maxPoolSize=a_maxPoolSize;

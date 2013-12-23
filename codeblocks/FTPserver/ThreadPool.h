@@ -18,19 +18,19 @@ class CThreadPool
 {
 public:
     CThreadPool();
-    CThreadPool(int );
+    CThreadPool(int &);
     ~CThreadPool();
-    int addThread(int );
-    int removeThread();
+//    int addThread(int );
+//    int removeThread();
     int WakeUpFreeThread();
     int checkFreeThread();
-    int setPoolSize(int );
+    int setPoolSize(int &);
     int getPoolSize();
     int createQueue(std::vector <SOCKET>*);
-    int addTaskToQueue(SOCKET);
+    int addTaskToQueue(SOCKET &);
     void semaphoreUp();
     void semaphoreDown();
-    int initThreadPool(int , std::string);
+    int initThreadPool(int &, std::string &);
 
 private:
     std::vector <std::vector<std::string> > *mp_DB;
