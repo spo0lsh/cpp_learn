@@ -45,7 +45,7 @@ CThreadPool::CThreadPool(int &a_poolSize)
 
 CThreadPool::~CThreadPool()
 {
-
+    this->removeQueue();
 }
 
 int CThreadPool::initThreadPool(int &a_maxPoolSize, std::string &a_dbFile)
@@ -81,6 +81,11 @@ int CThreadPool::createQueue(std::vector <SOCKET>* a_Queue)
     // TODO: pessimistic version for return code
     this->mp_Queue = new std::vector <SOCKET>();
     return 0;
+}
+
+void CThreadPool::removeQueue()
+{
+    delete this->mp_Queue;
 }
 
 int CThreadPool::addTaskToQueue(SOCKET &a_Socket)

@@ -9,7 +9,8 @@ CExecuteCommand::CExecuteCommand()
 
 CExecuteCommand::~CExecuteCommand()
 {
-
+    delete m_opFileInputOutput;
+    delete m_opCSocketInputOutput;
 }
 
 int CExecuteCommand::getLoginStatus()

@@ -16,6 +16,7 @@ public:
     CDatabaseOperations();
     ~CDatabaseOperations();
     std::vector <std::vector<std::string> > * createDatabaseStructure(std::string &);
+    void destroyDatabaseStructure();
     int compareLoginAndPassword(std::string &, std::string &);
     int addUserToDatabase(std::string &, std::string &);
     int readUsersFromFile(char *);

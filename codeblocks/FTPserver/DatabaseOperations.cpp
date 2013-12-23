@@ -27,7 +27,13 @@ vector <vector<string> > * CDatabaseOperations::createDatabaseStructure(std::str
     {
         // do nothing
     }
-    return pr_DB;
+    delete pr_DB;
+    return this->mp_DB;
+}
+
+void CDatabaseOperations::destroyDatabaseStructure()
+{
+//    delete this->mp_DB;
 }
 
 int CDatabaseOperations::addUserToDatabase(std::string &a_login, std::string &a_password)

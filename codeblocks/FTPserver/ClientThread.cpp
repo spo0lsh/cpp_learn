@@ -20,10 +20,10 @@ unsigned int __stdcall CClientThread::mainThread( void* a_pvThis)
         std::cout << "CClientThread::mainThread ID: " << pThis->getThreadID() << std::endl;
         //get task from queue
 
-        pThis->m_QueueMutex = CreateMutex( NULL, FALSE, NULL); // probably get return exit
-        WaitForSingleObject(pThis->m_QueueMutex,INFINITE);
+//        pThis->m_QueueMutex = CreateMutex( NULL, FALSE, NULL); // probably get return exit
+//        WaitForSingleObject(pThis->m_QueueMutex,INFINITE);
         pThis->getTaskFromQueue();
-        ReleaseMutex(pThis->m_QueueMutex);
+//        ReleaseMutex(pThis->m_QueueMutex);
         pThis->oExecuteCommand.setLoginStatus(1);
         pThis->oExecuteCommand.m_sClientSocket = pThis->m_sClientSocket;
         pThis->oExecuteCommand.mp_DB = pThis->mp_DB;
@@ -114,8 +114,11 @@ void CClientThread::getTaskFromQueue()
 {
     std::cout << "CClientThread::getTaskFromQueue" << std::endl;
     std::cout << "CClientThread::getTaskFromQueue: queue size: " << mp_Queue->size() << std::endl;
+    this->m_QueueMutex = CreateMutex( NULL, FALSE, NULL); // probably get return exit
+    WaitForSingleObject(this->m_QueueMutex,INFINITE);
     this->m_sClientSocket=(*mp_Queue)[this->mp_Queue->size() - 1];
     this->mp_Queue->pop_back();
+    ReleaseMutex(this->m_QueueMutex);
 }
 
 void CClientThread::debugSocket()
