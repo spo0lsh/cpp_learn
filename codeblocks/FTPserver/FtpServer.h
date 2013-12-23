@@ -49,15 +49,15 @@
 #ifndef FTPSERVER_H_INCLUDED
 #define FTPSERVER_H_INCLUDED
 
-#include <iostream>
-#include <string>
-#include <cstdlib>
-#include <fstream>
-#include <vector>
-#include <winsock2.h>
-
+//#include <iostream>
+//#include <string>
+//#include <cstdlib>
+//#include <fstream>
+//#include <vector>
+//#include <winsock2.h>
+//
 #include "ThreadPool.h"
-#include "SocketInputOutput.h"
+//#include "SocketInputOutput.h"
 
 class CFtpServer
 {

@@ -31,7 +31,7 @@ CFtpServer::CFtpServer(int a_poolSize)
     m_directory = "./";
     m_poolSize = 4; //a_poolSize;
     m_dbFile = "database.txt";
-    m_ThreadPool = new CThreadPool(a_poolSize);
+//    m_ThreadPool = new CThreadPool(a_poolSize);
 }
 
 CFtpServer::~CFtpServer()
@@ -44,6 +44,10 @@ int CFtpServer::startServer(int argc, char *argv[])
     int exit_status;
     exit_status=0;
     this->getOptionsFromCommandLine(argc, argv);
+
+    // create threads
+    m_ThreadPool = new CThreadPool(m_poolSize);
+
 
     // thread pool
     if(m_ThreadPool->initThreadPool(m_poolSize,m_dbFile) != 0)
@@ -97,7 +101,7 @@ int CFtpServer::getOptionsFromCommandLine(int argc, char *argv[])
             m_directory = argv[3];
             m_poolSize = atoi(argv[4]);
             m_dbFile = argv[5];
-            m_ThreadPool = new CThreadPool(m_poolSize);
+//            m_ThreadPool = new CThreadPool(m_poolSize);
         }
         catch(...) {
             //cout << "Error: " << e.what() << endl;
@@ -108,7 +112,7 @@ int CFtpServer::getOptionsFromCommandLine(int argc, char *argv[])
     {
         std::cout << "CFtpServer::getOptionsFromCommandLine FtpServer using default settings!" << std::endl;
         std::cout << "CFtpServer::getOptionsFromCommandLine Example: " << argv[0] << " 0.0.0.0 6667 c:\\temp 10 c:\\temp\\database.txt" << std::endl;
-        m_ThreadPool = new CThreadPool; //need fix
+//        m_ThreadPool = new CThreadPool; //need fix
     }
     return 0;
 }
