@@ -141,6 +141,7 @@ void CExecuteCommand::executeCommand(std::string command, std::string parameter)
 
 int CExecuteCommand::getFileFromServer(std::string a_filename)
 {
+    int exit_status=0;
 //    int fileSize;
     std::cout << "CExecuteCommand::getFileFromServer" << std::endl;
     int mode=0;
@@ -207,14 +208,16 @@ int CExecuteCommand::getFileFromServer(std::string a_filename)
         {
             std::cout << "CExecuteCommand::getFileFromServer get file size fail! " << std::endl;
             this->m_opCSocketInputOutput->writeToSocket("KO");
+            exit_status=1;
         }
         this->m_opFileInputOutput->closeFile();
     }
-    return 0;
+    return exit_status;
 }
 
 int CExecuteCommand::putFileToServer(std::string a_filename)
 {
+    int exit_status=0;
 //    int size;
     int mode=3;
 //    int bytes;
@@ -222,6 +225,7 @@ int CExecuteCommand::putFileToServer(std::string a_filename)
     if(m_opFileInputOutput->openFile(&a_filename[0], mode) != 0)
     {
         this->m_opCSocketInputOutput->writeToSocket("KO");
+        exit_status=1;
     }
     else
     {
@@ -247,11 +251,12 @@ int CExecuteCommand::putFileToServer(std::string a_filename)
     }
     this->m_opFileInputOutput->closeFile();
     std::cout << "CExecuteCommand::putFileToServer: done" << std::endl;
-    return 0;
+    return exit_status;
 }
 
 int CExecuteCommand::showFilesOnServer()
 {
+    int exit_status=0;
     std::cout << "CExecuteCommand::showFilesOnServer" << std::endl;
     //should be fixed, but works!
     DIR *dir;
@@ -270,24 +275,28 @@ int CExecuteCommand::showFilesOnServer()
         m_opCSocketInputOutput->readFromSocket();
     } else {
         this->m_opCSocketInputOutput->writeToSocket("KO");
+        exit_status=1;
     }
-    return 0;
+    return exit_status;
 }
 
+// FIX argv!
 int CExecuteCommand::deleteFileOnServer(std::string filename)
 {
+    int exit_status=0;
     std::cout << "CExecuteCommand::deleteFileOnServer ";
     if(std::remove(filename.c_str()) != 0)
     {
         std::cerr << "Error during the deletion: " << std::endl;
         this->m_opCSocketInputOutput->writeToSocket("KO");
+        exit_status=1;
     }
     else
     {
         std::cout << "File was successfully deleted" << std::endl;
         this->m_opCSocketInputOutput->writeToSocket("OK");
     }
-    return 0;
+    return exit_status;
 }
 
 int CExecuteCommand::loginToServer(std::string login, std::string password)

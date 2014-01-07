@@ -82,7 +82,7 @@ int CFtpServer::startServer(int &argc, char *argv[])
     }
     else
     {
-
+        //do nothing
     }
     delete po_SocketInputOutput;
     return exit_status;

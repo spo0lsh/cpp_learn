@@ -38,13 +38,14 @@ void CDatabaseOperations::destroyDatabaseStructure()
 
 int CDatabaseOperations::addUserToDatabase(std::string &a_login, std::string &a_password)
 {
+    int exit_status=0;
     std::cout << "CDatabaseOperations::addUserToDatabase: " << a_login << " password: " << a_password << std::endl;
     vector<string> user;
     user.push_back(a_login);
     user.push_back(a_password);
     this->mp_DB->push_back(user);
     user.clear();
-    return 0; // TODO: fix
+    return exit_status; // TODO: fix
 }
 
 int CDatabaseOperations::readUsersFromFile(char* a_filename)
@@ -85,7 +86,7 @@ void CDatabaseOperations::debugPrint(vector <vector<string> > *a_DB)
         std::cout << "CDatabaseOperations::debugPrint User " << " " << (*a_DB)[i][0] << " password " << (*a_DB)[i][1] << std::endl;
     }
 }
-
+// fix parse data
 void CDatabaseOperations::parseData(std::string &a_data)
 {
     string login;

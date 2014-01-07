@@ -94,6 +94,7 @@ int CSocketInputOutput::readFromSocket()
 // todo: return code!
 int CSocketInputOutput::writeToSocket(std::string a_data)
 {
+    int exit_status=0;
     memset(sBuffer, 0, sizeof(sBuffer)); //
     a_data[a_data.size()] = '\0'; //TO FIX
     std::cout << "CSocketInputOutput::writeToSocket size: " << a_data.size() << std::endl;
@@ -107,8 +108,9 @@ int CSocketInputOutput::writeToSocket(std::string a_data)
     else
     {
         std::cout << "CSocketInputOutput::writeToSocket: " << WSAGetLastError() << std::endl;
+        exit_status=1;
     }
-    return 0;
+    return exit_status;
 }
 
 int CSocketInputOutput::writeToSocket(int &a_bytes)
@@ -116,6 +118,7 @@ int CSocketInputOutput::writeToSocket(int &a_bytes)
 //    memset(sBuffer, 0, sizeof(sBuffer)); // fix?
 //    strcpy(sBuffer, a_data);
 //    ret = send(m_sClientSocket, sBuffer, strlen(sBuffer), 0);
+    int exit_status=0;
     ret = send(m_sClientSocket, sBuffer, a_bytes, 0);
 //    std::cout << "CSocketInputOutput::writeToSocket string: " << sBuffer << std::endl;
     if (ret != SOCKET_ERROR)
@@ -125,6 +128,7 @@ int CSocketInputOutput::writeToSocket(int &a_bytes)
     else
     {
         std::cout << "CSocketInputOutput::writeToSocket: " << WSAGetLastError() << std::endl;
+        exit_status=1;
     }
-    return 0;
+    return exit_status;
 }
